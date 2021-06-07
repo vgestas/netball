@@ -194,7 +194,8 @@ function UniteCreatorParamsPanel(){
 			//replace the raw insert text
 			var rawInsertText = g_ucAdmin.getVal(objParamInsert, "raw_insert_text");
 			if(rawInsertText){
-				rawInsertText = rawInsertText.replace("[parent_name]", parentName);
+				
+				rawInsertText = g_ucAdmin.replaceAll(rawInsertText, "[parent_name]", parentName);
 				
 				objParamInsert["raw_insert_text"] = rawInsertText;
 			}

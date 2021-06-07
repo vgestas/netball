@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -52,6 +52,9 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		
 		$bottomText = __("* You can use those placeholders: ", "unlimited-elements-for-elementor") . $bottomTextUnits;
 		
+		$checkID = "check_".UniteFunctionsUC::getRandomString();
+		
+		
 		?>		
 		<div class="unite-inputs-sap"></div>
 		
@@ -68,6 +71,51 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		</div>
 		
 		<input type="text" name="selector_value" data-initval="<?php echo $value?>" value="<?php echo $value?>" placeholder="<?php echo $selectorValuePlaceholder?>">
+		
+		<div class="unite-inputs-sap"></div>
+		
+		<label for="<?php echo esc_attr($checkID)?>">
+			<input id="<?php echo esc_attr($checkID)?>" type="checkbox" class="uc-param-checkbox uc-control" data-controlled-selector=".uc-more-selectors" name="show_more_selectors">
+			<?php _e("Show More Selectors", "unlimited-elements-for-elementor")?>
+		</label>
+		
+		<div class="uc-more-selectors" style="display:none">
+				
+				<div class="unite-inputs-sap-double"></div>
+			
+				<div class="unite-inputs-label">
+					<?php esc_html_e("CSS Selector 2", "unlimited-elements-for-elementor")?>:
+				</div>
+						
+				<input type="text" name="selector2"  value="" placeholder="<?php echo $selectorPlaceholder?>">
+				
+				<div class="unite-inputs-sap"></div>
+				
+				<div class="unite-inputs-label">
+					<?php esc_html_e("CSS Selector 2 Value", "unlimited-elements-for-elementor")?>:
+				</div>
+				
+				<input type="text" name="selector2_value" data-initval="<?php echo $value?>" value="<?php echo $value?>" placeholder="<?php echo $selectorValuePlaceholder?>">
+				
+				
+				<div class="unite-inputs-sap-double"></div>
+				
+				
+				<div class="unite-inputs-label">
+					<?php esc_html_e("CSS Selector 3", "unlimited-elements-for-elementor")?>:
+				</div>
+						
+				<input type="text" name="selector3"  value="" placeholder="<?php echo $selectorPlaceholder?>">
+				
+				<div class="unite-inputs-sap"></div>
+				
+				<div class="unite-inputs-label">
+					<?php esc_html_e("CSS Selector 3 Value", "unlimited-elements-for-elementor")?>:
+				</div>
+				
+				<input type="text" name="selector3_value" data-initval="<?php echo $value?>" value="<?php echo $value?>" placeholder="<?php echo $selectorValuePlaceholder?>">
+										
+		</div>
 		
 		<div class="unite-inputs-sap"></div>
 		
@@ -160,6 +208,15 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		<?php 
 	}
 	
+	/**
+	 * 
+	 * put template param
+	 */
+	protected function putTemplateParam(){
+		
+		$this->putNoDefaultValueText();
+		
+	}
 	
 	/**
 	 * put users param
@@ -582,6 +639,8 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 	 */
 	protected function putDateTimeParam(){
 		
+		$checkID = "check_datetime_show_time_picker";
+		
 		?>
 		
 		<div class="unite-inputs-label">
@@ -593,7 +652,14 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		<div class="unite-inputs-sap"></div>
 		
 		<i><?php _e("* The default value can be empty as well","unlimited-elements-for-elementor")?></i>
+
+		<div class="unite-inputs-sap-double"></div>
 		
+		<label for="<?php echo esc_attr($checkID)?>" >
+			<input id="<?php echo esc_attr($checkID)?>" type="checkbox" class="uc-param-checkbox"  name="show_time_picker">
+			<?php _e("Show Time Picker", "unlimited-elements-for-elementor")?>
+		</label>
+				
 		
 		<?php 	
 	}
@@ -607,7 +673,6 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 			
  		    <input type="text" name="<?php echo $name?>" class="uc-text-colorpicker" value="<?php echo $color?>" data-initval="<?php echo $color?>">
 			<div class='unite-color-picker-element'></div>
-			
 		<?php 
 	}
 	
@@ -717,7 +782,7 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 	}
 	
 	/**
-	 * function for override
+	 * put box shadow param
 	 */
 	protected function putBoxShadowParam(){
 		
@@ -725,6 +790,43 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 				
 	}
 
+
+	/**
+	 * put css filter param
+	 */
+	protected function putCssFiltersParam(){
+		
+		$this->addHtmlSelector();
+				
+	}
+
+	
+	/**
+	 * put hover animations param
+	 */
+	protected function putHoverAnimations(){
+		
+		esc_html_e("Default Value", "unlimited-elements-for-elementor");
+
+		$arrAnimations = HelperProviderCoreUC_EL::getHoverAnimationClasses();
+		
+		$htmlSelect = HelperHtmlUC::getHTMLSelect($arrAnimations, "", "name='default_value'", true, "not_chosen");
+		
+		?>
+			<div class="vert_sap5"></div>
+			
+			<?php echo $htmlSelect?>
+			
+			<div class="vert_sap10"></div>
+ 		    
+ 		    <p>
+ 		    <?php _e("Add the value of this attribute to the class list of your html element","unlimited-elements-for-elementor")?>
+ 		    </p>
+		<?php 
+		
+	}
+	
+	
 	/**
 	 * put color picker default value
 	 */
@@ -857,6 +959,9 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		$title = __("Margins","unlimited-elements-for-elementor");
 		if($type == "padding")
 			$title = "Padding";
+			
+		if($type == "border")
+			$title = "Border Width";
 		
 		$extra = array();
 		$extra["output_names"] = true;
@@ -968,6 +1073,8 @@ class UniteCreatorDialogParamElementor extends UniteCreatorDialogParam{
 		
 		<?php 
 	}
+	
+	
 	
 	/**
 	 * put param content

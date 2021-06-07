@@ -508,6 +508,11 @@
 	right:46px;
 }
 
+#cat_general_general .uc-attr-list-sections__icon-copy{
+	right:26px;
+}
+
+
 .uc-attr-list-sections__icon-move{
 	position:absolute;
 	left:-16px;
@@ -549,8 +554,7 @@
 }
 
 .uc-has-cats .uc-attr-table-wrapper{
-	width:calc(100% - 150px;);
-	xbackground-color:red;
+	width:calc(100% - 150px);
 }
 
 /* ------ copied section ------ */
@@ -724,6 +728,22 @@
     	font-size:15px;    
     }
 }
+
+.uc-table-params .uc-text-condition{
+	xbackground-color:yellow;
+	background-image:url('../images/icon_link.svg');
+	background-repeat:no-repeat;
+	padding-left:16px;
+	background-position:left 8px;
+	background-size:12px;
+	color:#000000;
+	xpadding-top:4px;
+	position:relative;
+	top:7px;
+	
+}
+
+
 
 .----------------PARAMS_DIALOG------------- {}
 
@@ -948,6 +968,33 @@
 .uc-dialog-param.uc-param-type-item .uc-hide-when-item{
 	display:none;
 }
+
+.uc-dialog-param .uc-table-dialog-conditions td{
+	padding-right:15px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.uc-dialog-param .uc-noparents-mode .uc-dialog-conditions-inputs{
+	display:none;
+}
+
+.uc-dialog-param .uc-dialog-conditions-empty{
+	
+	color:#AE3232; /* red */	
+	display:none;
+}
+
+.uc-dialog-param .uc-noparents-mode .uc-dialog-conditions-empty{
+	display:block;
+}
+
+
+.uc-dialog-param .uc-no-attribute-selected .uc-dialog-condition-operator,
+.uc-dialog-param .uc-no-attribute-selected .uc-dialog-condition-value{
+	display:none;	
+}
+
 
 .----------------THIRD_PARTY------------- {}
 

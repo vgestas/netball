@@ -62,7 +62,7 @@ class UniteCreatorAcfIntegrate{
 		 * get image field data
 		 */
 		private function getImageFieldData($field, $key=null){
-			
+						
 			$title = $this->getImageFieldTitle($field);
 			
 			$caption = UniteFunctionsUC::getVal($field, "caption");
@@ -77,6 +77,10 @@ class UniteCreatorAcfIntegrate{
 			
 			$urlImage = UniteFunctionsUC::getVal($field, "url");
 			$arrSizes = UniteFunctionsUC::getVal($field, "sizes");
+
+			$width = UniteFunctionsUC::getVal($field, "width");
+			$height = UniteFunctionsUC::getVal($field, "height");
+			
 			
 			$arrValues = array();
 			
@@ -84,18 +88,29 @@ class UniteCreatorAcfIntegrate{
 			if(!empty($key))
 				$keyprefix = $key."_";				
 			
-			if(!empty($key))
+			if(!empty($key)){
 				$arrValues[$key] = $urlImage;
-			else
+				$arrValues[$keyprefix."width"] = $width;
+				$arrValues[$keyprefix."height"] = $height;
+			}
+			else{
 				$arrValues["image"] = $urlImage;
+				$arrValues["image_width"] = $width;
+				$arrValues["image_height"] = $height;
+			}			
 			
-				
 			$thumbMedium = UniteFunctionsUC::getVal($arrSizes, "medium");
 			$arrValues[$keyprefix."thumb"] = $thumbMedium;
 			
+			$thumbMediumWidth = UniteFunctionsUC::getVal($arrSizes, "medium-width");
+			$thumbMediumHeight = UniteFunctionsUC::getVal($arrSizes, "medium-width");
+
+			$arrValues[$keyprefix."thumb_width"] = $thumbMediumWidth;
+			$arrValues[$keyprefix."thumb_height"] = $thumbMediumHeight;
+						
 			foreach($arrSizes as $size => $value){
 				
-				if($size == "medium")
+				if( $size == "medium")
 					continue;
 				
 				if(is_numeric($value))
@@ -104,13 +119,18 @@ class UniteCreatorAcfIntegrate{
 				$thumbName = $keyprefix."thumb_".$size;
 				$thumbName = str_replace("-", "_", $thumbName);
 				
+				$thumbWidth = UniteFunctionsUC::getVal($arrSizes, $size."-width");
+				$thumbHeight = UniteFunctionsUC::getVal($arrSizes, $size."-height");
+				
 				$arrValues[$thumbName] = $value;
+				$arrValues[$thumbName."_width"] = $width;
+				$arrValues[$thumbName."_height"] = $height;
 			}
-			
+						
+					
 			$arrValues[$keyprefix."title"] = $title;
 			$arrValues[$keyprefix."description"] = $description;
 			$arrValues[$keyprefix."alt"] = $alt;
-			
 			
 			return($arrValues);
 		}
@@ -418,8 +438,11 @@ class UniteCreatorAcfIntegrate{
 					
 				break;
 				default:		
-					
-					$arrValues[$key] = "";
+															
+					if(is_array($data))
+						$arrValues[$key] = $data;
+					else
+						$arrValues[$key] = "";		//another object
 					
 					//dmp("assoc");dmp($data); exit();
 					
@@ -497,7 +520,7 @@ class UniteCreatorAcfIntegrate{
 			$arrOutput = array();
 			
 			foreach($arrData as $key => $item){
-				
+								
 				//simple value
 				if(is_array($item) == false){
 					
@@ -510,15 +533,17 @@ class UniteCreatorAcfIntegrate{
 					$arrOutput[$key] = $item;
 					continue;
 				}
+								
+				$isAssocArray = UniteFunctionsUC::isAssocArray($item);
 				
 				$firstItem = UniteFunctionsUC::getArrFirstValue($item);
 				
-				if(is_array($firstItem) == false){
+				if(is_array($firstItem) == false && $isAssocArray == false){
 					$arrOutput[$key] = $item;
 					continue;
 				}
 				
-				//what's rest is assoc array, wich is clone :)
+				//what's rest is assoc array, wich is clone or group:)
 				
 				//add them to output
 				foreach($item as $itemKey => $subItem){
@@ -541,15 +566,16 @@ class UniteCreatorAcfIntegrate{
 			
 			switch($objName){
 				case "post":
+					
 					$arrData = get_fields($postID);
-										
+					
 					$arrData = $this->modifyFieldsData($arrData);
 					
 				break;
 				case "term":
 					
 					$termID = "term_".$postID;
-										
+					
 					$arrData = get_fields($termID);
 					
 				break;
@@ -613,6 +639,7 @@ class UniteCreatorAcfIntegrate{
 				
 				$arrOutput[$key] = $type;
 			}
+			
 			
 			/*
 			UniteFunctionsUC::showTrace();

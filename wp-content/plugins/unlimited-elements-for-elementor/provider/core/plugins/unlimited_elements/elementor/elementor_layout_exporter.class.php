@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net / Valiano
+ * @author unlimited-elements.com / Valiano
  * @copyright (C) 2012 Unite CMS, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
@@ -31,6 +31,7 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 	
 	private $importedLayoutJsonFile;
 	private $importedLayoutContent;
+	private $importSectionID = null;
 	
 	
 	/**
@@ -78,6 +79,18 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		//delete_post_meta($postID, "_elementor_css");
 		
 		return($postID);
+	}
+	
+	/**
+	 * update elementor data meta from content layout
+	 */
+	private function updateElementorDataMeta($postID, $arrContent){
+		
+		$layoutData = json_encode($arrContent);
+		$layoutDataValueInsert = wp_slash($layoutData);
+		
+		update_post_meta($postID, "_elementor_data", $layoutDataValueInsert);
+		
 	}
 	
 	
@@ -168,42 +181,6 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 	}
 	
 	
-	/**
-	 * import elementor layout
-	 */
-	public function importElementorLayout($arrTempFile, $isOverwriteAddons = true){
-		
-		dmp("import old way");
-		exit();
-		
-		$this->addonsType = UniteCreatorElementorIntegrate::ADDONS_TYPE;
-		$this->importPostType = self::POST_TYPE_LAYOUTS_LIBRARY;
-		
-		$this->import($arrTempFile, null, $isOverwriteAddons);
-		$this->updateElementorLayoutAfterImport();
-		
-		$urlRedirect = admin_url("edit.php?post_type=elementor_library&tabs_group=library");
-		
-		header("location:".$urlRedirect);
-		exit();
-	}
-	
-	
-	/**
-	 * import vc zip file to some wp page
-	 */
-	public function importElementorZipToPage($filepath, $pageID, $isOverwriteAddons = false){
-		
-		$page = @get_post($pageID);
-		if(empty($page))
-			UniteFunctionsUC::throwError("page with id: $pageID not found");
-					
-		$this->addonsType = UniteCreatorElementorIntegrate::ADDONS_TYPE;
-		
-		$this->importZipFile($filepath, $pageID, $isOverwriteAddons);
-		$this->updateElementorLayoutAfterImport();
-		
-	}
 	
 	/**
 	 * set addon by widget type
@@ -351,7 +328,7 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 	 * input - zip file from upload, or path to file
 	 */
 	public function importElementorTemplateNew($arrTempFile, $isOverwriteAddons = true, $data = null){
-				
+		
 		$this->addonsType = GlobalsUnlimitedElements::ADDONSTYPE_ELEMENTOR;
 		
 		if(is_string($arrTempFile)){
@@ -367,7 +344,6 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		if(empty($filepath))
 			UniteFunctionsUC::throwError("template filepath not found");
 		
-						
 		$info = pathinfo($filename);
 		
 		$ext = UniteFunctionsUC::getVal($info, "extension");
@@ -378,7 +354,7 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		
 		$this->prepareImportFolders();
 		$this->extractImportLayoutFile($filepath);
-
+		
 		//prepare the content and the json file path after extracted before import 
 		$this->importElementorTemplateNew_prepareLayoutImportContent();
 		
@@ -392,12 +368,16 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		$this->importElementorTemplateNew_importImages();
 				
 		//change page type
+		$isNoImport = UniteFunctionsUC::getVal($data, "no_import");
+		$isNoImport = UniteFunctionsUC::strToBool($isNoImport);
+		
+		if($isNoImport == true)
+			return($this->importedLayoutContent);
 		
 		$type = UniteFunctionsUC::getVal($this->importedLayoutContent, "type");
-
+		
 		if($type == "wp-post")
 			$this->importedLayoutContent["type"] = "page";
-		
 		
 		$this->importElementorTemplateNew_rewriteJsonFile();
 		
@@ -408,9 +388,8 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 	}
 	
 	
-	
 	/**
-	 * import elementor layout
+	 * import elementor template, and create new layout
 	 */
 	public function importElementorLayoutNew($arrTempFile, $isOverwriteAddons, $data){
 		
@@ -459,6 +438,76 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		   add_post_meta($templateID, GlobalsProviderUC::META_KEY_CATID, $catID);
 		
 	}
+	
+	/**
+	 * randomize element id's
+	 */
+	private function randomizeElementIDs($arrElement){
+		
+		if(is_array($arrElement) == false)
+			return($arrElement);
+		
+		//randomize
+		if(isset($arrElement["id"]) && isset($arrElement["elType"])){
+			$arrElement["id"] = UniteFunctionsUC::getRandomString(7, "hex");
+		}
+		
+		foreach($arrElement as $key => $item){
+			
+			if(is_array($item) == false)
+				continue;
+			
+			$arrElement[$key] = $this->randomizeElementIDs($item);
+		}
+		
+		return($arrElement);
+	}
+	
+	
+	/**
+	 * import content that contain zip section, add to some existing post post
+	 */
+	public function importElementorZipContentSection($contentZip, $targetPostID){
+		
+		UniteFunctionsUC::validateNumeric($targetPostID,"import post id");
+		
+		$targetPost = get_post($targetPostID);
+		if(empty($targetPost))
+			UniteFunctionsUC::throwError("Target post not found");
+		
+		$pathTemp = sys_get_temp_dir();
+		$filepath = $pathTemp."/elementor_section".UniteFunctionsUC::getRandomString().".zip";
+		
+		UniteFunctionsUC::writeFile($contentZip, $filepath);
+				
+		$arrLayout = $this->importElementorTemplateNew($filepath, true,array("no_import" => true));
+
+		if(empty($arrLayout))
+			UniteFunctionsUC::throwError("no layout found");
+		
+		$arrSection = UniteFunctionsUC::getVal($arrLayout, "content");
+		
+		$arrSection = $this->randomizeElementIDs($arrSection);
+		
+		$arrPageLayout = $this->getElementorPostOriginalLayout($targetPostID);
+		
+		if(empty($arrPageLayout) || is_array($arrPageLayout) == false)
+			UniteFunctionsUC::throwError("No page elementor layout found");
+		
+		//insert section into new content
+		$numSections = count($arrPageLayout);
+		
+		if($numSections <= 1)
+			$arrPageLayout[] = $arrSection;
+		else
+			array_splice($arrPageLayout, 1, 0, $arrSection);
+		
+		//update elementor data
+		$this->updateElementorDataMeta($targetPostID, $arrPageLayout);
+		
+	}
+	
+	
 	
 	function a_______EXPORT_IMAGES______(){}
 	
@@ -1018,13 +1067,59 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 		}
 	}
 	
+	/**
+	 * get original layout from elementor post
+	 */
+	private function getElementorPostOriginalLayout($postID){
+   		
+   		$arrMeta = get_post_meta($postID,"_elementor_data",true);
+   		
+   		if(empty($arrMeta))
+   			return(false);
+   			
+   		$arrLayout = UniteFunctionsUC::jsonDecode($arrMeta);
+   		
+   		return($arrLayout);
+	}
+	
+	
+	/**
+	 * get section array from content array, recursive
+	 */
+	private function getSectionFromContent($content, $sectionID){
+		
+		if(is_array($content) == false)
+			return($content);
+				
+		foreach($content as $key=>$item){
+			
+			if(is_array($item) == false)
+				continue;
+			
+			$type = UniteFunctionsUC::getVal($item, "elType");
+			if($type == "section"){
+				$id = UniteFunctionsUC::getVal($item, "id");
+				if($id == $sectionID)
+					return($item);
+			}
+			
+			$section = $this->getSectionFromContent($item, $sectionID);
+			if(!empty($section))
+				return($section);
+		}
+		
+		
+		return(null);		
+	}
 	
 	/**
 	 * export elementor post by id
 	 */
-	public function exportElementorPost($postID, $exportName = null, $isReturnData = false){
+	public function exportElementorPost($postID, $exportName = null, $isReturnData = false, $params = array()){
 		
 		$this->exportPostID = $postID;
+		
+		$sectionID = UniteFunctionsUC::getVal($params, "sectionid");
 		
 		//if not inited - init
 		if(empty($this->objLayout)){
@@ -1038,17 +1133,33 @@ class UniteCreatorLayoutsExporterElementor extends UniteCreatorLayoutsExporter{
 			
 			$this->initByLayout($objLayout);
 		}
-		
-		
+			
 		$templateData = $this->getElementorExportContent($postID);
 		
-		$content = $templateData["content"];
-				
+		//get content
+		if(empty($sectionID)){
+			
+			$templateData = $this->getElementorExportContent($postID);
+			$content = $templateData["content"];
+			
+		}else{		//get sections
+			
+			$content = $this->getElementorPostOriginalLayout($postID);
+			$content = $this->getSectionFromContent($content, $sectionID);
+			
+			if(empty($content))
+				UniteFunctionsUC::throwError("Section with id: $sectionID not found");			
+		}
+		
+		
 		if(empty($exportName))
 		 	$exportName = UniteFunctionsUC::getVal($templateData, "name");
 		
+		 if(!empty($sectionID))
+		 	$exportName = $exportName."_".$sectionID;
+		 
 		$arrData = $this->exportElementorLayoutZip($content, $exportName, $isReturnData);
-		
+				
 		return($arrData);
 	}
 	 

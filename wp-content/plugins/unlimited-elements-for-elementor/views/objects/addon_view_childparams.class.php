@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -82,7 +82,7 @@ class UniteCreatorAddonViewChildParams{
 	 */
 	protected function getCodeExamplesParams_php($arrParams){
 		
-			$key = "Run PHP Function (pro)";
+			$key = "Run PHP Action (pro)";
 			$text = "
 			
 {# This functionality exists only in the PRO version #}
@@ -92,9 +92,11 @@ class UniteCreatorAddonViewChildParams{
 {{ do_action('some_action','param1','param2','param3') }}
 ";
 		
+	//-------- data from php -------------
+			
 			$arrParams[] = $this->createChildParam_code($key, $text);
 		
-			$key = "Data From PHP (pro)";
+			$key = "Data From PHP Filter(pro)";
 			$text = "
 {# This functionality exists only in the PRO version #}			
 {# apply any WordPress filters, and any custom PHP function. Use apply_filters to create the actions. \n The function support up to 2 custom params #}
@@ -104,7 +106,22 @@ class UniteCreatorAddonViewChildParams{
 
 ";
 			$arrParams[] = $this->createChildParam_code($key, $text);
+
+	//-------- run php get functoin -------------
+			
+			$arrParams[] = $this->createChildParam_code($key, $text);
 		
+			$key = "getByPHPFunction(pro)";
+			$text = "
+{# Run any custom php function that starts with \"get_\". #}
+{# Can take any number of arguments. Look the examples #}
+
+{% set postData = getByPHPFunction('get_post') }}
+{% set postMeta = getByPHPFunction('get_post_meta',15) }}
+			
+";
+			$arrParams[] = $this->createChildParam_code($key, $text);
+			
 		
 		return($arrParams);
 	}
@@ -256,6 +273,17 @@ class UniteCreatorAddonViewChildParams{
 ";
 		
 		$arrParams[] = $this->createChildParam_code($key, $text);
+
+		$key = "Date Functions";
+		$text = "
+{# use the ucdate filter to convert timestamps to dates preserving wordpress format#}
+{{ your_timestamp|ucdate(\"m/d/Y\") }}
+
+{# to show data from - to range like 4-5 Mar 2021 use this function#}
+{{ucfunc(\"put_date_range\",1617187095,1619187095)}}
+";
+
+		$arrParams[] = $this->createChildParam_code($key, $text);
 		
 		
 		//----- default value ------
@@ -268,6 +296,21 @@ class UniteCreatorAddonViewChildParams{
 
 		$arrParams[] = $this->createChildParam_code($key, $text);
 
+		//----- get listing item data ------
+		
+		$key = "getListingItemData()";
+		$text = "
+{# This function gets the data if the widget inside template that are item in any listing of any plugin \n
+   For type the only option for now is: \"user\", and for ID, default user ID.
+ #} \n
+
+{% set listingData = getListingItemData(type=\"\", default_id=\"\") %}
+
+{{printVar(listingData)}}
+";
+		
+		$arrParams[] = $this->createChildParam_code($key, $text);
+		
 		//----- get user data ------
 		
 		$arrParams = $this->getCodeExamplesParams_php($arrParams);
@@ -327,7 +370,7 @@ jQuery(document).ready(function(){
 		
 		$strCode = "";
 		$strCode .= "{% for cat in [param_prefix].categories %}\n";
-										
+
 		$strCode .= "	<span> {{cat.id}} , {{cat.name}} , {{cat.slug}} , {{cat.description}}, {{cat.link}} </span> <br>\n\n ";
 		
 		$strCode .= "	{# also you can use category custom fields #} \n";
@@ -476,7 +519,7 @@ jQuery(document).ready(function(){
 	private function getCustomFieldKeyText($type, $key){
 		
 		//complex code (repeater) 
-				
+		
 		if(is_array($type)){
 			
 			$strCode = "";
@@ -512,9 +555,9 @@ jQuery(document).ready(function(){
 		//--- simple array code 
 		
 		if($type == "array"){
-			
+						
 			$strCode = "";
-			$strCode .= "{% for value in [param_prefix].{$key} %}\n";
+			$strCode .= "{% for item in [param_prefix].{$key} %}\n";
 			$strCode .= "<span> {{item}} </span>\n";
 			$strCode .= "{% endfor %}\n";
 			
@@ -781,14 +824,29 @@ jQuery(document).ready(function(){
 		
 		$arrParams[] = $this->createWooPostParam_getChildProducts();
 		
-		//dmp($arrKeys);exit();
+		foreach($arrKeys as $key){
 		
-		foreach($arrKeys as $key){			
-			$arrParams[] = $this->createChildParam($key);
+			switch($key){
+				case "woo_sale_price":
+				case "woo_regular_price":
+				case "woo_price":
+				case "woo_price_to":
+				case "woo_price_from":
+				case "woo_sale_price_to":
+				case "woo_sale_price_from":
+				case "woo_regular_price_from":
+				case "woo_regular_price_to":
+					$arrParams[] = $this->createChildParam($key,null,array("raw_insert_text"=>"{{[param_name]|wc_price|raw}}"));
+				break;
+				default:
+					$arrParams[] = $this->createChildParam($key);
+				break;
+			}
 		}
 		
 		return($arrParams);
 	}
+	
 	
 	/**
 	 * add woo commerce post param without post id
@@ -856,6 +914,14 @@ jQuery(document).ready(function(){
 		else
 			$arrParams[] = $this->createChildParam_underscore(null);
 		
+		$prefix = "image_";
+		if($isSingle == true)
+			$prefix = "";
+		
+		$arrParams[] = $this->createChildParam_image("{$prefix}attributes|raw", $isSingle);
+		$arrParams[] = $this->createChildParam_image("{$prefix}attributes_nosize|raw", $isSingle);
+		
+			
 		$arrSizes = $this->getArrImageThumbSizes();
 		
 		foreach($arrSizes as $size=>$desc){
@@ -878,11 +944,7 @@ jQuery(document).ready(function(){
 			$arrParams[] = $this->createChildParam_code("{{".self::PARAM_PREFIX."_".$key."}}", $thumbCode, false, true);
 		}
 		
-		
-		$prefix = "image_";
-		if($isSingle == true)
-			$prefix = "";
-		
+				
 		$arrParams[] = $this->createChildParam_image("{$prefix}title", $isSingle);
 		$arrParams[] = $this->createChildParam_image("{$prefix}alt", $isSingle);
 		$arrParams[] = $this->createChildParam_image("{$prefix}description", $isSingle);
@@ -1052,15 +1114,25 @@ jQuery(document).ready(function(){
 		$strCode .= "	<hr>\n";
 		
 		$strCode .= "	# ---- User Meta Fields: ----- \n\n";
+				
+		$strCode .= "	Url Posts: {{{$itemName}.url_posts}} <br>\n ";
+		$strCode .= "	Num Posts: {{{$itemName}.num_posts}} <br>\n\n ";
 		
 		$arrMetaKeys = UniteFunctionsWPUC::getUserMetaKeys();
-		
+			
+			
 		foreach($arrMetaKeys as $key){
 			$title = UniteFunctionsUC::convertHandleToTitle($key);
 		
 			$strCode .= "	$title: {{{$itemName}.{$key}}} <br>\n ";
 		}
 		
+		$strCode .= "\n";
+		
+		$strCode .= "	{#For additional user meta you can use getUserMeta function. If meta key not given, it will print all meta keys available#}\n\n";
+		
+		$strCode .= "	{% set somevalue = getUserMeta({$itemName}.id,\"admin_color\") %}\n";
+		$strCode .= "	Meta Value: {{printVar(somevalue)}}\n";
 		
 		$strCode .= "\n";
 		
@@ -1085,6 +1157,27 @@ jQuery(document).ready(function(){
 		return($arrParams);
 	}
 
+	/**
+	 * add listing child param
+	 */
+	public function getAddParams_listing(){
+				
+		$arrParams = array();
+		
+		$strCode = "
+{% for item in [parent_name]_items %}
+	
+	{{putDynamicLoopTemplate(item.object,[parent_name]_templateid)}}
+
+{% endfor %}
+		
+";
+		$arrParams[] = $this->createChildParam_code("[parent_name]_output", $strCode);
+		
+		return($arrParams);
+	}
+	
+	
 	/**
 	 * get users child params
 	 */
@@ -1139,6 +1232,23 @@ jQuery(document).ready(function(){
 		$arrParams = array();
 		
 		$arrParams[] = $this->createAddParam("|raw");
+		
+		return($arrParams);
+	}
+
+	
+	/**
+	 * get post child params
+	 */
+	public function getAddParams_template(){
+
+		$arrParams = array();
+		
+		$strCode = "{{putElementorTemplate([param_prefix]_templateid)}}";
+		
+	    $arrParam = $this->createChildParam(null, null, array("raw_insert_text"=>$strCode));
+		
+		$arrParams[] = $arrParam;
 		
 		return($arrParams);
 	}

@@ -406,7 +406,7 @@ function UniteSettingsUC(){
 	/**
 	 * get settings values object by the parent
 	 */
-	this.getSettingsValues = function(controlsOnly){
+	this.getSettingsValues = function(controlsOnly, isChangedOnly){
 		
 		validateInited();
 		
@@ -419,7 +419,7 @@ function UniteSettingsUC(){
 		else{
 			var objInputs = getObjInputs().not(".unite-setting-transparent");
 		}
-				
+		
 		jQuery.each(objInputs, function(index, input){
 			
 			var objInput = jQuery(input);
@@ -430,7 +430,16 @@ function UniteSettingsUC(){
 						
 			if(value == g_vars.NOT_UPDATE_OPTION)
 				return(true);
-						
+			
+			//remain only changed values from default values
+			if(isChangedOnly === true){
+				var defaultValue = getInputDefaultValue(objInput);
+								
+				if(defaultValue === value)
+					return(true);
+			}
+			
+			
 			inputID = objInput.prop("id");
 			
 			//set additional vars
@@ -461,6 +470,51 @@ function UniteSettingsUC(){
 		
 		return(obj);
 	};
+	
+	
+	/**
+	 * get default value
+	 */
+	function getInputDefaultValue(objInput){
+		
+		var type = getInputType(objInput);
+		var name = getInputName(objInput);
+		
+		var dataname = "default";
+		var checkboxDataName = "defaultchecked";
+		
+		var defaultValue;
+		
+		switch(type){
+			default:
+				if(!name)
+					return(false);
+				
+				defaultValue = objInput.data(dataname);
+												
+				if(typeof defaultValue == "object")
+					defaultValue = JSON.stringify(defaultValue);
+								
+				if(type == "select"){
+					if(defaultValue === true)
+						defaultValue = "true";
+					if(defaultValue === false)
+						defaultValue = "false";
+				}
+				
+			break;					
+			case "radio":
+			case "checkbox":
+				defaultValue = objInput.data(checkboxDataName);
+				defaultValue = g_ucAdmin.strToBool(defaultValue);				
+			break;
+		}
+		
+		if(jQuery.isNumeric(defaultValue))
+			defaultValue = defaultValue.toString();
+		
+		return(defaultValue);
+	}
 	
 	
 	/**

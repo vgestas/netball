@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -116,7 +116,12 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 					HelperUC::addScript("xml", "codemirror_xml","js/codemirror/mode/xml");
 					HelperUC::addScript("htmlmixed", "codemirror_html","js/codemirror/mode/htmlmixed");
 					
+					HelperUC::addScript("dialog", "codemirror_dialog","js/codemirror/addon");
+					HelperUC::addScript("searchcursor", "codemirror_search_cursor","js/codemirror/addon");
+					HelperUC::addScript("search", "codemirror_search","js/codemirror/addon");
+					
 					HelperUC::addStyle("codemirror", "codemirror_css","js/codemirror");
+					HelperUC::addStyle("dialog", "codemirror_dialog_css","js/codemirror/addon");
 					
 					HelperUC::addScript("unitecreator_includes", "unitecreator_includes");
 					HelperUC::addScript("unitecreator_params_dialog", "unitecreator_params_dialog");

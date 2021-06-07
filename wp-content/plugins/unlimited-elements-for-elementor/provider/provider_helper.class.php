@@ -17,6 +17,92 @@ class HelperProviderUC{
         return($isActivated);
 	}
     
+	/**
+	 * get data for meta compare select
+	 */
+	public static function getArrMetaCompareSelect(){
+		
+		$arrItems = array();
+		$arrItems["="] = "Equals";
+		$arrItems["!="] = "Not Equals";
+		$arrItems[">"] = "More Then";
+		$arrItems["<"] = "Less Then";
+		$arrItems[">="] = "More Or Equal";
+		$arrItems["<="] = "Less Or Equal";
+		$arrItems["LIKE"] = "LIKE";
+		$arrItems["NOT LIKE"] = "NOT LIKE";
+		
+		$arrItems["IN"] = "IN";
+		$arrItems["NOT IN"] = "NOT IN";
+		$arrItems["BETWEEN"] = "BETWEEN";
+		$arrItems["NOT BETWEEN"] = "NOT BETWEEN";
+		
+		$arrItems["EXISTS"] = "EXISTS";
+		$arrItems["NOT EXISTS"] = "NOT EXISTS";
+		
+		return($arrItems);
+	}
+	
+	
+	/**
+	 * get date select
+	 */
+	public static function getArrPostsDateSelect(){
+		
+		$arrDate = array(
+			"all"=>__("All","unlimited-elements-for-elementor"),
+			"today"=>__("Past Day","unlimited-elements-for-elementor"),
+			"yesterday"=>__("Past 2 days","unlimited-elements-for-elementor"),
+			"week"=>__("Past Week","unlimited-elements-for-elementor"),
+			"month"=>__("Past Month","unlimited-elements-for-elementor"),
+			"three_months"=>__("Past 3 Months","unlimited-elements-for-elementor"),
+			"year"=>__("Past Year","unlimited-elements-for-elementor"),
+			"this_month"=>__("This Month","unlimited-elements-for-elementor"),
+			"next_month"=>__("Next Month","unlimited-elements-for-elementor"),
+			"custom"=>__("Custom","unlimited-elements-for-elementor")
+		);
+		
+		return($arrDate);
+	}
+	
+	/**
+	 * get select post status
+	 */
+	public static function getArrPostStatusSelect(){
+		
+		$arrStatus = array(
+			"publish"=>__("Publish","unlimited-elements-for-elementor"),
+			"future"=>__("Future","unlimited-elements-for-elementor"),
+			"draft"=>__("Draft","unlimited-elements-for-elementor"),
+			"pending"=>__("Pending Review","unlimited-elements-for-elementor"),
+			"private"=>__("Private","unlimited-elements-for-elementor"),
+			"inherit"=>__("Inherit","unlimited-elements-for-elementor"),
+		);
+		
+		return($arrStatus);
+	}
+	
+	/**
+	 * get array for users order by select
+	 */
+	public static function getArrUsersOrderBySelect(){
+		
+		$arrOrderby = array(
+			"default"=>__("Default", "unlimited-elements-for-elementor"),
+			"ID"=>__("User ID", "unlimited-elements-for-elementor"),
+			"display_name"=>__("Display Name", "unlimited-elements-for-elementor"),
+			"name"=>__("Username", "unlimited-elements-for-elementor"),
+			"login"=>__("User Login", "unlimited-elements-for-elementor"),
+			"nicename"=>__("Nice Name", "unlimited-elements-for-elementor"),
+			"email"=>__("Email", "unlimited-elements-for-elementor"),
+			"url"=>__("User Url", "unlimited-elements-for-elementor"),
+			"registered"=>__("Registered Date", "unlimited-elements-for-elementor"),
+			"post_count"=>__("Number of Posts", "unlimited-elements-for-elementor")
+		);
+		
+		return($arrOrderby);
+	}
+	
 	
 	/**
 	 * get post addditions array from options
@@ -97,7 +183,7 @@ class HelperProviderUC{
 	 * modify memory limit setting
 	 */
 	public static function modifyGeneralSettings_memoryLimit($objSettings){
-		
+				
 		//modify memory limit
 		
 		$memoryLimit = ini_get('memory_limit');

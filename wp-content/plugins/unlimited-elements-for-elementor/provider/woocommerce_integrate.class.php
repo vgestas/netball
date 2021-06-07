@@ -14,7 +14,7 @@ class UniteCreatorWooIntegrate{
 	
 	const POST_TYPE_PRODUCT = "product";
 	const PRODUCT_TYPE_VARIABLE = "variable";
-	
+		
 	private $currency;
 	private $currencySymbol;
 	private $urlCheckout;
@@ -127,12 +127,20 @@ class UniteCreatorWooIntegrate{
 		$params = "add-to-cart={$productID}";
 		
 		$urlAddCart = UniteFunctionsUC::addUrlParams($this->urlCurrentPage, $params);
+    	$type = UniteFunctionsUC::getVal($arrProduct, "woo_type");
 		
     	$arrProduct["woo_link_addcart_cart"] = UniteFunctionsUC::addUrlParams($this->urlCart, $params);
     	$arrProduct["woo_link_addcart_checkout"] = UniteFunctionsUC::addUrlParams($this->urlCheckout, $params);
     	    	
     	//add html ajax add to cart
     	$addCartAttributes = "href=\"{$urlAddCart}\" data-quantity=\"1\" class=\"uc-button-addcart product_type_simple add_to_cart_button ajax_add_to_cart\" data-product_id=\"{$productID}\" data-product_sku=\"{$productSku}\" rel=\"nofollow\"";
+		
+    	if($type == self::PRODUCT_TYPE_VARIABLE){
+    		
+    		$urlProduct = get_permalink($productID);
+    		
+    		$addCartAttributes = "href=\"{$urlProduct}\" class=\"uc-button-addcart\" ";
+    	}
     	
     	$arrProduct["woo_addcart_ajax_attributes"] = $addCartAttributes;
     	
@@ -290,6 +298,14 @@ class UniteCreatorWooIntegrate{
     		$arrProduct["woo_".$propertyName] = $value;    		
     	}
 		
+    	//make the rating stars array
+    	$arrWooStars = array();
+    	$rating = UniteFunctionsUC::getVal($arrData, "average_rating");
+    	$rating = floatval($rating);
+    	
+    	$arrWooStars = HelperHtmlUC::getRatingArray($rating);
+    	$arrProduct["woo_rating_stars"] = $arrWooStars;
+    	
     	//add prices of variations
     	
     	if($type == self::PRODUCT_TYPE_VARIABLE){
@@ -312,7 +328,7 @@ class UniteCreatorWooIntegrate{
     	if(!empty($salePrice) && !empty($regularPrice)){
     		
     		$discountPercent = ($regularPrice-$salePrice)/$regularPrice*100;
-    		$discountPercent = floor($discountPercent);
+    		$discountPercent = round($discountPercent);
     	}
     	
     	$arrProduct["woo_discount_percent"] = $discountPercent;
@@ -320,7 +336,8 @@ class UniteCreatorWooIntegrate{
     	//add currency
     	$arrProduct["woo_currency"] = $this->currency;
     	$arrProduct["woo_currency_symbol"] = $this->currencySymbol;
-		    	
+		
+    	
     	//put add to cart link
     	$arrProduct = $this->addAddToCartData($arrProduct, $productID, $productSku);
     	
@@ -340,7 +357,8 @@ class UniteCreatorWooIntegrate{
 		
 		$arrKeys += $arrProperties;
 		
-    	$arrKeys[] = "woo_discount_percent";
+    	$arrKeys[] = "woo_rating_stars";
+		$arrKeys[] = "woo_discount_percent";
     	$arrKeys[] = "woo_currency";
     	$arrKeys[] = "woo_currency_symbol";
     	$arrKeys[] = "woo_link_addcart_cart";

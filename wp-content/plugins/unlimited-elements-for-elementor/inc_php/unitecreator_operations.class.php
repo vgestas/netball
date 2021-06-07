@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -461,6 +461,48 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			
 			return($response);
 		}
+		
+		private function a____________DATE____________(){}
+		
+		/**
+		 * get nice display of date ranges, ex. 4-5 MAR 2021
+		 */
+		public function getDateRangeString($startTimeStamp, $endTimeStamp, $pattern = null){
+			
+		    $displayDate = "";
+	        
+		    $startDate = getDate($startTimeStamp);
+	        $endDate = getDate($endTimeStamp);
+		    
+	        //--- check same date
+	        
+		    if($startDate["year"].$startDate["mon"].$startDate["mday"] == $endDate["year"].$endDate["mon"].$endDate["mday"]){
+		    	
+		        $displayDate = date('j M Y', $endTimeStamp);
+		        return($displayDate);
+		    }
+		    
+		    //--- check different years
+	        
+		    if($startDate["year"] != $endDate["year"]){		
+	        	
+	            $displayDate = date('j M Y', $startTimeStamp) . " - ". date('j M Y', $endTimeStamp);
+	        	return($displayDate);
+		    }
+		        
+		    //--- check same year
+		    
+            // diff days in the same month
+		    if($startDate["mon"] == $endDate["mon"]) 
+                $displayDate = date('j', $startTimeStamp) ."-". date('j M Y', $endTimeStamp);
+                
+            // diff months
+            $displayDate = date('j M', $startTimeStamp) ." - ". date('j M Y', $endTimeStamp);
+			
+		    
+		    return $displayDate;
+		}
+		
 		
 		private function a____________SCREENSHOTS____________(){}
 		

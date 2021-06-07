@@ -409,6 +409,12 @@ html {
 	box-sizing: content-box;
 }
 
+.unite_table_items input,
+.unite_table_items select,
+.unite_table_items textarea{
+	box-sizing:border-box;
+}
+
 .unite_table_items {
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	border-left: medium none;
@@ -523,6 +529,10 @@ html {
 	margin-bottom:30px;
 }
 
+.unite_table_items input[type='text'],
+.unite_table_items select{
+	padding:0px 4px 0px 4px !important;
+}
 
 .__________MAIN____________{}
 
@@ -973,8 +983,11 @@ ul.unite-context-menu li a:focus {
 }
 .unite-inputs select {
 	padding: 2px;
+	padding-left:5px;
+	padding-right:20px;
 	width: auto;
 }
+
 .unite-inputs select option {
 	padding: 2px;
 }
@@ -1040,6 +1053,7 @@ ul.unite-context-menu li a:focus {
 	position: absolute;
 	z-index: 99999999;
 }
+
 .unite-settings select {
 	min-width: 80px;
 	width: auto !important;
@@ -1313,6 +1327,7 @@ noimage:
 .unite-input-100{
 	width:100% !important;	
 }
+
 
 #-----------------SETTINGS-WIDE---------------- {}
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -73,6 +73,18 @@ class UniteCreatorActions{
 		if($actionType != GlobalsUC::PLUGIN_NAME."_ajax_action")
 			return(false);
 		
+		$action = UniteFunctionsUC::getPostGetVariable("client_action","",UniteFunctionsUC::SANITIZE_KEY);
+		
+		//check front actions
+		switch($action){
+			case "get_section_zip":
+			case "paste_section_front":
+				
+				$this->onAjaxFrontAction();
+				exit();
+			break;
+		}
+		
 		$operations = new ProviderOperationsUC();
 		
 		$addons = new UniteCreatorAddons();
@@ -81,16 +93,6 @@ class UniteCreatorActions{
 		$layouts = new UniteCreatorLayouts();
 		$webAPI = new UniteCreatorWebAPI();
 		
-		
-		$action = UniteFunctionsUC::getPostGetVariable("client_action","",UniteFunctionsUC::SANITIZE_KEY);
-		
-		//go to front
-		switch($action){
-			case "send_form":
-				$this->onAjaxFrontAction();
-				return(false);
-			break;
-		}
 		
 		
 		$data = $this->getDataFromRequest();
@@ -113,7 +115,7 @@ class UniteCreatorActions{
 				
 				case "remove_category":
 					$response = $categories->removeFromData($data);
-				
+					
 					HelperUC::ajaxResponseSuccess(esc_html__("The category deleted successfully","unlimited-elements-for-elementor"),$response);
 				break;
 				case "update_category":
@@ -428,6 +430,13 @@ class UniteCreatorActions{
 					HelperUC::ajaxResponseSuccess(esc_html__("Settings Saved", "unlimited-elements-for-elementor"));
 					
 				break;
+				case "get_terms_list_forselect":
+					
+					$arrTermsList = $operations->getTermsListForSelectFromData($data);
+					
+					HelperUC::ajaxResponseData($arrTermsList);
+					
+				break;
 				case "get_posts_list_forselect":
 					
 					$arrPostList = $operations->getPostListForSelectFromData($data);
@@ -442,6 +451,14 @@ class UniteCreatorActions{
 					HelperUC::ajaxResponseData(array("select2_data"=>$arrData));
 					
 				break;
+				case "get_select2_terms_titles":
+					
+					$arrData = $operations->getSelect2TermsTitles($data);
+					
+					HelperUC::ajaxResponseData(array("select2_data"=>$arrData));
+					
+				break;
+				
 				case "get_post_child_params":
 					
 					$response = $operations->getPostAttributesFromData($data);
@@ -503,8 +520,6 @@ class UniteCreatorActions{
 		
 	}
 	
-	
-	
 	/**
 	 * on ajax action
 	 */
@@ -512,27 +527,30 @@ class UniteCreatorActions{
 		
 		$actionType = UniteFunctionsUC::getPostGetVariable("action","",UniteFunctionsUC::SANITIZE_KEY);
 		
-		switch($actionType){
-			case GlobalsUC::PLUGIN_NAME."_ajax_action":
-			case GlobalsUC::PLUGIN_NAME."_ajax_action_front":
-			break;
-			default:
-				return(false);
-			break;
-		}
-				
+		if($actionType != GlobalsUC::PLUGIN_NAME."_ajax_action")
+			return(false);
+		
 		$action = UniteFunctionsUC::getPostGetVariable("client_action","",UniteFunctionsUC::SANITIZE_KEY);
 		$data = $this->getDataFromRequest();
+		
 		
 		try{
 					
 			switch($action){
-				case "send_form":
+				case "get_section_zip":
 					
-					$objForm = new UniteCreatorForm();
-					$objForm->sendFormFromData($data);
+					$objCopyPaste = new UniteCreatorElementorCopyPaste();
+					$rawData = $objCopyPaste->getSectionZipFromData($data);
 					
-					HelperUC::ajaxResponseSuccess("Form Sent");
+					echo $rawData;
+					exit();					
+				break;
+				case "paste_section_front":
+					
+					$objCopyPaste = new UniteCreatorElementorCopyPaste();
+					$success = $objCopyPaste->pasteSectionAjaxAction($data);
+					
+					HelperUC::ajaxResponseSuccess("Section Pasted");
 					
 				break;
 				default:

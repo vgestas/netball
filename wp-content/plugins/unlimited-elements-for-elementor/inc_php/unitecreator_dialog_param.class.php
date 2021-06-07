@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -20,6 +20,7 @@ class UniteCreatorDialogParamWork{
 	const PARAM_NUMBER = "uc_number";
 	const PARAM_RADIOBOOLEAN = "uc_radioboolean";
 	const PARAM_DROPDOWN = "uc_dropdown";
+	const PARAM_MULTIPLE_SELECT = "uc_multiple_select";
 	const PARAM_HR = "uc_hr";	
 	const PARAM_CONTENT = "uc_content";	
 	const PARAM_POST = "uc_post";
@@ -27,8 +28,10 @@ class UniteCreatorDialogParamWork{
 	const PARAM_POSTS_LIST = "uc_posts_list";
 	const PARAM_POST_TERMS = "uc_post_terms";
 	const PARAM_WOO_CATS = "uc_woo_categories";
+	const PARAM_LISTING = "uc_listing";
 	
 	const PARAM_USERS = "uc_users";
+	const PARAM_TEMPLATE = "uc_template";
 	const PARAM_INSTAGRAM = "uc_instagram";
 	
 	const PARAM_MENU = "uc_menu";
@@ -50,6 +53,7 @@ class UniteCreatorDialogParamWork{
 	const PARAM_MARGINS = "uc_margins";
 	const PARAM_PADDING = "uc_padding";	
 	const PARAM_SLIDER = "uc_slider";
+	const PARAM_GALLERY = "uc_gallery";
 	
 	const PARAM_BACKGROUND = "uc_background";
 	const PARAM_BORDER = "uc_border";
@@ -57,6 +61,9 @@ class UniteCreatorDialogParamWork{
 	const PARAM_TEXTSHADOW = "uc_textshadow";
 	const PARAM_BOXSHADOW = "uc_boxshadow";
 	
+	const PARAM_BORDER_DIMENTIONS = "uc_border_dimentions";
+	const PARAM_CSS_FILTERS = "uc_css_filters";
+	const PARAM_HOVER_ANIMATIONS = "uc_hover_animations";
 	
 	const PARAM_VAR_GET = "uc_var_get";
 	
@@ -74,6 +81,7 @@ class UniteCreatorDialogParamWork{
 	protected  $option_arrTexts = array();
 	protected  $option_putDecsription = true;
 	protected  $option_allowFontEditCheckbox = true;
+	protected  $option_putCondition = true;
 	
 	
 	/**
@@ -134,6 +142,7 @@ class UniteCreatorDialogParamWork{
 	protected function initProParams(){
 		
 		$this->arrProParams = array();
+		$this->arrProParams[self::PARAM_TEMPLATE] = true;
 		$this->arrProParams[self::PARAM_USERS] = true;
 		$this->arrProParams[self::PARAM_MENU] = true;
 		$this->arrProParams[self::PARAM_POST_TERMS] = true;
@@ -145,6 +154,7 @@ class UniteCreatorDialogParamWork{
 		$this->arrProParams[self::PARAM_BACKGROUND] = true;
 		$this->arrProParams[self::PARAM_BORDER] = true;
 		$this->arrProParams[self::PARAM_SLIDER] = true;
+		$this->arrProParams[self::PARAM_LISTING] = true;
 		
 	}
 	
@@ -160,7 +170,8 @@ class UniteCreatorDialogParamWork{
 		$this->addParam("uc_textarea", esc_html__("Text Area", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_EDITOR, esc_html__("Editor", "unlimited-elements-for-elementor"));
 		$this->addParam("uc_checkbox", esc_html__("Checkbox", "unlimited-elements-for-elementor"));
-		$this->addParam("uc_dropdown", esc_html__("Dropdown", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_DROPDOWN, esc_html__("Dropdown", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_MULTIPLE_SELECT, esc_html__("Multiple Select", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_COLORPICKER, esc_html__("Color Picker", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_LINK, esc_html__("Link", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_IMAGE, esc_html__("Image", "unlimited-elements-for-elementor"));
@@ -177,7 +188,10 @@ class UniteCreatorDialogParamWork{
 		$this->addParam(self::PARAM_POSTS_LIST, esc_html__("Posts List", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_POST_TERMS, esc_html__("Posts Terms", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_WOO_CATS, esc_html__("WooCommerce Categories", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_LISTING, esc_html__("Dynamic Grouped Settings", "unlimited-elements-for-elementor"));
+		
 		$this->addParam(self::PARAM_USERS, esc_html__("Users List", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_TEMPLATE, esc_html__("Elementor Template", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_MENU, esc_html__("Menu", "unlimited-elements-for-elementor"));
 		
 		$this->addParam(self::PARAM_FORM, esc_html__("Form", "unlimited-elements-for-elementor"));
@@ -200,6 +214,10 @@ class UniteCreatorDialogParamWork{
 		$this->addParam(self::PARAM_TEXTSHADOW, esc_html__("Text Shadow", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_SLIDER, esc_html__("Slider", "unlimited-elements-for-elementor"));
 		$this->addParam(self::PARAM_DATETIME, esc_html__("Date Time", "unlimited-elements-for-elementor"));
+		
+		$this->addParam(self::PARAM_BORDER_DIMENTIONS, esc_html__("Border Radius", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_CSS_FILTERS, esc_html__("Css Filters", "unlimited-elements-for-elementor"));
+		$this->addParam(self::PARAM_HOVER_ANIMATIONS, esc_html__("Hover Animations", "unlimited-elements-for-elementor"));
 		
 	}
 	
@@ -540,12 +558,15 @@ class UniteCreatorDialogParamWork{
 	private function putImageParam(){
 		
 		?>
-			
 			<div class="unite-inputs-sap"></div>
 						
 			<?php $this->putImageSelectInput("default_value",esc_html__("Default Image","unlimited-elements-for-elementor")); ?>
 			
-		<?php 
+			<div class="unite-inputs-sap-double"></div>
+			
+			<?php $this->putCheckbox("add_image_sizes", __("Add Image Size Select","unlimited-elements-for-elementor"))?>
+		
+		<?php
 	}
 	
 	
@@ -690,6 +711,14 @@ class UniteCreatorDialogParamWork{
 	
 	
 	/**
+	 * put template param
+	 */
+	protected function putTemplateParam(){
+		dmp("function for overrie");
+	}
+	
+	
+	/**
 	 * put post terms param
 	 */
 	private function putPostTermsParam(){
@@ -705,8 +734,14 @@ class UniteCreatorDialogParamWork{
 		<?php 
 		$this->putCheckbox("use_custom_fields", __("Use Custom Fields", "unlimited-elements-for-elementor"));
 		?>
+		<div class="vert_sap20"></div>
+		
+		<?php 
+		$this->putCheckbox("for_woocommerce", __("For WooCommerce Terms", "unlimited-elements-for-elementor"));
+		?>
 		
 		<br><br>
+		
 		<hr>
 		
 		<?php 
@@ -720,6 +755,37 @@ class UniteCreatorDialogParamWork{
 	private function putWooCatsParam(){
 		
 		$this->putPostTermsParam();
+		
+	}
+	
+	/**
+	 * put listing param
+	 */
+	protected function putListingParam(){
+		
+		$arrItems = array(
+			"template"=>__("Template Loop","unlimited-elements-for-elementor"),
+			"gallery"=>__("Gallery","unlimited-elements-for-elementor")
+		);
+		
+		$htmlSelect = HelperHtmlUC::getHTMLSelect($arrItems,"template","name='use_for' class='unite-inputs-select uc-control' data-controlled-selector='.uc-listing-template-options'", true);
+		
+		?>
+		
+		<?php _e("Use For","unlimited-elements-for-elementor")?>:
+		
+		<?php echo $htmlSelect?>
+		
+		<div class="unite-inputs-sap-double"></div>
+		
+		<div class="uc-listing-template-options" data-control="template">
+		<?php 
+		
+		$this->putCheckbox("enable_pagination", __("Enable Pagination", "unlimited-elements-for-elementor"));
+		
+		?>
+		</div>
+		<?php 
 		
 	}
 	
@@ -741,6 +807,7 @@ class UniteCreatorDialogParamWork{
 		$objOutput->draw("postpicker_param_settings", false);
 		
 		$this->putCheckbox("use_custom_fields", __("Use Custom Fields", "unlimited-elements-for-elementor"));
+		
 		?>
 		<div class="vert_sap10"></div>
 		<?php 
@@ -752,12 +819,37 @@ class UniteCreatorDialogParamWork{
 		<hr>
 		
 		<div class="vert_sap10"></div>
+		
+		<label class="unite-inputs-label">
+			<?php _e("Default Max Posts", "unlimited-elements-for-elementor")?>: 
+		</label>
+		
+		<input type="text" name="default_max_posts" value="" class="unite-input-number" placeholder="10">
+		
+		<div class="vert_sap10"></div>
+		
 		<?php 
 			$this->putCheckbox("for_woocommerce_products", __("For WooCommerce Products", "unlimited-elements-for-elementor"));
 		?>
 		<div class="vert_sap10"></div>
 		
+		<?php 
+			$this->putCheckbox("show_image_sizes", __("Show Image Sizes Select", "unlimited-elements-for-elementor"));
+		?>
+		
+		<?php if(GlobalsUC::$inDev == true):?>
+		<div class="vert_sap10"></div>
+		
+		<?php 
+			$this->putCheckbox("is_filterable", __("Enable Filterable Options", "unlimited-elements-for-elementor"));
+		?>
+		<?php endif?>
+		
+		<div class="vert_sap10"></div>
+		
 		<hr>
+		
+		<div class="vert_sap10"></div>
 		<?php 
 		
 		$this->putStyleCheckbox();
@@ -823,6 +915,23 @@ class UniteCreatorDialogParamWork{
 		exit();
 	}
 	
+
+	/**
+	 * function for override
+	 */
+	protected function putCssFiltersParam(){
+		dmp("putCssFiltersParam: function for override");
+		exit();
+	}
+	
+	/**
+	 * function for override
+	 */
+	protected function putHoverAnimations(){
+		dmp("putHoverAnimations: function for override");
+		exit();
+	}
+	
 	
 	private function a___________DROPDOWN_PARAM________(){}
 	
@@ -836,11 +945,25 @@ class UniteCreatorDialogParamWork{
 	}
 	
 	/**
+	 * put multiple select param
+	 */
+	private function putMultipleSelectParam(){
+		
+		$this->putDropdownItems(true);
+		
+	}
+	
+	/**
 	 * put dropdown items table
 	 */
-	protected function putDropdownItems(){
+	protected function putDropdownItems($isMultiple = false){
+		
+		$addParams = "";
+		if($isMultiple == true)
+			$addParams = "data-ismultiple=\"true\"";
+		
 		?>
-				<table data-inputtype="table_dropdown" class='uc-table-dropdown-items uc-table-dropdown-full'>
+				<table data-inputtype="table_dropdown" <?php echo $addParams?> class='uc-table-dropdown-items uc-table-dropdown-full'>
 					<thead>
 						<tr>
 							<th></th>
@@ -1059,7 +1182,7 @@ class UniteCreatorDialogParamWork{
 			$class = "uc-tab uc-tab-selected";
 			$selectHtml .= " selected='selected' ";
 		}
-				
+		
 		if($this->type == self::TYPE_MAIN && isset($this->arrParamsItems[$paramType]) == false)
 			$selectHtml .= " class='uc-hide-when-item'";
 		
@@ -1104,8 +1227,11 @@ class UniteCreatorDialogParamWork{
 			case "uc_checkbox":
 				$this->putRadioYesNo("is_checked", esc_html__("Checked By Default", "unlimited-elements-for-elementor"), false, "Yes", "No", true);
 			break;
-			case "uc_dropdown":
+			case self::PARAM_DROPDOWN:
 				$this->putDropDownParam();
+			break;
+			case self::PARAM_MULTIPLE_SELECT:
+				$this->putMultipleSelectParam();
 			break;
 			case self::PARAM_LINK:
 				$this->putDefaultValueParam(false, "", false);
@@ -1137,11 +1263,17 @@ class UniteCreatorDialogParamWork{
 			case self::PARAM_USERS:
 				$this->putUsersParam();
 			break;
+			case self::PARAM_TEMPLATE:
+				$this->putTemplateParam();
+			break;
 			case self::PARAM_POST_TERMS:
 				$this->putPostTermsParam();
 			break;
 			case self::PARAM_WOO_CATS:
 				$this->putWooCatsParam();
+			break;
+			case self::PARAM_LISTING:
+				$this->putListingParam();
 			break;
 			case self::PARAM_FORM:
 				$this->putFormParam();
@@ -1184,6 +1316,9 @@ class UniteCreatorDialogParamWork{
 			case self::PARAM_PADDING:
 				$this->putDimentionsParam("padding");
 			break;
+			case self::PARAM_BORDER_DIMENTIONS:
+				$this->putDimentionsParam("border");
+			break;
 			case self::PARAM_SLIDER:
 				$this->putSliderParam();
 			break;
@@ -1201,6 +1336,12 @@ class UniteCreatorDialogParamWork{
 			break;
 			case self::PARAM_BOXSHADOW:
 				$this->putBoxShadowParam();
+			break;
+			case self::PARAM_CSS_FILTERS:
+				$this->putCssFiltersParam();
+			break;
+			case self::PARAM_HOVER_ANIMATIONS:
+				$this->putHoverAnimations();
 			break;
 			case self::PARAM_VAR_GET:
 				$this->putGetParamFields();
@@ -1285,6 +1426,64 @@ class UniteCreatorDialogParamWork{
 		<?php
 		
 	}
+
+	/**
+	 * put condition
+	 */
+	private function putHtmlConditionLeft(){
+		
+		$checkboxID = "uc_dialog_left_condition_".$this->type;
+		$tableID = "uc_dialog_left_condition_table".$this->type;
+		
+		?>
+			
+			<div class="unite-inputs-sap"></div>
+			
+			<label for="<?php echo $checkboxID?>" class="unite-inputs-label-inline-free">
+					<?php esc_html_e("Enable Condition", "unlimited-elements-for-elementor")?>:
+			</label>
+			<input id="<?php echo $checkboxID?>" type="checkbox" name="enable_condition" class="uc-control" data-controlled-selector=".uc-dialog-conditions-content">
+			
+			
+			<div class="uc-dialog-conditions-content">
+				
+				<div class="unite-inputs-sap"></div>
+				
+				<div class="uc-dialog-conditions-empty">
+					
+					<?php _e("No parent attribute (dropdown, checkbox or radio) exists in this category")?>
+				</div>
+				
+				<div class="uc-dialog-conditions-inputs">
+				
+					<label class="unite-inputs-label">
+						<?php _e("Show When", "unlimited-elements-for-elementor")?>: 
+					</label>
+					
+					<table class="uc-table-dialog-conditions">
+						<tr>
+							<td>
+								<select class="uc-dialog-condition-attribute" name="condition_attribute"></select>
+								
+							</td>
+							<td>
+								<select class="uc-dialog-condition-operator" name="condition_operator">
+									<option value="equal"><?php _e("Equal","unlimited-elements-for-elementor")?></option>
+									<option value="not_equal"><?php _e("Not Equal","unlimited-elements-for-elementor")?></option>
+								</select>						
+							</td>
+							<td>
+								<select class="uc-dialog-condition-value" name="condition_value"></select>
+							</td>
+						</tr>
+					</table>
+					
+				</div>
+			
+			</div>
+			
+		<?php 
+	}
 	
 	
 	/**
@@ -1334,7 +1533,6 @@ class UniteCreatorDialogParamWork{
 							
 							<?php endif?>
 							
-							
 							<div class="unite-inputs-label">
 							<?php esc_html_e("Name", "unlimited-elements-for-elementor")?>:
 							</div>
@@ -1349,6 +1547,12 @@ class UniteCreatorDialogParamWork{
 							
 							<textarea name="description"></textarea>
 							
+							<?php endif?>
+							
+							<?php if($this->option_putCondition == true):
+								$this->putHtmlConditionLeft();
+							?>
+								
 							<?php endif?>
 							
 							<?php if($this->option_putAdminLabel == true):?>
@@ -1459,6 +1663,7 @@ class UniteCreatorDialogParamWork{
 			self::PARAM_TEXTAREA,
 			self::PARAM_CHECKBOX,
 			self::PARAM_DROPDOWN,
+			self::PARAM_MULTIPLE_SELECT,
 			self::PARAM_SLIDER,			
 			self::PARAM_COLORPICKER,
 			self::PARAM_LINK,
@@ -1472,6 +1677,7 @@ class UniteCreatorDialogParamWork{
 			//self::PARAM_FONT_OVERRIDE,
 			self::PARAM_INSTAGRAM,
 		);
+		
 		
 		//add dataset
 		$arrDatasets = $this->objDatasets->getDatasetTypeNames();
@@ -1492,8 +1698,10 @@ class UniteCreatorDialogParamWork{
 			self::PARAM_TEXTAREA,
 			self::PARAM_CHECKBOX,
 			self::PARAM_DROPDOWN,
+			self::PARAM_MULTIPLE_SELECT,
 			self::PARAM_COLORPICKER,
 			self::PARAM_SLIDER,
+			self::PARAM_TEMPLATE,
 			self::PARAM_LINK,
 			self::PARAM_EDITOR,
 			self::PARAM_HR,
@@ -1505,8 +1713,8 @@ class UniteCreatorDialogParamWork{
 			self::PARAM_PADDING
 		);
 		
+		
 		$this->arrParamsItems = UniteFunctionsUC::arrayToAssoc($this->arrParamsItems);
-				
 	}
 	
 	/**
@@ -1592,9 +1800,10 @@ class UniteCreatorDialogParamWork{
 		
 		$this->objSettings = new UniteCreatorSettings();
 		$this->objDatasets = new UniteCreatorDataset();
-		
+				
 		switch($this->type){
 			case self::TYPE_MAIN:
+								
 				$this->initMainParams();
 				$this->initItemParams(); 
 			break;

@@ -278,19 +278,7 @@ function UniteAdminUC(){
 	}
 	
 	this.__________STRINGS_____ = function(){};	
-	
-	/**
-	 * raw url decode
-	 */
-	function rawurldecode(str){return decodeURIComponent(str+'');}
-	
-	/**
-	 * raw url encode
-	 */
-	function rawurlencode(str){str=(str+'').toString();return encodeURIComponent(str).replace(/!/g,'%21').replace(/'/g,'%27').replace(/\(/g,'%28').replace(/\)/g,'%29').replace(/\*/g,'%2A');}
-	
-	
-	
+
 	/**
 	 * get text diff
 	 */
@@ -307,6 +295,18 @@ function UniteAdminUC(){
 	    end = second.length - end;
 	    return second.substr(start, end - start);
 	}	
+	
+	
+	/**
+	 * raw url decode
+	 */
+	function rawurldecode(str){return decodeURIComponent(str+'');}
+	
+	/**
+	 * raw url encode
+	 */
+	function rawurlencode(str){str=(str+'').toString();return encodeURIComponent(str).replace(/!/g,'%21').replace(/'/g,'%27').replace(/\(/g,'%28').replace(/\)/g,'%29').replace(/\*/g,'%2A');}
+	
 	
 	/**
 	 * utf8 decode
@@ -2210,6 +2210,18 @@ function UniteAdminUC(){
 		trace("time passed: "+diff);
 		
 	};
+	
+	/**
+	 * print time stamp
+	 */
+	this.printTimeStamp = function(stamp){
+		
+		if(!stamp)
+			var stamp = jQuery.now();
+		
+		var date1 = new Date(stamp);
+		trace(date1);
+	}
 	
 	this.z_________DATA_FUNCTIONS_______ = function(){};
 	

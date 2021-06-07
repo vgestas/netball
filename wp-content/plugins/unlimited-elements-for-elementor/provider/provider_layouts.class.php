@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
+ * @author unlimited-elements.com
  * @copyright (C) 2012 Unite CMS, All Rights Reserved.
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
@@ -138,8 +138,7 @@ class UniteCreatorLayouts extends UniteCreatorLayoutsWork{
 		
 		$objLayoutType = UniteCreatorAddonType::getAddonTypeObject($layoutType, true);
 		
-		$arrLayouts = $this->getCatLayouts(null, $objLayoutType);
-
+		$arrLayouts = $this->getCatLayouts("all", $objLayoutType);
 		
 		return($arrLayouts);
 	}
@@ -149,9 +148,7 @@ class UniteCreatorLayouts extends UniteCreatorLayoutsWork{
 	 * get category layouts. category id can be null, all number or 0 (uncategorized)
 	 */ 	 
 	public function getCatLayouts($catID = null, $objLayoutType=null, $onlyRecords = false, $options = array()){
-		
-		//UniteFunctionsUC::showTrace();dmp("get layouts");dmp($options);
-		
+				
 		$postType = null;
 		
 		$sortBY = UniteFunctionsWPUC::SORTBY_MENU_ORDER;
@@ -205,7 +202,7 @@ class UniteCreatorLayouts extends UniteCreatorLayoutsWork{
 		//if parent id is 'all' - get all the layouts of the category
 		if($parentID !== "all")
 			$arrParams["post_parent"] = $parentID;
-		
+					
 		//add search
 		$filterSearch = UniteFunctionsUC::getVal($options, "filter_search");
 		
@@ -213,8 +210,7 @@ class UniteCreatorLayouts extends UniteCreatorLayoutsWork{
 			$arrParams["title_filter"] = $filterSearch;
 		
 		$arrPosts = UniteFunctionsWPUC::getPostsByType($postType, $sortBY, $arrParams, true);
-		
-		
+				
 		//dmp("get cat layouts");dmp($arrPosts);exit();
 		
 		//don't add the parent post as well

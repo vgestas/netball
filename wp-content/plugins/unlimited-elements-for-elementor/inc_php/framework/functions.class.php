@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -166,6 +166,22 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			}
 			
 			return($arrNew);
+		}
+		
+		/**
+		 * remove some of the assoc array fields
+		 * fields is simple array - field1, field2, field3
+		 */
+		public static function removeArrItemsByKeys($arrItems, $keysToRemove){
+			
+			foreach($keysToRemove as $key){
+				
+				if(array_key_exists($key, $arrItems))
+					unset($arrItems[$key]);
+			
+			}
+			
+			return($arrItems);
 		}
 		
 		
@@ -605,6 +621,50 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				
 		}
 		
+		/**
+		 * merge arrays with unique ids
+		 */
+		public static function mergeArraysUnique($arr1, $arr2, $arr3 = array()){
+						
+			if(empty($arr2) && empty($arr3))
+				return($arr1);
+			
+			$arrIDs = array_merge($arr1, $arr2, $arr3);
+			$arrIDs = array_unique($arrIDs);
+			
+			return($arrIDs);
+		}
+		
+		/**
+		 * modify data array for show - for DEBUG purposes
+		 * convert single array like in post meta
+		 */
+		public static function modifyDataArrayForShow($arrData, $convertSingleArray = false){
+			
+			if(is_array($arrData) == false)
+				return($arrData);
+			
+			$arrDataNew = array();
+			foreach($arrData as $key=>$value){
+				
+				$key = htmlspecialchars($key);			
+				
+				if(is_string($value) == true)
+					$value = htmlspecialchars($value);
+				
+				$key = " $key";
+				
+				$arrDataNew[$key] = $value;
+				
+				//convert single array
+				if($convertSingleArray == true && is_array($value) && count($value) == 1 && isset($value[0]))
+					$arrDataNew[$key] = $value[0];
+				
+			}
+			
+			return($arrDataNew);
+		}
+		
 		
 		public static function z_____________STRINGS_____________(){}
 		
@@ -667,7 +727,10 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		public static function getRandomString($length = 10, $numbersOnly = false){
 		
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-			if($numbersOnly == true)
+			
+			if($numbersOnly === "hex")
+				$characters = '0123456789abcdef';
+			if($numbersOnly === true)
 				$characters = '0123456789';
 				
 			$randomString = '';
@@ -1228,7 +1291,8 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				if(!empty($strPost))
 					$url = self::addUrlParams($url, $strPost);
 			}
-						
+			
+			
 			//remove me
 			//Functions::addToLogFile(SERVICE_LOG_SERVICE, "url", $url);
 		
@@ -1246,7 +1310,8 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		
 			$response = curl_exec($ch);
-						
+			
+			
 			if($debug == true){
 				dmp($url);
 				dmp($response);
@@ -1333,6 +1398,23 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			
 			return($url);
 		}
+		
+		/**
+		 * get base url from any url
+		 */
+		public static function getBaseUrl($url){
+			
+			$arrUrl = parse_url($url);
+			
+			$scheme = UniteFunctionsUC::getVal($arrUrl, "scheme","http");
+			$host = UniteFunctionsUC::getVal($arrUrl, "host");
+			$path = UniteFunctionsUC::getVal($arrUrl, "path");
+			
+			$url = "{$scheme}://{$host}{$path}";
+			
+			return($url);
+		}
+		
 		
 		public static function z___________VALIDATIONS_________(){}
 		
@@ -1520,6 +1602,26 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			if($match == 0)
 				self::throwError("Field <b>$fieldName</b> allow only numbers and comas.");
 				
+		}
+		
+		/**
+		 * return if the array is id's array
+		 */
+		public static function isValidIDsArray($arr){
+			
+			if(is_array($arr) == false)
+				return(false);
+				
+			if(empty($arr))
+				return(true);
+			
+			foreach($arr as $key=>$value){
+				
+				if(is_numeric($key) == false || is_numeric($value) == false)
+					return(false);
+			}
+
+			return(true);
 		}
 		
 		
@@ -2101,9 +2203,10 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		}
 		
 		
-		
 		public static function z___________OTHERS__________(){}
 
+		
+		
 		/**
 		 * encode svg to bg image url
 		 */

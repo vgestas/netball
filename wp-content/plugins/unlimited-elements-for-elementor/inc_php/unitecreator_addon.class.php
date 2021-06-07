@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -134,17 +134,29 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			
 			$arrParams = $this->objProcessor->initProcessParams($arrParams);
 			
+			$arrElementorTakenNames = array(
+				"animation_duration"=>true
+			);
+						
 			$arrNames = array();
 			foreach($arrParams as $param){
+				
 				$name = UniteFunctionsUC::getVal($param, "name");
 				if(empty($name))
 					UniteFunctionsUC::throwError("Empty param name found");
 				
 				if(isset($arrNames[$name])){
-					$message = "Duplicate $type param name found: <b> $name </b>";
+					$message = "Duplicate $type attribute name found: <b> $name </b>";
 					if(in_array($name, array("link","image","thumb","title","enable_link")))
 						$message .= ". <br> The <b>$name</b> param is included in the image base params";
 						
+					UniteFunctionsUC::throwError($message);
+				}
+								
+				//check for elementor taken name
+				if(isset($arrElementorTakenNames[$name])){
+					
+					$message = "The attribute name: <b> $name </b> is taken by elementor built in attribute. Please use different name";
 					UniteFunctionsUC::throwError($message);
 				}
 				
@@ -2064,6 +2076,80 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			return($arrAddon);
 		}
 		
+		private function a__________SET_PARAM_VALUES________(){}
+		
+		/**
+		 * set responsive param values from another fields if available
+		 */
+		private function setResponsiveParamValues($param, $name, $arrValues){
+			
+			//dmp($arrValues);
+			
+			$isResponsive = UniteFunctionsUC::getVal($param, "is_responsive");
+			$isResponsive = UniteFunctionsUC::strToBool($isResponsive);
+						
+			if($isResponsive == false)
+				return($param);
+			
+			if(isset($arrValues[$name."_tablet"]) == false)
+				return($param);
+
+			$defaultValueTablet = UniteFunctionsUC::getVal($param, "default_value_tablet");
+			$defaultValueMobile = UniteFunctionsUC::getVal($param, "default_value_mobile");
+			
+			$param["value_tablet"] = UniteFunctionsUC::getVal($arrValues, $name."_tablet", $defaultValueTablet);
+			$param["value_mobile"] = UniteFunctionsUC::getVal($arrValues, $name."_mobile", $defaultValueMobile);
+						
+			return($param);
+		}	
+		
+		
+		/**
+		 * set params values work
+		 * type: main,items
+		 */
+		private function setParamsValuesWork($arrValues, $arrParams, $type){
+						
+			$this->validateInited();
+			
+			if(empty($arrValues))
+				return($arrParams);
+			
+			if(!is_array($arrValues))
+				UniteFunctionsUC::throwError("The values shoud be array");
+			
+			
+			foreach($arrParams as $key => $param){
+			    
+			    
+				$name = UniteFunctionsUC::getVal($param, "name");
+				
+				if(empty($name))
+					continue;
+				
+				$defaultValue = UniteFunctionsUC::getVal($param, "default_value");
+				
+				$type = UniteFunctionsUC::getVal($param, "type");
+				
+				$value = UniteFunctionsUC::getVal($arrValues, $name, $defaultValue);
+				
+				$value = $this->objProcessor->getSpecialParamValue($type, $name, $value, $arrValues);
+				
+				$param["value"] = $value;
+								
+				$param = $this->setResponsiveParamValues($param, $name, $arrValues);
+				
+				$param = $this->objProcessor->setExtraParamsValues($type, $param, $name, $arrValues);
+								
+				//set responsive values								
+				$arrParams[$key] = $param;
+				
+			}
+			
+			return($arrParams);
+		}
+		
+		
 		private function a__________SETTERS________(){}
 		
 		/**
@@ -2136,71 +2222,6 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		}
 		
 		
-		/**
-		 * set responsive param values from another fields if available
-		 */
-		private function setResponsiveParamValues($param, $name, $arrValues){
-			
-			//dmp($arrValues);
-			
-			$isResponsive = UniteFunctionsUC::getVal($param, "is_responsive");
-			$isResponsive = UniteFunctionsUC::strToBool($isResponsive);
-						
-			if($isResponsive == false)
-				return($param);
-			
-			if(isset($arrValues[$name."_tablet"]) == false)
-				return($param);
-
-			$defaultValueTablet = UniteFunctionsUC::getVal($param, "default_value_tablet");
-			$defaultValueMobile = UniteFunctionsUC::getVal($param, "default_value_mobile");
-			
-			$param["value_tablet"] = UniteFunctionsUC::getVal($arrValues, $name."_tablet", $defaultValueTablet);
-			$param["value_mobile"] = UniteFunctionsUC::getVal($arrValues, $name."_mobile", $defaultValueMobile);
-						
-			return($param);
-		}	
-		
-		/**
-		 * set params values work
-		 * type: main,items
-		 */
-		private function setParamsValuesWork($arrValues, $arrParams, $type){
-							
-			$this->validateInited();
-			
-			if(empty($arrValues))
-				return($arrParams);
-			
-			if(!is_array($arrValues))
-				UniteFunctionsUC::throwError("The values shoud be array");
-			
-			foreach($arrParams as $key => $param){
-			    
-				$name = UniteFunctionsUC::getVal($param, "name");
-				
-				if(empty($name))
-					continue;
-				
-				$defaultValue = UniteFunctionsUC::getVal($param, "default_value");
-				
-				$type = UniteFunctionsUC::getVal($param, "type");
-				
-				$value = UniteFunctionsUC::getVal($arrValues, $name, $defaultValue);
-				
-				$value = $this->objProcessor->getSpecialParamValue($type, $name, $value, $arrValues);
-				
-				$param["value"] = $value;
-				
-				$param = $this->setResponsiveParamValues($param, $name, $arrValues);
-				
-				//set responsive values								
-				$arrParams[$key] = $param;
-				
-			}
-						
-			return($arrParams);
-		}
 		
 		
 		/**

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net / Valiano
+ * @author unlimited-elements.com / Valiano
  * @copyright (C) 2012 Unite CMS, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
@@ -66,10 +66,7 @@ class GlobalsUnlimitedElements{
    	public static function initGlobals(){
    		
    		self::$urlTemplatesList = admin_url("edit.php?post_type=elementor_library&tabs_group=library");
-		   		
-   		if(Globalsuc::$inDev == true)
-   			self::$enableCPT = true;
-   		
+		
    		
    	}
    	

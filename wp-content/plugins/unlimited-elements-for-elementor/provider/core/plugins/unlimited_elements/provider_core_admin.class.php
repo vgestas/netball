@@ -26,7 +26,7 @@ class UniteProviderCoreAdminUC_Elementor extends UniteProviderAdminUC{
 				"settingselementor", 
 				"troubleshooting-overload",
 				"troubleshooting-memory-usage",
-				"troubleshooting-api-access",
+				"troubleshooting-connectivity",
 				"testaddon",
 				"addon",
 				"addondefaults",

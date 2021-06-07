@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -23,6 +23,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		private static $isPutAnimations = false;
 		private static $arrLogMemory = array();
 		private static $arrHashCache = array();
+		private static $arrRunOnceCache = array();
 		private static $arrLocalText = array();
 		private static $arrDebug;
 		private static $hasOutput = false;
@@ -264,6 +265,22 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			return($arrInfoComputed);
 		}
 		
+		/**
+		 * return true / false if the value already appeared
+		 * used for run code once functionality
+		 */
+		public static function isRunCodeOnce($key){
+			
+			$isAlreadyRun = UniteFunctionsUC::getVal(self::$arrRunOnceCache, $key);
+			
+			if($isAlreadyRun === true)
+				return(false);
+			
+			self::$arrRunOnceCache[$key] = true;
+			
+			return(true);
+		}
+		
 		
 		public static function a_______DEBUG________(){}
 		
@@ -301,7 +318,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			
 			return(self::$arrDebug);
 		}
-		
+
 		
 		
 		public static function a_______NOTICES________(){}
@@ -718,6 +735,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 			
 			return($alias);
 		}
+		
 		
 		
 		/**
@@ -1297,7 +1315,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				$handle = GlobalsUC::PLUGIN_NAME."-".$scriptName;
 
 			$url = GlobalsUC::$urlPlugin .$folder."/".$scriptName.".js";
-						
+			
 			UniteProviderFunctionsUC::addScript($handle, $url, $inFooter);
 		}
 		
@@ -1582,7 +1600,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 	    	
 			if(isset($_GET["elementor-preview"]))
 				return(true);
-	    	    	
+	    	
 	    	$argPost = UniteFunctionsUC::getPostGetVariable("post", "", UniteFunctionsUC::SANITIZE_KEY);
 	    	$argAction = UniteFunctionsUC::getPostGetVariable("action", "", UniteFunctionsUC::SANITIZE_KEY);
 	    	

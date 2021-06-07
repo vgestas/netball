@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -107,12 +107,16 @@ class HelperInstaUC{
 		}
 
 		//add renew link
+		
+		$htmlLink = null;
+		
 		if($expireDays < 60){
 			$linkRenew = HelperUC::getUrlAjax("renew_instagram_access_token");
 			$htmlLink = HelperHtmlUC::getHtmlLink($linkRenew, "renew access token");
 		}
 		
-		$html .= " ".$htmlLink;
+		if(!empty($htmlLink))
+			$html .= " ".$htmlLink;
 		
 		return($html);
 	}

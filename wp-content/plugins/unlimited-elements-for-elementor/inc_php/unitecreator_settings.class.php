@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -41,6 +41,8 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			
 			$param = array();
 			$origType = UniteFunctionsUC::getVal($setting, "origtype");
+			$function = UniteFunctionsUC::getVal($setting, "function");
+			
 			UniteFunctionsUC::validateNotEmpty($origType, "settings original type for: $settingName");
 			
 			$param["type"] = $origType;
@@ -50,6 +52,8 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			$param["default_value"] = UniteFunctionsUC::getVal($setting, "default_value");
 			$param["placeholder"] = UniteFunctionsUC::getVal($setting, "placeholder");
 			
+			if(!empty($function))
+				$param["function"] = $function;
 			
 			$classAdd = UniteFunctionsUC::getVal($setting, UniteSettingsUC::PARAM_CLASSADD);
 			if(!empty($classAdd))
@@ -67,6 +71,13 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			if(!empty($elementorCondition))
 				$param["elementor_condition"] = $elementorCondition;
 			
+			$addDynamic = UniteFunctionsUC::getVal($setting, "add_dynamic");
+			$addDynamic = UniteFunctionsUC::strToBool($addDynamic);
+
+			if($addDynamic)
+				$param["add_dynamic"] = true;
+			
+				
 			$labelBlock = UniteFunctionsUC::getVal($setting, "label_block");	//label block
 			if(!empty($labelBlock))
 				$param["label_block"] = $labelBlock;
@@ -120,7 +131,7 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			UniteFunctionsUC::throwError("the settings should be empty for this operation");
 		
 		$this->addByCreatorParam($param);
-    	    	
+    	
 		$arrParams = $this->getSettingsCreatorFormat();
 		
 		return($arrParams);
@@ -207,7 +218,15 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 		dmp("addPostsListPicker - function for override");
 		exit();
 	}
-
+	
+	/**
+	 * add listing picker, function for override
+	 */
+	protected function addListingPicker($name,$value,$title,$extra){
+		
+		dmp("addListingPicker - function for override");
+		exit();
+	}
 	
 	/**
 	 * add post terms settings
@@ -225,6 +244,15 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 	protected function addUsersPicker($name,$value,$title,$extra){
 		
 		dmp("addUsersPicker - function for override");
+		exit();
+	}
+	
+	/**
+	 * add template picker
+	 */
+	protected function addTemplatePicker($name,$value,$title,$extra){
+		
+		dmp("addTemplatePicker - function for override");
 		exit();
 	}
 	
@@ -463,6 +491,9 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			case UniteCreatorDialogParam::PARAM_POST_TERMS:
 			case UniteCreatorDialogParam::PARAM_WOO_CATS:
 			case UniteCreatorDialogParam::PARAM_USERS:
+			case UniteCreatorDialogParam::PARAM_TEMPLATE:
+			case "uc_filters_repeater_params":
+			case UniteCreatorDialogParam::PARAM_LISTING:
 				
 				return(true);
 			break;
@@ -503,10 +534,18 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 	}
 	
 	/**
+	 * add filters item selector
+	 */
+	protected function addFiltersItemSelector($param){
+		
+		dmp("addFiltersItemSelector - function for override");
+		exit();
+	}
+	
+	/**
 	 * add setting by creator param
 	 */
 	public function addByCreatorParam($param, $inputValue = null){
-		
 		
 		//add ready setting if exists
 		$arrReadySetting = UniteFunctionsUC::getVal($param, "uc_setting"); 
@@ -515,9 +554,7 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			$classAdd = UniteFunctionsUC::getVal($arrReadySetting, UniteSettingsUC::PARAM_CLASSADD);
 			
 			$arrReadySetting[UniteSettingsUC::PARAM_CLASSADD] = $classAdd;
-			
-			// if($inputValue !== null) - vc hack - fields should not be empty
-			
+						
 			if(!empty($inputValue))	
 				$arrReadySetting["value"] = $inputValue;
 			
@@ -553,18 +590,20 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			if(!empty($attributeValue))
 				$extra[$attributeName] = $attributeValue;
 		}
-				
+
+		$isMultipleSettingType = self::isMultipleUCSettingType($type);
 		
 		$isUpdateValue = true;
 		
-		$isMultipleSettingType = self::isMultipleUCSettingType($type);
 		if($isMultipleSettingType && !empty($inputValue)){
 			$value = $inputValue;
 			$isUpdateValue = false;
 		}
-		
-		
+				
 		switch ($type){
+			case "uc_filters_repeater_params":
+				$this->addFiltersItemSelector($param);				
+			break;
 			case "uc_editor":
 				$this->addEditor($name, $value, $title, $extra);
 			break;
@@ -616,6 +655,13 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 				$options = UniteFunctionsUC::getVal($param, "options");
 				
 				$this->addSelect($name, $options, $title, $value, $extra);
+			break;
+			case UniteCreatorDialogParam::PARAM_MULTIPLE_SELECT:
+				
+				$options = UniteFunctionsUC::getVal($param, "options");
+				
+				$this->addMultiSelect($name, $options, $title, $value, $extra);
+				
 			break;
 			case "uc_colorpicker":
 				$this->addColorPicker($name, $value, $title, $extra);
@@ -670,17 +716,32 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			case UniteCreatorDialogParam::PARAM_POSTS_LIST:
 				
 				$extra["for_woocommerce_products"] = UniteFunctionsUC::getVal($param, "for_woocommerce_products");
-								
+				$extra["default_max_posts"] = UniteFunctionsUC::getVal($param, "default_max_posts");
+				
 				$this->addPostsListPicker($name,$value,$title,$extra);
 			break;
 			case UniteCreatorDialogParam::PARAM_POST_TERMS:
+				
+				$extra["for_woocommerce"] = UniteFunctionsUC::getVal($param, "for_woocommerce");
+				
 				$this->addPostTermsPicker($name,$value,$title,$extra);
 			break;
 			case UniteCreatorDialogParam::PARAM_WOO_CATS:
 				$this->addWooCatsPicker($name,$value,$title,$extra);
-			break;			
+			break;
+			case UniteCreatorDialogParam::PARAM_LISTING:
+				
+				$this->addListingPicker($name,$value,$title,$param);
+			
+			break;
+			case UniteCreatorDialogParam::PARAM_WOO_CATS:
+				$this->addWooCatsPicker($name,$value,$title,$extra);
+			break;
 			case UniteCreatorDialogParam::PARAM_USERS:
 				$this->addUsersPicker($name,$value,$title,$extra);
+			break;
+			case UniteCreatorDialogParam::PARAM_TEMPLATE:
+				$this->addTemplatePicker($name,$value,$title,$extra);
 			break;
 			case UniteCreatorDialogParam::PARAM_DATASET:
 				
@@ -700,6 +761,7 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			break;
 			case UniteCreatorDialogParam::PARAM_PADDING:
 			case UniteCreatorDialogParam::PARAM_MARGINS:
+			case UniteCreatorDialogParam::PARAM_BORDER_DIMENTIONS:
 				
 				$prefix = "desktop_";
 				
@@ -775,6 +837,16 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 			case UniteCreatorDialogParam::PARAM_BOXSHADOW:
 				
 				$this->addVisibleInElementorOnlySetting("Box Shadow");
+				
+			break;
+			case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
+				
+				$this->addVisibleInElementorOnlySetting("Css Filters");
+				
+			break;
+			case UniteCreatorDialogParam::PARAM_HOVER_ANIMATIONS:
+
+				$this->addVisibleInElementorOnlySetting("Hover Animations");
 				
 			break;
 			case UniteCreatorDialogParam::PARAM_DATETIME:
@@ -883,7 +955,7 @@ class UniteCreatorSettingsWork extends UniteSettingsAdvancedUC{
 	 * add settings by creator params
 	 */
 	public function initByCreatorParams($arrParams){
-				
+		
 		foreach($arrParams as $param){
 			$this->addByCreatorParam($param);
 		}

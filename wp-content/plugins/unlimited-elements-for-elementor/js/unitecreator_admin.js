@@ -573,7 +573,7 @@ function UniteCreatorAdmin(){
 		jQuery("#uc_tab_itemattr .unite_settings_wrapper").hide();
 		
 		var itemTabText = param["items_panel_text"];
-				
+		
 		jQuery(".uc-postsitems-related").remove();
 		jQuery("#uc_tab_itemattr").append("<div class='uc-postsitems-related'>"+itemTabText+"</div>");
 		
@@ -758,12 +758,22 @@ function UniteCreatorAdmin(){
 		//modify params for js
 		if(hasItems == true){
 			
-			//put extra js functions
-			var textPutItemsJson = "var strJsonItems = {{put_items_json()}};";
+			//put extra js functions - put_items_json
+			var textPutItemsJson = "{#use put_items_json(\"clean\") to remove extra data#}";
+			textPutItemsJson += "\nvar strJsonItems = {{put_items_json()}};";
 			textPutItemsJson += "\nvar objItems = JSON.parse(strJsonItems);";
-			textPutItemsJson += "\nconsole.log(objItems)";
+			textPutItemsJson += "\nconsole.log(objItems);";
 			
 			var paramPutItemJs = {type:"uc_function", name:"put_items_json()","raw_insert_text":textPutItemsJson};
+				
+			//put extra js functions - put_attributes_json
+			var textPutAttributesJson = "{#use put_attributes_json(\"clean\") to remove extra data#}";
+			textPutAttributesJson += "\nvar strJsonAttributes = {{put_attributes_json()}};";
+			textPutAttributesJson += "\nvar objAttributes = JSON.parse(strJsonAttributes);";
+			textPutAttributesJson += "\nconsole.log(objAttributes);";
+			
+			var paramPutAttributesJs = {type:"uc_function", name:"put_attributes_json()","raw_insert_text":textPutAttributesJson};
+			
 			
 			var textGetItems = "{# Generate javascript array from items using twig#}";
 			textGetItems += "\n{% set itemsForJs = get_items() %}";
@@ -779,8 +789,10 @@ function UniteCreatorAdmin(){
 					"raw_insert_text":textGetItems
 			};
 			
-			arrParamsForJS.unshift(paramGetItemJs);
+			arrParamsForJS.unshift(paramPutAttributesJs);
 			arrParamsForJS.unshift(paramPutItemJs);
+			arrParamsForJS.unshift(paramGetItemJs);
+			
 		}
 		
 		arrParamsForJS = paramsPanelMainSync_addEndingParamsJS(arrParamsForJS);
@@ -1804,6 +1816,7 @@ function UniteCreatorAdmin(){
 			case "main":
 				var arrData = g_paramsEditorMain.getParamsData("control", true);
 			break;
+			case "items":
 			case "item":
 				var arrData = g_paramsEditorItems.getParamsData("control", true);
 			break;

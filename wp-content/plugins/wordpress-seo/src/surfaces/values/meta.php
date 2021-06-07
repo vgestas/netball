@@ -16,7 +16,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Meta value object.
  *
  * @property array       $breadcrumbs                       The breadcrumbs array for the current page.
- * @property bool        $breadcrumbs_enabled               Whether breadcrumbs are enabled or not.
  * @property string      $canonical                         The canonical URL for the current page.
  * @property string      $company_name                      The company name from the Knowledge graph settings.
  * @property int         $company_logo_id                   The attachment ID for the company logo.
@@ -122,7 +121,7 @@ class Meta {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
-			$callback   = function ( $presenter ) {
+			$callback   = static function ( $presenter ) {
 				return ! \is_a( $presenter, Rel_Next_Presenter::class )
 					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
 			};

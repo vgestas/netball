@@ -22,6 +22,8 @@ class UniteProviderFunctionsUC{
 		$tablePrefix = $wpdb->prefix;
 		
 		self::$tablePrefix = $tablePrefix;
+		GlobalsUC::$table_prefix = $tablePrefix;
+		
 		self::$tablePosts = $tablePrefix."posts";
 		self::$tablePostMeta = $tablePrefix."postmeta";
 				
@@ -215,7 +217,7 @@ class UniteProviderFunctionsUC{
 		$version = UNLIMITED_ELEMENTS_VERSION;
 		if(GlobalsUC::$inDev == true)
 			$version = time();
-		
+				
 		wp_register_script($handle , $url, $deps, $version, $inFooter);
 		wp_enqueue_script($handle);
 	}
@@ -310,12 +312,16 @@ class UniteProviderFunctionsUC{
 	 * filter variable
 	 */
 	public static function sanitizeVar($var, $type){
-	
+		
 		switch($type){
 			case UniteFunctionsUC::SANITIZE_ID:
+				
+				if(is_array($var))
+					return(null);
+				
 				if(empty($var))
 					return("");
-		
+				
 				$var = (int)$var;
 				$var = abs($var);
 	
@@ -324,6 +330,10 @@ class UniteProviderFunctionsUC{
 			
 			break;
 			case UniteFunctionsUC::SANITIZE_KEY:
+				
+				if(is_array($var))
+					return(null);
+				
 				$var = sanitize_key($var);
 			break;
 			case UniteFunctionsUC::SANITIZE_TEXT_FIELD:
@@ -496,12 +506,21 @@ class UniteProviderFunctionsUC{
 	 * add system contsant data to template engine
 	 */
 	public static function addSystemConstantData($data){
-
-		$data["uc_platform_title"] = "WordPress";
-		$data["uc_platform"] = "blox_wp";
 		
 		$data["uc_url_home"] = get_home_url();
 		$data["uc_url_blog"] = UniteFunctionsWPUC::getUrlBlog();
+		
+		$isWPMLExists = UniteCreatorWpmlIntegrate::isWpmlExists();
+		if($isWPMLExists == true){
+			
+			$objWpml = new UniteCreatorWpmlIntegrate();
+			$activeLanguage = $objWpml->getActiveLanguage();
+			
+			$data["uc_lang"] = $activeLanguage;
+		}
+    	
+		$isInsideEditor = UniteCreatorElementorIntegrate::$isEditMode;
+		$data["uc_inside_editor"] = $isInsideEditor?"yes":"no";
 		
 		return($data);
 	}

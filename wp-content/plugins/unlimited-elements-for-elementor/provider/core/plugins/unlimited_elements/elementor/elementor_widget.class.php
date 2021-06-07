@@ -10,8 +10,11 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Scheme_Typography;
+use Elementor\Group_Control_Css_Filter;
+use Elementor\Core\Schemes\Typography;
 use Elementor\Core\Schemes;
+use Elementor\Repeater;
+use Elementor\Utils;
 
 
 class UniteCreatorElementorWidget extends Widget_Base {
@@ -243,7 +246,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	 * put scripts
      */
     public function get_script_depends() {
-    	    	
+    	 
     	$isEditMode = $this->isEditMode();
     	 
     	if($isEditMode == true)
@@ -351,6 +354,10 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	
     	switch($type){
     		case UniteCreatorDialogParam::PARAM_IMAGE:
+    			
+    			if(empty($value))
+    				$value = Utils::get_placeholder_image_src();
+    			
     			if(is_numeric($value))    				
     				$value = array("id"=>$value);
     			else
@@ -438,8 +445,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	
     	return $arrItemsData;
     }
-    
-    
+        
     /**
      * add items controls
      */
@@ -453,33 +459,53 @@ class UniteCreatorElementorWidget extends Widget_Base {
                 'label' => esc_html__("Items", "unlimited-elements-for-elementor"),
                     )
           );
-    	 
+          
+		 $repeater = new Repeater();
+          
          $paramsItems = $this->objAddon->getProcessedItemsParams();
-
          $paramsItems = $this->addDynamicAttributes($paramsItems);
-         
          
          $titleField = null;
          
-         $arrFields = array();
          foreach($paramsItems as $param){
-         	
+
          	$name = UniteFunctionsUC::getVal($param, "name");
+         	$type = UniteFunctionsUC::getVal($param, "type");
+         	
          	if($name == "title")
          		$titleField = $name;
-         	         	
-         	$arrControl = $this->getControlArrayUC($param, true);
+         	         		
+         	if($name == "uc_filters_item_selector"){
+         		
+         		$param["type"] = "uc_filters_repeater_params";
+         		$this->addElementorParamUC($param, $repeater);
+         		continue;
+         	}
+         		
+         	switch($type){
+         		case UniteCreatorDialogParam::PARAM_TEMPLATE:	//convert template to text param
+         			$param["type"] = UniteCreatorDialogParam::PARAM_TEXTFIELD;
+         			$param["name"] .= "_templateid";
+         			$param["placeholder"] = "Put ID only, like 745";
+         			$param["label_block"] = true;   
+         			$name .= "_templateid";
+         		break;
+         	}
          	
-         	$arrFields[] = $arrControl;
+         	$arrControl = $this->getControlArrayUC($param, true);
+         	$repeater->add_control($name, $arrControl);
+         	
+	    	//add some child params
+	    	$this->checkAddRelatedControls($param, $repeater);
+	    	
          }
 		 
          $arrItemsControl = array();
          $arrItemsControl["type"] = Controls_Manager::REPEATER;
-         $arrItemsControl["fields"] = $arrFields;
+         $arrItemsControl["fields"] = $repeater->get_controls();
          
          if(!empty($titleField))
          	$arrItemsControl["title_field"] = "{{{ $titleField }}}";
-         
          
          //---- set default data
          
@@ -491,10 +517,9 @@ class UniteCreatorElementorWidget extends Widget_Base {
          	$arrItemsData = array();
          
          $arrItemsControl["default"] = $arrItemsData;
-         
+		  
          $this->objControls->add_control('uc_items', $arrItemsControl);
-		
-         
+          
          $this->end_controls_section();
     }
     
@@ -506,7 +531,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	if(is_array($value))
     		return($value);
     				
-    				
     	$value = UniteFontManagerUC::fa_convertIconTo5($value);
     	$library = UniteFontManagerUC::fa_getIconLibrary($value);
     			
@@ -516,6 +540,28 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	);
     	
     	return($arrValue);
+    }
+    
+    /**
+     * get elementor condition from the param
+     */
+    private function getControlArrayUC_getCondition($param){
+    	
+    	$conditionAttribute = UniteFunctionsUC::getVal($param, "condition_attribute");
+    	$conditionOperator = UniteFunctionsUC::getVal($param, "condition_operator");
+    	$conditionValue = UniteFunctionsUC::getVal($param, "condition_value");
+    	
+    	if(empty($conditionAttribute))
+    		return(null);
+    		
+    	$arrCondition = array();
+    	
+    	if($conditionAttribute == "not_equal")
+    		$conditionValue = "!".$conditionValue;
+    	
+    	$arrCondition[$conditionAttribute] = $conditionValue;
+    		
+    	return($arrCondition);
     }
     
     
@@ -541,7 +587,13 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	$description = trim($description);
     	$placeholder = trim($placeholder);
     	
-    	    	
+    	$enableCondition = UniteFunctionsUC::getVal($param, "enable_condition");
+    	$enableCondition = UniteFunctionsUC::strToBool($enableCondition);
+
+    	//set condition
+    	if(empty($elementorCondition) && $enableCondition == true)
+    		$elementorCondition = $this->getControlArrayUC_getCondition($param);
+    	
     	if(isset($param["value"]))
     		$value = $param["value"];
     	
@@ -556,7 +608,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	switch($type){
     		case UniteCreatorDialogParam::PARAM_TEXTFIELD:
     			$controlType = Controls_Manager::TEXT;
-    			if($disabled === true){		//show disabled input raw html
+    			if($disabled === true){		//show disabled input rawadd_dynamic html
 					$arrControl['classes'] = "uc-elementor-control-disabled";
     			}
     				
@@ -615,9 +667,10 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			}
     			else
     				$controlType = Controls_Manager::SELECT;
-    			
-    				
+    			   
     		break;
+    		case UniteCreatorDialogParam::PARAM_MULTIPLE_SELECT:
+    				$isMultiple = true;
     		case "select2":
     				$controlType = Controls_Manager::SELECT2;
     				$arrControl["label_block"] = true;
@@ -666,6 +719,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		break;
     		case UniteCreatorDialogParam::PARAM_MARGINS:
     		case UniteCreatorDialogParam::PARAM_PADDING:
+    		case UniteCreatorDialogParam::PARAM_BORDER_DIMENTIONS:
     			$controlType = Controls_Manager::DIMENSIONS;
     		break;
     		case UniteCreatorDialogParam::PARAM_BACKGROUND:    			
@@ -686,10 +740,18 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     			$controlType = Group_Control_Box_Shadow::get_type();
     		break;
+    		case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
+    			$controlType = Group_Control_Css_Filter::get_type();
+    		break;
+    		case UniteCreatorDialogParam::PARAM_HOVER_ANIMATIONS:
+    			$controlType = Controls_Manager::SELECT;
+    		break;
+    		
     		default:
     			
     			dmp("param not found");
     			dmp($param);
+    			UniteFunctionsUC::showTrace();
     			UniteFunctionsUC::throwError("Wrong param type: ".$type);
     		break;
     	}
@@ -697,7 +759,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	//------- add special params ---------
     	
     	$value = $this->modifyValueByTypeUC($type, $value);
-    	
     	
     	if(empty($controlType)){
     		dmp("empty control param type");
@@ -709,7 +770,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	$arrControl["label"] = $title;
     	
     	$arrControl["default"] = $value;
-    	
     	
     	//add options
     	switch($type){
@@ -726,15 +786,26 @@ class UniteCreatorElementorWidget extends Widget_Base {
 				$arrControl["addparams"] = $addParams;
 				
     		case "select2":
+			case UniteCreatorDialogParam::PARAM_MULTIPLE_SELECT:
     		case UniteCreatorDialogParam::PARAM_DROPDOWN:
     		    
     			$options = UniteFunctionsUC::getVal($param, "options", array());
     			$options = array_flip($options);
     			$arrControl["options"] = $options;
     			
-    			if($isMultiple == true)
+    			if($isMultiple == true){
     				$arrControl["multiple"] = true;
+    				
+    				if(is_array($value) == false){
+    					if(empty($value))
+    						$arrControl["default"] = array();
+    					else
+    						$arrControl["default"] = array($value);
+    				}
+    					
+    			}
 
+    			
     			$isResponsive = UniteFunctionsUC::getVal($param, "is_responsive");
     			
     			if($isResponsive == true){
@@ -752,7 +823,8 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		break;
     		case UniteCreatorDialogParam::PARAM_PADDING:
     		case UniteCreatorDialogParam::PARAM_MARGINS:
-    			
+    		case UniteCreatorDialogParam::PARAM_BORDER_DIMENTIONS:
+    				
     			$arrControl["size_units"] = array("px","%");
     			
     			$isResponsive = UniteFunctionsUC::getVal($param, "is_responsive");
@@ -800,8 +872,14 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			$selector = UniteFunctionsUC::getVal($param, "selector");
     			
     			$attribute = "margin";
-    			if($type == UniteCreatorDialogParam::PARAM_PADDING)
-    				$attribute = "padding";
+    			switch($type){
+    				case UniteCreatorDialogParam::PARAM_PADDING:
+    					$attribute = "padding";
+    				break;
+    				case UniteCreatorDialogParam::PARAM_BORDER_DIMENTIONS:
+    					$attribute = "border-radius";
+    				break;
+    			}
     			
     			if(!empty($selector)){
     				$selector = $this->addWrapperToSelector($selector);
@@ -856,7 +934,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			$arrWidthMobile["bottom"] = UniteFunctionsUC::getVal($param, "width_mobile_bottom");
     			$arrWidthMobile["left"] = UniteFunctionsUC::getVal($param, "width_mobile_left");
     			$arrWidthMobile["right"] = UniteFunctionsUC::getVal($param, "width_mobile_right");
-    			
     			
     			$arrDefaults["width"] = array(
     				"label"=>$title." ".__("Width","unlimited-elements-for-elementor"),
@@ -941,7 +1018,17 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			if(!isset($arrDefaults["background"]))
     				$arrDefaults["background"] = array();
     			
+    			//default label
     			$arrDefaults["background"]["label"] = $title;
+    			
+    			if(!isset($arrDefaults["color"]))
+    				$arrDefaults["color"] = array();
+    			
+    			if(!isset($arrDefaults["image"]))
+    				$arrDefaults["image"] = array();
+    			
+    			$arrDefaults["color"]["label"] = $title. " ".__("Color", "unlimited-elements-of-elementor");
+    			$arrDefaults["image"]["label"] = $title." ".__("Image", "unlimited-elements-of-elementor");
     			
     			if(!empty($arrDefaults)){
     				
@@ -1068,10 +1155,31 @@ class UniteCreatorElementorWidget extends Widget_Base {
 				);
 				
 				$arrControl["fields_options"] = $arrDefaults;
-								
+				
     		break;
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     			$arrControl["name"] = $name;
+					
+				$arrDefaults["box_shadow_type"] = array(
+					'label' => $title
+				);
+				
+				$arrControl["fields_options"] = $arrDefaults;
+    			
+    		break;
+    		case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
+    			$arrControl["name"] = $name;
+    		break;
+    		case UniteCreatorDialogParam::PARAM_HOVER_ANIMATIONS:
+    			
+    			$arrControl["name"] = $name;
+    			
+    			$options = HelperProviderCoreUC_EL::getHoverAnimationClasses(true);
+    			    			
+    			$arrControl["options"] = $options;
+    			
+    			$arrControl["default"] = UniteFunctionsUC::getVal($param, "default_value");
+    			
     		break;
     		case UniteCreatorDialogParam::PARAM_ICON_LIBRARY:
     			
@@ -1086,6 +1194,30 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			$arrControl["default"] = $this->getIconArrayValue($value);
     			
     		break;
+    		case UniteCreatorDialogParam::PARAM_DATETIME:
+    			
+    			$showTimePicker = UniteFunctionsUC::getVal($param, "show_time_picker");
+    			$showTimePicker = UniteFunctionsUC::strToBool($showTimePicker);
+    			
+    			if($showTimePicker == false){
+    				$pickerOptions = array();
+    				$pickerOptions["enableTime"] = false;
+    				
+    				$arrControl["picker_options"] = $pickerOptions;
+    			}
+    			
+    			
+    		break;
+    		case UniteCreatorDialogParam::PARAM_GALLERY:
+    			
+    			if(is_string($defaultValue)){
+    				$defaultValue = array();
+    				$arrControl["default"] = $defaultValue;
+    			}
+    			
+    			$param["add_dynamic"] = true;
+    			
+    		break;
     	}
     	
     	//---- add selectors --- 
@@ -1095,6 +1227,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		case UniteCreatorDialogParam::PARAM_BOXSHADOW:
     		case UniteCreatorDialogParam::PARAM_BORDER:
     		case UniteCreatorDialogParam::PARAM_BACKGROUND:
+    		case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
     			
     			$selector = UniteFunctionsUC::getVal($param, "selector");
     			if(!empty($selector)){
@@ -1104,7 +1237,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			}
     			
     		break;		//name value selectors
-    		case UniteCreatorDialogParam::PARAM_COLORPICKER:
+    		case UniteCreatorDialogParam::PARAM_COLORPICKER:    			
     		case UniteCreatorDialogParam::PARAM_NUMBER:
     		case UniteCreatorDialogParam::PARAM_SLIDER:
     		case UniteCreatorDialogParam::PARAM_DROPDOWN:
@@ -1116,7 +1249,23 @@ class UniteCreatorElementorWidget extends Widget_Base {
     				$selector = $this->addWrapperToSelector($selector);
     				$arrControl["selectors"][$selector] = $selectorValue;
     			}
-    			    			
+				
+    			$selector2 = UniteFunctionsUC::getVal($param, "selector2");
+    			$selector2Value = UniteFunctionsUC::getVal($param, "selector2_value");
+    			
+    			if(!empty($selector2)){
+    				$selector2 = $this->addWrapperToSelector($selector2);
+    				$arrControl["selectors"][$selector2] = $selector2Value;
+    			}
+    			
+    			$selector3 = UniteFunctionsUC::getVal($param, "selector3");
+    			$selector3Value = UniteFunctionsUC::getVal($param, "selector3_value");
+    			
+    			if(!empty($selector3)){
+    				$selector3 = $this->addWrapperToSelector($selector3);
+    				$arrControl["selectors"][$selector3] = $selector3Value;
+    			}
+    			
     		break;
     	}
     	
@@ -1146,12 +1295,18 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	//condition
     	if(!empty($elementorCondition)){
     		$arrControl["condition"] = $elementorCondition;
+    		
     	}
     	
     	//label block
     	if($labelBlock === true)
     		$arrControl["label_block"] = true;
-    	    		
+
+    	/*
+    	if($type == "uc_gallery"){    		
+    		dmp($arrControl);exit();}
+    	*/
+    		
     	return($arrControl);
     }
 
@@ -1233,11 +1388,10 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	$arrControl = array();
     	$arrControl["name"] = $controlName;
     	$arrControl["selector"] = $selector;
-    	$arrControl["scheme"] = Scheme_Typography::TYPOGRAPHY_3;
+    	$arrControl["scheme"] = Typography::TYPOGRAPHY_3;
     	
     	if(!empty($title))
     		$arrControl["label"] = $title;
-    	
     	
     	$this->objControls->add_group_control(Group_Control_Typography::get_type(), $arrControl);
     	
@@ -1247,34 +1401,49 @@ class UniteCreatorElementorWidget extends Widget_Base {
     /**
      * add elementor param
      */
-    protected function addElementorParamUC($param){
+    protected function addElementorParamUC($param, $objControls = null){
+    	
+    	if(empty($objControls))
+    		$objControls = $this->objControls;
     	
     	$name = UniteFunctionsUC::getVal($param, "name");
     	$type = UniteFunctionsUC::getVal($param, "type");
     	
     	
     	switch($type){
+    		case "custom_controls":		//add controls by custom function
+    			
+    			$function = UniteFunctionsUC::getVal($param, "function");
+    			if(empty($function))
+    				UniteFunctionsUC::throwError("No function given for 'custom_controls' setting");
+    			
+    			unset($param["function"]);
+    				
+				call_user_func($function, $this->objControls, $param);
+    			
+    		break;
+    		case "uc_filters_repeater_params":
     		case UniteCreatorDialogParam::PARAM_INSTAGRAM:
     		case UniteCreatorDialogParam::PARAM_POST_TERMS:
     		case UniteCreatorDialogParam::PARAM_WOO_CATS:
     		case UniteCreatorDialogParam::PARAM_USERS:
+    		case UniteCreatorDialogParam::PARAM_TEMPLATE:
     		case UniteCreatorDialogParam::PARAM_MENU:
+    		case UniteCreatorDialogParam::PARAM_LISTING:
     			
     			$settings = new UniteCreatorSettings();
-    			  
+    			
     			$arrChildParams = $settings->getMultipleCreatorParams($param);
-    			    			
+    			
     			foreach($arrChildParams as $childParam)
-    				$this->addElementorParamUC($childParam);
+    				$this->addElementorParamUC($childParam,$objControls);
     			
     		break;
     		case UniteCreatorDialogParam::PARAM_POSTS_LIST:
     			
     			$param["all_cats_mode"] = true;
     			
-    			//add current posts settings
-    			$isArchiveLocation = UniteFunctionsWPUC::isArchiveLocation();
-    			    			
+    			//add current posts settings    			   
     			$param["add_current_posts"] = true;
     			
     			$settings = new UniteCreatorSettings();
@@ -1282,7 +1451,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     			$arrChildParams = $settings->getMultipleCreatorParams($param);
     			
     			foreach($arrChildParams as $childParam)
-    				$this->addElementorParamUC($childParam);
+    				$this->addElementorParamUC($childParam, $objControls);
     			
     		break;
     		case UniteCreatorDialogParam::PARAM_TYPOGRAPHY:
@@ -1292,7 +1461,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		break;
     		default:
     			$arrControl = $this->getControlArrayUC($param);
-				    			
+				
     			$type = UniteFunctionsUC::getVal($param, "type");
     			
     			switch($type){
@@ -1300,11 +1469,12 @@ class UniteCreatorElementorWidget extends Widget_Base {
     				case UniteCreatorDialogParam::PARAM_BORDER:
     				case UniteCreatorDialogParam::PARAM_TEXTSHADOW:
     				case UniteCreatorDialogParam::PARAM_BOXSHADOW:
+    				case UniteCreatorDialogParam::PARAM_CSS_FILTERS:
     					
     					$groupType = $arrControl["type"];
-    					
-    					$values = $this->objControls->add_group_control($groupType, $arrControl);
-    					
+    					    					
+    					$values = $objControls->add_group_control($groupType, $arrControl);
+    					    					
     				break;
     				default:
     					
@@ -1313,16 +1483,71 @@ class UniteCreatorElementorWidget extends Widget_Base {
     						
     						unset($arrControl["uc_responsive"]);
     						    						
-    						$this->objControls->add_responsive_control($name, $arrControl);
+    						$objControls->add_responsive_control($name, $arrControl);
     						
     					}else{
     						
-    						$this->objControls->add_control($name, $arrControl);
-    						
+    						$objControls->add_control($name, $arrControl);
     					}
     					    					
     				break;
     			}
+    		break;
+    	}
+    	
+    	//add some child params
+    	$this->checkAddRelatedControls($param, $objControls);
+    	
+    }
+    
+    /**
+     * add image sizes control
+     */
+    private function addImageSizesControl($paramImage, $objControls){
+    	
+    	$type = UniteFunctionsUC::getVal($paramImage, "type");
+    	$title = UniteFunctionsUC::getVal($paramImage, "title");
+    	$name = UniteFunctionsUC::getVal($paramImage, "name");
+    	
+    	$arrSizes = UniteFunctionsWPUC::getArrThumbSizes();
+    	
+    	$arrSizes = array_flip($arrSizes);
+    	
+    	$param = array();
+    	$param["type"] = UniteCreatorDialogParam::PARAM_DROPDOWN;
+    	
+    	if($type == UniteCreatorDialogParam::PARAM_POSTS_LIST){
+	    	$param["title"] = $title .= " ".__("Image Size","unlimited-elements-for-elementor");
+    		$param["name"] = $name .= "_imagesize";
+    	}
+    	else{
+	    	$param["title"] = $title .= " ".__("Size","unlimited-elements-for-elementor");
+    		$param["name"] = $name .= "_size";
+    	}
+    	
+    	$param["options"] = $arrSizes;
+    	$param["default_value"] = "medium_large";
+    	
+    	$this->addElementorParamUC($param, $objControls);
+    }
+    
+    
+    /**
+     * add related controls for some params like image
+     */
+    private function checkAddRelatedControls($param, $objControls){
+    	
+    	$type = UniteFunctionsUC::getVal($param, "type");
+    	
+    	switch($type){
+    		case UniteCreatorDialogParam::PARAM_IMAGE:
+    			
+    			$isAddSizes = UniteFunctionsUC::getVal($param, "add_image_sizes");
+    			$isAddSizes = UniteFunctionsUC::strToBool($isAddSizes);
+    			
+    			if($isAddSizes == true)
+    				$this->addImageSizesControl($param, $objControls);
+    			    			
     		break;
     	}
     	
@@ -1359,7 +1584,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	$arrItems = $this->objAddon->getProcessedItemsData(UniteCreatorParamsProcessor::PROCESS_TYPE_OUTPUT);
     	if(empty($arrItems))
     		$arrItems = array();
-    		    	
+    	
     	$arrDefaults = array();
     	
     	foreach($arrItems as $arrItem){
@@ -1369,7 +1594,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     		
     		$arrDefaults[] = array("url"=>$urlImage);
     	}
-    	    	
+    	
     	$param = array();
     	$param["type"] = "uc_gallery";
     	$param["title"] = __("Add Images","unlimited-elements-for-elementor");
@@ -1411,7 +1636,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	$addonID =  $this->objAddon->getID();
     	
     	$urlEditAddon = HelperUC::getViewUrl_EditAddon($addonID, "", "tab=uc_tablink_html");
-
+		
     	$html = "<button class='elementor-button elementor-button-default uc-button-edit-html' onclick='window.open(\"$urlEditAddon\")'>Edit Widget HTML</button>";
 		
 		$this->objControls->add_control(
@@ -1441,6 +1666,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	    		case UniteCreatorDialogParam::PARAM_LINK:
 	    		case UniteCreatorDialogParam::PARAM_EDITOR:
 	    		case UniteCreatorDialogParam::PARAM_IMAGE:
+	    		case UniteCreatorDialogParam::PARAM_GALLERY:
 	    		break;
 	    		default:
 	    			continue(2);
@@ -1459,21 +1685,24 @@ class UniteCreatorElementorWidget extends Widget_Base {
     /**
      * add pagination controls
      */
-    protected function addPaginationControls(){
-
+    protected function addPaginationControls($postListParam = null){
+		
     	$objPagination = new UniteCreatorElementorPagination();
-    	$objPagination->addElementorSectionControls($this);
+    	$objPagination->addElementorSectionControls($this, $postListParam);
     	
     }
     
     /**
      * add advanced section widget controls
      */
-    protected function addAdvancedSectionControls(){
+    protected function addAdvancedSectionControls($hasPostsList = false, $isItemsEnabled = false){
     	
     	$this->start_controls_section("unlimited_advanced_features", array(
     		"label"=>__("Advanced", 'unlimited_elements'),
     		"tab"=>"general"));
+    	
+       if(UniteCreatorElementorIntegrate::$enableEditHTMLButton == true)
+          $this->addEditAddonControl();
     	
 		$this->add_control(
 			'show_widget_debug_data',
@@ -1484,10 +1713,42 @@ class UniteCreatorElementorWidget extends Widget_Base {
 				'label_off' => __( 'No', 'unlimited-elements-for-elementor' ),
 				'return_value' => 'true',
 				'default' => '',
+				'separator' => 'before',
 				'description'=>__('Show widget data for debugging purposes. Please turn off this option when you releasing the widget', 'unlimited_elements')
 			)
 		);
     	
+		$debugTypeOptions = array();
+		$debugTypeOptions["default"] = __( 'Default', 'unlimited-elements-for-elementor' );
+		
+		if($hasPostsList == true)
+			$isItemsEnabled = true;
+		
+		if($isItemsEnabled == true)
+			$debugTypeOptions["items_only"] = __( 'Items Only', 'unlimited-elements-for-elementor' );
+		
+		if($hasPostsList == true){
+			$debugTypeOptions["post_titles"] = __( 'Posts Titles', 'unlimited-elements-for-elementor' );
+			$debugTypeOptions["post_meta"] = __( 'Posts Titles and Meta', 'unlimited-elements-for-elementor' );
+		}
+		
+		$hasDebugType = (count($debugTypeOptions) > 1);
+		
+		//show post enabled selection
+		if($hasDebugType == true){
+			
+			$this->add_control(
+				'widget_debug_data_type',
+				array(
+					'label' => __( 'Debug Data Type', 'unlimited-elements-for-elementor' ),
+					'type' => Controls_Manager::SELECT,
+					'default' => 'default',
+					'condition'=>array("show_widget_debug_data"=>"true"),
+					'options' => $debugTypeOptions,
+				)
+			);
+		}
+		
 		do_action("ue_widget_advanced_controls", $this);
 		
     	$this->end_controls_section();
@@ -1560,12 +1821,70 @@ class UniteCreatorElementorWidget extends Widget_Base {
     	return($arrOutput);    	
     }
     
+    /**
+     * put listing sections
+     */
+    private function putListingSections($listingParam){
+    		    
+    	$name = UniteFunctionsUC::getVal($listingParam, "name");
+    	
+    	$useFor = UniteFunctionsUC::getVal($listingParam, "use_for");
+    	$isForGallery = ($useFor == "gallery");
+    	
+		//set text prefix
+		$textPrefix = __("Items ","unlimited-elements-for-elementor");		
+		if($isForGallery == true)
+			$textPrefix = __("Gallery ","unlimited-elements-for-elementor");
+		
+    	
+    	//add post section
+        $this->start_controls_section(
+                'uc_section_listing_posts_query', array(
+                'label' => $textPrefix.__("Posts Query", "unlimited-elements-for-elementor"),
+        		'condition'=>array($name."_source"=>"posts")
+              )
+        );
+
+	    
+        $postParam = $listingParam;
+        
+        $postParam["type"] = UniteCreatorDialogParam::PARAM_POSTS_LIST;
+        $postParam["name"] = $name."_posts";
+        
+        $this->addElementorParamUC($postParam);
+           
+        
+        $this->end_controls_section();
+    	
+        //add term section
+        /*
+        $this->start_controls_section(
+                'uc_section_listing_terms_query', array(
+                'label' => __("Terms Query", "unlimited-elements-for-elementor"),
+        		'condition'=>array($name."_source"=>"terms")
+        		)
+        );
+        
+        $termsParam = $listingParam;
+        
+        $termsParam["type"] = UniteCreatorDialogParam::PARAM_POST_TERMS;
+        $termsParam["name"] = $name."_terms";
+        
+        $this->addElementorParamUC($termsParam);
+                
+        $this->end_controls_section();
+        */
+        
+    }
+    
     
     /**
      * register controls with not consolidated addon
      */
    protected function ucRegisterControls_addon(){
-        
+
+   		//$name = $this->objAddon->getAlias();
+   		   	
    		//check low memory
    		if(UniteCreatorElementorIntegrate::$enableLowMemoryCheck == true){
    			
@@ -1596,7 +1915,9 @@ class UniteCreatorElementorWidget extends Widget_Base {
          $hasPostsList = false;
 	     $postListParam = null;
          
-	     	     
+	     $hasListing = false;
+         $listingParam = null;
+	     
 	     //foreach the categories
          foreach($arrCatsAndParams as $catID => $arrCat){
          	
@@ -1628,22 +1949,31 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	          
 	          //add dynamic to all the addons, not only dynamic
 	          $params = $this->addDynamicAttributes($params);          	
-	          	          
+	           
 	          foreach($params as $param){
 	          		
 	          		$type = UniteFunctionsUC::getVal($param, "type");
 	          		if($type === UniteCreatorDialogParam::PARAM_POSTS_LIST){
 	          			$hasPostsList = true;
 	          			$postListParam = $param;
+	          			
+	          			$showImageSizes = UniteFunctionsUC::getVal($postListParam, "show_image_sizes");
+	          			$showImageSizes = UniteFunctionsUC::strToBool($showImageSizes);
+	          			
+	          			if($showImageSizes == true)
+	          				$this->addImageSizesControl($postListParam, $this->objControls);
+	          			
 	          			continue;
+	          		}
+	          		
+	          		if($type == UniteCreatorDialogParam::PARAM_LISTING){
+	          			$hasListing = true;
+	          			$listingParam = $param;
 	          		}
 	          		
 	          		$this->addElementorParamUC($param);
 	          }
-			  
-	      if($isGeneralSection && $this->isConsolidated == false && UniteCreatorElementorIntegrate::$enableEditHTMLButton == true)
-	          $this->addEditAddonControl();
-          
+			            
           $this->end_controls_section();
                     
          } //end sections foreach
@@ -1658,18 +1988,22 @@ class UniteCreatorElementorWidget extends Widget_Base {
           		$labelPosts = esc_html__("Products Query", "unlimited-elements-for-elementor");
 			else
           		$labelPosts = esc_html__("Posts Query", "unlimited-elements-for-elementor");
-			 
+			
 	        $this->start_controls_section(
 	                'section_query', array(
 	                'label' => $labelPosts,
 	              )
 	        );
-          	  	          
+          	
           	  $this->addElementorParamUC($postListParam);
 	          
 	          $this->end_controls_section();
           }
-
+		  
+          if($hasListing == true){
+          		$this->putListingSections($listingParam);
+          }
+          	
           //add no attributes section
          if($isNoSettings == true){
          	
@@ -1687,10 +2021,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
 		        	"type"=>Controls_Manager::HEADING
 		        ));
 	        
-		       
-		    if(UniteCreatorElementorIntegrate::$enableEditHTMLButton == true)
-	        	$this->addEditAddonControl();
-	        
 	        $this->end_controls_section();
          }
           
@@ -1704,13 +2034,27 @@ class UniteCreatorElementorWidget extends Widget_Base {
           if($isFontsEnabled == true)
           		$this->addFontControlsUC();
    		  
+          
           //add pagination section if needed
-            
-          if($hasPostsList == true)
-          		$this->addPaginationControls();
-   		
+          if($hasPostsList == true){
+          		$this->addPaginationControls($postListParam);
+          		
+          }if($hasListing == true){
+          	
+          	$enablePagination = UniteFunctionsUC::getVal($listingParam, "enable_pagination");
+          	$enablePagination = UniteFunctionsUC::strToBool($enablePagination);
+          	
+          	if($enablePagination == true)
+          		$this->addPaginationControls($listingParam);
+          }
+          
+          
+          $showMore = false;
+          if($hasPostsList == true || $hasListing == true)
+          	$showMore = true;
+          
           //add debug controls
-          $this->addAdvancedSectionControls();
+          $this->addAdvancedSectionControls($showMore, $isItemsEnabled);
           
    }
 
@@ -2010,7 +2354,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
          
          if(empty($itemsDefaults))
          	$itemsDefaults = array();
-         
+                  	
          $arrItemsControl["default"] = $itemsDefaults;
          $this->objControls->add_control('uc_items', $arrItemsControl);
          
@@ -2491,19 +2835,47 @@ class UniteCreatorElementorWidget extends Widget_Base {
      */
     private function getExtraWidgetHTML_pagination($arrValues, UniteCreatorAddon $objAddon){
     	
+    	$isPaginationExists = false;
+    	
+    	//----------- by post
+    	
     	$arrPostListParam = $objAddon->getParamByType(UniteCreatorDialogParam::PARAM_POSTS_LIST);
-    	if(empty($arrPostListParam))
+    	
+    	if(!empty($arrPostListParam)){
+    		$isPaginationExists = true;
+    		$postListName = UniteFunctionsUC::getVal($arrPostListParam, "name");
+    	}
+    	
+    	//----- by listing
+    	
+    	$arrListingParam = $objAddon->getParamByType(UniteCreatorDialogParam::PARAM_LISTING);
+    	
+    	if(!empty($arrListingParam)){
+    		
+    		$enablePagination = UniteFunctionsUC::getVal($arrListingParam, "enable_pagination");
+    		$enablePagination = UniteFunctionsUC::strToBool($enablePagination);
+    		    		
+    		if($enablePagination == true){
+    			$isPaginationExists = true;
+	    		$name = UniteFunctionsUC::getVal($arrListingParam, "name");
+	    		$postListName = "{$name}_posts";
+    		}
+    		
+    	}
+    	
+    	if($isPaginationExists == false)
     		return("");
-
+    	
+    	//----------- check by type
+    		
     	$paginationType = UniteFunctionsUC::getVal($arrValues, "pagination_type");
     	
     	if(empty($paginationType))
     		return("");
     	
     	$isArchivePage = UniteFunctionsWPUC::isArchiveLocation();
-    		
-    	//validate post source, enable only on current
     	
+    	//validate post source, enable only on current
     	if($isArchivePage == true){
     	
 	    	$postListName = UniteFunctionsUC::getVal($arrPostListParam, "name");
@@ -2543,7 +2915,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	    	}
 	    	
 	    	$arrValues = $this->getSettingsValuesUC();
-	   		
+	   			    	
 	    	HelperUC::addDebug("widget values", $arrValues);
 	    	
 	    	$arrFonts = $this->getArrFonts($arrValues);
@@ -2565,6 +2937,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	   		
 	    	$arrMainParamValues = $this->getArrMainParamValuesUC($arrValues, $objAddon);
 	    	
+	    	
     		$arrPostListParam = $objAddon->getParamByType(UniteCreatorDialogParam::PARAM_POSTS_LIST);
     		if(!empty($arrPostListParam)){
     		
@@ -2576,10 +2949,10 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	    	
 	    	//check if inside editor
 	        $isEditMode = $this->isEditMode();
-	       	
+	       		        
 	    	$objAddon->setParamsValues($arrMainParamValues);
 	    	$objAddon->setArrFonts($arrFonts);
-	    	    	
+	    		    	
 	    	if($hasItems == true)
 	    		$objAddon->setArrItems($arrItems);
 	    	
@@ -2589,8 +2962,12 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	        $isShowDebugData = UniteFunctionsUC::getVal($arrValues, "show_widget_debug_data");
 	        $isShowDebugData = UniteFunctionsUC::strToBool($isShowDebugData);
 	        
-	        if($isShowDebugData == true)
-	        	$output->showDebugData();
+	        if($isShowDebugData == true){
+	        	
+	        	$debugDataType = UniteFunctionsUC::getVal($arrValues, "widget_debug_data_type");
+	        	
+	        	$output->showDebugData(true, $debugDataType);
+	        }
 	        
 	        $output->initByAddon($objAddon);
 	        
@@ -2613,7 +2990,6 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	        if($isEditMode == true)
 	            $scriptsHardCoded = true;
 	
-	        
 	        $putCssIncludesInBody = ($cssFilesPlace == "body") ? true : false;
 			
 	        $params = array();
@@ -2633,7 +3009,7 @@ class UniteCreatorElementorWidget extends Widget_Base {
 	        	
 	        	$output->processIncludes("js");
 	        }
-	                
+	        
 	        $htmlOutput = $output->getHtmlBody($scriptsHardCoded, $putCssIncludesInBody,true,$params);
 	        	        
         	echo UniteProviderFunctionsUC::escCombinedHtml($htmlOutput);

@@ -41,6 +41,16 @@ class GlobalsProviderUC{
 				"elementor_icons"
 	);
 	
+	public static $arrAttrConstantKeys = array(		//keys of constants that are added to the attributes
+		"uc_serial",
+		"uc_id",
+		"uc_assets_url",
+		"uc_url_home",
+		"uc_url_blog",
+		"uc_lang",
+		"uc_num_items"
+	);
+	
 	const POST_ADDITION_CUSTOMFIELDS = "customfields";
 	const POST_ADDITION_CATEGORY = "category";
 	const POST_ADDITION_WOO = "woo";

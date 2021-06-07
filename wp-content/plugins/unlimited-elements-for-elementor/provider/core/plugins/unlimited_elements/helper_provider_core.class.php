@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net / Valiano
+ * @author unlimited-elements.com / Valiano
  * @copyright (C) 2012 Unite CMS, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
@@ -130,18 +130,7 @@ class HelperProviderCoreUC_EL{
 		
 		return($value);
 	}
-	
-	
-	/**
-	 * add constant data to addon output
-	 */
-	public static function addOutputConstantData($data){
 		
-		$data["uc_platform_title"] = "Elementor Page Builder";
-		$data["uc_platform"] = "elementor";
-		
-		return($data);
-	}
 	
 	/**
 	 * register widget by it's name for outside uses
@@ -281,14 +270,169 @@ class HelperProviderCoreUC_EL{
 	}
 	
 	/**
+	 * get hover animation classes
+	 */
+	public static function getHoverAnimationClasses($addNotChosen = false){
+		
+		$arrAnimations = \Elementor\Control_Hover_Animation::get_animations();
+		
+		$arrAnimationsNew = array();
+		
+		if($addNotChosen == true)
+			$arrAnimationsNew[""] = __("Not Chosen","unlimited-elements-for-elementor");
+		
+		foreach($arrAnimations as $key=>$value)
+			$arrAnimationsNew["elementor-animation-".$key] = $value;
+		
+		return($arrAnimationsNew);
+	}
+	
+	/**
+	 * get terms picker control
+	 */
+	public static function getElementorControl_TermsPickerControl($label,$description = null, $condition = null){
+		
+		$arrControl = array();
+		$arrControl["type"] = "uc_select_special";
+		$arrControl["label"] = $label;
+		$arrControl["default"] = "";
+		$arrControl["options"] = array();
+		$arrControl["label_block"] = true;
+		
+		$placeholder = "All--Terms";
+		
+		$loaderText = __("Loading Data...", "unlimited-elements-for-elementor");
+		$loaderText = UniteFunctionsUC::encodeContent($loaderText);
+		
+		$arrControl["placeholder"] = "All--Terms";
+
+		if(!empty($description))
+			$arrControl["description"] = $description;
+		
+		if(!empty($condition))
+			$arrControl["condition"] = $condition;
+		
+		$addParams = " data-settingtype=post_ids data-datatype=terms data-placeholdertext={$placeholder} data-loadertext=$loaderText data-taxonomyname=taxonomy_taxonomy class=unite-setting-special-select";
+		
+		$arrControl["addparams"] = $addParams;
+		
+		return($arrControl);
+	}
+	
+	private static function ______LISTING________(){}
+	
+	/**
+	 * get listing item title
+	 */
+	private static function getListingItemTitle($type, $item){
+		
+		switch($type){
+			case "post":
+				$title = $item->post_title;
+			break;
+			case "term":
+				$title = $item->name;
+			break;
+			default:
+				$title = "item";
+			break;
+		}
+		
+		return($title);
+	}
+	
+	/**
+	 * put elementor template
+	 */
+	public static function putElementorTemplate($templateID){
+		
+		if(empty($templateID) || is_numeric($templateID) == false)
+			return(false);
+		
+		$output = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $templateID );
+		echo $output;
+		
+	}
+	
+	
+	/**
+	 * put the post listing template
+	 */
+	public static function putListingItemTemplate_post($post, $templateID){
+		
+		if(empty($templateID))
+			return(false);
+		
+		global $wp_query;
+		
+		$originalPost = $GLOBALS['post'];
+		
+		//backup the original querified object
+		$originalQueriedObject = $wp_query->queried_object;
+		$originalQueriedObjectID = $wp_query->queried_object_id;
+		
+		$postID = $post->ID;
+		
+		//set the post qieried object
+		
+		$wp_query->queried_object = $post;
+		$wp_query->queried_object_id = $postID;
+			
+		$GLOBALS['post'] = $post;
+		
+		self::putElementorTemplate($templateID);
+				
+		//restore the original queried object
+		$wp_query->queried_object = $originalQueriedObject;
+		$wp_query->queried_object_id = $originalQueriedObjectID;
+		$GLOBALS['post'] = $originalPost;
+		
+		
+	}
+	
+	/**
+	 * put listing loop
+	 */
+	public static function putListingItemTemplate($item, $templateID){
+		
+		//set type
+		
+		$type = null;
+		
+		if($item instanceof WP_Post)
+			$type = "post";
+		else if($item instanceof WP_Term)
+			$type = "term";
+		
+		if(empty($type)){
+			dmp("wrong listing type, can't output");
+			return(false);
+		}
+			
+		
+		if(empty($templateID)){
+			
+			$title = self::getListingItemTitle($type, $item);
+			
+			dmp("$type - $title - no template id");
+			return(false);
+		}
+		
+		//template output
+		if($type == "post")
+			self::putListingItemTemplate_post($item, $templateID);
+		else
+			echo "output term";
+		
+	}
+	
+	/**
 	 * global init
 	 */
 	public static function globalInit(){
 		
 		self::$operations = new UCOperations();
-		
-		add_filter(UniteCreatorFilters::FILTER_ADD_ADDON_OUTPUT_CONSTANT_DATA ,array("HelperProviderCoreUC_EL","addOutputConstantData"));
-		
+				
 		//set path and url
 		self::$pathCore = dirname(__FILE__)."/";
 		self::$urlCore = HelperUC::pathToFullUrl(self::$pathCore);

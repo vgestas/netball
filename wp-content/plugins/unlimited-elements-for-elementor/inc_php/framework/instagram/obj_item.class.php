@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -11,6 +11,7 @@ class InstaObjItemUC{
 	
 	const TYPE_VIDEO = "video";
 	const TYPE_IMAGE = "image";
+	const TYPE_ALBOM = "albom";
 	
 	const IMAGE_LOW = "low_resolution";
 	const IMAGE_STANDARD = "standard_resolution";
@@ -270,15 +271,21 @@ class InstaObjItemUC{
 	 */
 	public function getDataSimple(){
 		
+		$isVideo = $this->isVideo();
+		
+		$class = "";
+		if($isVideo == true)
+			$class = "uc-video-item";
+		
 		$arr = array();
 		$arr["thumb"] = $this->getImageLow();
 		$arr["image"] = $this->getImageStandart();
 		$arr["num_likes"] = $this->getNumLikesText();
 		$arr["num_comments"] = $this->getNumCommentsText();
-		$arr["time_passed"] = $this->getTimePassedText();
 		$arr["caption"] = $this->getCaption();
 		$arr["link"] = $this->getLink();
-		$arr["isvideo"] = $this->isVideo();
+		$arr["isvideo"] = $isVideo;
+		$arr["video_class"] = $class;
 		$arr["num_video_views"] = $this->getNumVideoViewsText();
 		
 		return($arr);
@@ -487,12 +494,15 @@ class InstaObjItemUC{
 		$isVideo = UniteFunctionsUC::getVal($item, "is_video");
 		$isVideo = UniteFunctionsUC::strToBool($isVideo);
 		
+		$mediaType = UniteFunctionsUC::getVal($item, "media_type");
+		
 		if($isVideo == true){
 			$this->type = self::TYPE_VIDEO;
 		}
-		else
+		else{
 			$this->type = self::TYPE_IMAGE;
-		
+		}
+				
 		if($this->type != self::TYPE_VIDEO)
 			return(false);
 		
@@ -598,9 +608,30 @@ class InstaObjItemUC{
 	 * init item by official API
 	 */
 	public function initOfficialAPI($item){
-		
+				
+		$mediaType = UniteFunctionsUC::getVal($item, "media_type");
+				
+		switch($mediaType){
+			default:
+			case "IMAGE":
+				$this->type = self::TYPE_IMAGE;
+			break;
+			case "CAROUSEL_ALBUM":
+				$this->type = self::TYPE_ALBOM;
+			break;
+			case "VIDEO":
+				$this->type = self::TYPE_VIDEO;
+			break;
+		}
 		
 		$urlImage = UniteFunctionsUC::getVal($item, "media_url");
+		
+		if($this->type == self::TYPE_VIDEO){
+			
+			$url = $this->arrVideos[self::VIDEO_STANDART]["url"] = $urlImage;
+			
+			$urlImage = UniteFunctionsUC::getVal($item, "thumbnail_url");
+		}
 		
 		$this->arrImages[self::IMAGE_LOW]["url"] = $urlImage;
 		$this->arrImages[self::IMAGE_STANDARD]["url"] = $urlImage;
@@ -608,13 +639,7 @@ class InstaObjItemUC{
 		$this->captionText = UniteFunctionsUC::getVal($item, "caption");
 		
 		$this->id = UniteFunctionsUC::getVal($item, "id");
-		
-		$mediaType = UniteFunctionsUC::getVal($item, "media_type");
-		
-		if($mediaType == "IMAGE")
-			$this->type = self::TYPE_IMAGE;
-		else
-			$this->type = self::TYPE_VIDEO;
+				
 		
 		$this->link = UniteFunctionsUC::getVal($item, "permalink");
 		

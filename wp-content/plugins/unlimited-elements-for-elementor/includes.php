@@ -1,8 +1,8 @@
 <?php
 /**
 * @package Unlimited Elements
-* @author UniteCMS.net
-* @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+* @author unlimited-elements.com
+* @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
 * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
 **/
 
@@ -12,7 +12,7 @@ if(!defined('UNLIMITED_ELEMENTS_INC'))
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 if(!defined("UNLIMITED_ELEMENTS_VERSION"))
-	define("UNLIMITED_ELEMENTS_VERSION", "1.4.63");
+	define("UNLIMITED_ELEMENTS_VERSION", "1.4.74");
 
 $currentFile = __FILE__;
 $currentFolder = dirname($currentFile);
@@ -84,6 +84,8 @@ require_once $folderIncludesMain . 'unitecreator_dialog_param.class.php';
 require_once GlobalsUC::$pathProvider."provider_dialog_param.class.php";
 require_once $folderIncludesMain . 'unitecreator_form.class.php';
 require_once $folderIncludesMain . 'unitecreator_addon_validator.class.php';
+require_once $folderIncludesMain . 'unitecreator_filters_process.class.php';
+require_once GlobalsUC::$pathProvider . 'integrations.class.php';
 
 //page builder related
 

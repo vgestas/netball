@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -30,6 +30,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	private $isModePreview = false;
 	private $arrOptions;
 	private $isShowDebugData = false;
+	private $debugDataType = "";
 	
 	private static $arrUrlCacheCss = array();
 	private static $arrHandleCacheCss = array();
@@ -189,7 +190,6 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 				
 		foreach($arrIncludes as $handle => $include){
 			
-			
 			$urlInclude = $include;
 			
 			if(is_array($include)){
@@ -208,12 +208,28 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			
 			$urlInclude = HelperUC::urlToSSLCheck($urlInclude);
 			
+			$deps = array();
+			
+			//process params
+			$params = UniteFunctionsUC::getVal($include, "params");
+			if(!empty($params)){
+				$includeAfterFrontend = UniteFunctionsUC::getVal($params, "include_after_elementor_frontend");
+				$includeAfterFrontend = UniteFunctionsUC::strToBool($includeAfterFrontend);
+				
+				if($includeAfterFrontend == true)
+					$deps[]= "elementor-frontend";				
+			}
+			
+			
 			$arrIncludeNew = array();
 			$arrIncludeNew["url"] = $urlInclude;
 			$arrIncludeNew["type"] = $type;
-			
+						
 			if(!empty($handle))
 				$arrIncludeNew["handle"] = $handle;
+			
+			if(!empty($deps))
+				$arrIncludeNew["deps"] = $deps;
 			
 			$arrIncludesProcessed[] = $arrIncludeNew;
 			
@@ -263,6 +279,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 				$arrLibJs = $arrLibraries["js"];
 			
 			$arrIncludesJS = $this->addon->getJSIncludes();
+			
 			$arrIncludesJS = array_merge($arrLibJs, $arrIncludesJS);
 			$arrIncludesJS = $this->processIncludesList($arrIncludesJS, "js");
 			
@@ -363,6 +380,8 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			$type = $include["type"];
 			$url = $include["url"];
 			$handle = UniteFunctionsUC::getVal($include, "handle");
+			$deps = UniteFunctionsUC::getVal($include, "deps");
+			
 			
 			if(empty($handle))
 				$handle = HelperUC::getUrlHandle($url, $addonName);
@@ -372,11 +391,16 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 				continue;
 			}
 			$this->cacheInclude($url, $handle, $type);
+						
+			$arrIncludeDep = $arrDep;
+
+			if(!empty($deps))
+				$arrIncludeDep = array_merge($arrIncludeDep, $deps);
 			
 			switch($type){
 				case "js":
 					
-					UniteProviderFunctionsUC::addScript($handle, $url, false, $arrDep);
+					UniteProviderFunctionsUC::addScript($handle, $url, false, $arrIncludeDep);
 				break;
 				case "css":
 						UniteProviderFunctionsUC::addStyle($handle, $url);
@@ -495,7 +519,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	/**
 	 * get width style
 	 */
-	private function processParamCSSSelector_border_getWidthStyle($param, $device = "desktop"){
+	private function processParamCSSSelector_border_getRadiusStyle($param, $device = "desktop"){
 		
 		$widthTop = UniteFunctionsUC::getVal($param, "width_{$device}_top");
 		$widthRight = UniteFunctionsUC::getVal($param, "width_{$device}_right");
@@ -505,16 +529,16 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		$style = "";
 		
 		if(trim($widthTop) !== "")
-			$style .= "border-top-width:{$widthTop}px;";
+			$style .= "border-top-left-radius:{$widthTop}px;";
 		
 		if(trim($widthBottom) !== "")
-			$style .= "border-bottom-width:{$widthBottom}px;";
+			$style .= "border-bottom-left-radius:{$widthBottom}px;";
 		
 		if(trim($widthRight) !== "")
-			$style .= "border-right-width:{$widthRight}px;";
+			$style .= "border-top-right-radius:{$widthRight}px;";
 		
 		if(trim($widthLeft) !== "")
-			$style .= "border-left-width:{$widthLeft}px;";
+			$style .= "border-bottom-left-radius:{$widthLeft}px;";
 		
 		return($style);
 	}
@@ -543,12 +567,12 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		
 		$style .= "border-color:{$color};";
 		
-		$styleWidth = $this->processParamCSSSelector_border_getWidthStyle($param);
+		$styleWidth = $this->processParamCSSSelector_border_getRadiusStyle($param);
 		
 		$style .= $styleWidth;
 		$css = "{$selector}{{$style}}";
 		
-		$styleTablet = $this->processParamCSSSelector_border_getWidthStyle($param, "tablet");
+		$styleTablet = $this->processParamCSSSelector_border_getRadiusStyle($param, "tablet");
 		
 		if(!empty($styleTablet)){
 			
@@ -558,7 +582,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			$css .= "\n".$styleTablet;
 		}
 		
-		$styleMobile = $this->processParamCSSSelector_border_getWidthStyle($param, "mobile");
+		$styleMobile = $this->processParamCSSSelector_border_getRadiusStyle($param, "mobile");
 		
 		if(!empty($styleMobile)){
 			$styleMobile = "{$selector}{{$styleMobile}}";
@@ -931,6 +955,9 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			case UniteCreatorDialogParam::PARAM_MARGINS:
 				$style = $this->processParamCSSSelector_dimentions($param, $selector, "margin");
 			break;
+			case UniteCreatorDialogParam::PARAM_BORDER_DIMENTIONS:
+				$style = $this->processParamCSSSelector_dimentions($param, $selector, "border-radius");
+			break;
 			case UniteCreatorDialogParam::PARAM_BACKGROUND:
 				$style = $this->processParamCSSSelector_background($param, $selector);				
 			break;
@@ -1174,30 +1201,8 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	}
 	
 	
-	
-	
 	private function a________GENERAL___________(){}
 	
-	/**
-	 * modify data array for show
-	 */
-	private function modifyDataArrayForShow($arrData){
-		
-		$arrDataNew = array();
-		foreach($arrData as $key=>$value){
-			
-			$key = htmlspecialchars($key);			
-			
-			if(is_string($value) == true)
-				$value = htmlspecialchars($value);
-			
-			$key = " $key";
-			
-			$arrDataNew[$key] = $value;
-		}
-		
-		return($arrDataNew);
-	}
 	
 	/**
 	 * modify items data for show
@@ -1209,13 +1214,24 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			
 		$arrItemsForShow = array();
 		
+		
 		foreach($arrItemData as $item){
 			
-			$item = UniteFunctionsUC::getVal($item, "item");
-			$item = UniteFunctionsUC::getArrFirstValue($item);
+			if(is_array($item) == false){
+				$arrItemsForShow[] = $item;
+				continue;
+			}
+				
 			
-			$item = $this->modifyDataArrayForShow($item);
-
+			$item = UniteFunctionsUC::getVal($item, "item");
+			
+			$itemFirstValue = UniteFunctionsUC::getArrFirstValue($item);
+			
+			if(is_array($itemFirstValue))
+				$item = UniteFunctionsUC::modifyDataArrayForShow($itemFirstValue);
+			else
+				$item = UniteFunctionsUC::modifyDataArrayForShow($item);
+			
 			$arrItemsForShow[] = $item;
 		}
 		
@@ -1223,31 +1239,174 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	}
 	
 	
+	private function ___________DEBUG_DATA___________(){}
+	
+	
+	/**
+	 * put debug data html
+	 */
+	private function putDebugDataHtml_default($arrData, $arrItemData){
+		
+		$isShowData = $this->debugDataType != "items_only";
+
+		if($isShowData == true){
+			
+			//modify the data
+			$arrData = UniteFunctionsUC::modifyDataArrayForShow($arrData);
+			
+			dmp($arrData);
+		}
+		
+		dmp("<b>Widget Items Data</b>");
+		
+		if(empty($arrItemData)){
+			dmp("no items found");
+			return(false);
+		}
+			
+		$arrItemData = $this->modifyItemsDataForShow($arrItemData);
+				
+		dmp($arrItemData);
+		
+	}
+	
+	/**
+	 * put debug data - posts
+	 */
+	private function putDebugDataHtml_posts($arrItemData){
+		
+		$numPosts = count($arrItemData);
+		
+		dmp("Found $numPosts posts.");
+		
+		if(empty($arrItemData))
+			return(false);
+		
+		$isShowMeta = ($this->debugDataType == "post_meta");
+				
+		foreach($arrItemData as $index => $item){
+			
+			$isPost = false;
+			if($item instanceof WP_Post)
+				$isPost = true;
+			
+			if($isPost == false){
+				
+				$item = UniteFunctionsUC::getVal($item, "item");
+								
+				$postData = UniteFunctionsUC::getArrFirstValue($item);
+				
+				$title = UniteFunctionsUC::getVal($postData, "title");
+				$alias = UniteFunctionsUC::getVal($postData, "alias");
+				$id = UniteFunctionsUC::getVal($postData, "id");
+				$post = get_post($id);
+			
+			}else{
+				
+				$post = $item;
+				$title = $post->post_title;
+				$id = $post->ID;
+				$alias = $post->post_name;
+			}
+				
+			
+			$num = $index+1;
+			
+			
+			$status = $post->post_status;
+			
+			$arrTermsNames = UniteFunctionsWPUC::getPostTermsTitles($post);
+			$strTerms = implode(",", $arrTermsNames);
+			
+			$htmlAfterAlias = "";
+			if($status != "publish")
+				$htmlAfterAlias = ", [$status post]";
+			
+			$text = "{$num}. <b>$title</b> (<i style='font-size:13px;'>$alias{$htmlAfterAlias}, $id | $strTerms </i>)";
+			
+			dmp($text);
+			
+			if($isShowMeta == false)
+				continue;
+			
+			$postMeta = get_post_meta($id, "", false);
+			
+			$postMeta = UniteFunctionsUC::modifyDataArrayForShow($postMeta, true);
+			
+			dmp($postMeta);
+			
+			//$postMeta = get_post_meta($post_id)
+				
+		}
+		
+		
+	}
+	
+	/**
+	 * get items from listing
+	 */
+	private function putDebugDataHtml_getItemsFromListing($paramListing, $arrData){
+		
+		$name = UniteFunctionsUC::getVal($paramListing, "name");
+				
+		$source = UniteFunctionsUC::getVal($arrData, $name."_source");
+		
+		$arrItemsRaw = UniteFunctionsUC::getVal($arrData, $name."_items");
+		
+		if(empty($arrItemsRaw))
+			$arrItemsRaw = array();
+    	
+		$useFor = UniteFunctionsUC::getVal($paramListing, "use_for");
+    	$useForGallery = ($useFor == "gallery");
+			
+		
+		$arrItems = array();
+		foreach($arrItemsRaw as $item){
+			
+			if($useForGallery == true && isset($item["postid"])){
+				
+				$post = get_post($item["postid"]);
+				$arrItems[] = $post;
+				continue;
+			}
+			
+			$object = UniteFunctionsUC::getVal($item, "object");
+			$arrItems[] = $object;
+		}
+		
+		return($arrItems);
+	}
+	
 	/**
 	 * put debug data
 	 */
 	private function putDebugDataHtml($arrData, $arrItemData){
 		
-		//modify the data
-		$arrData = $this->modifyDataArrayForShow($arrData);
+		echo "<div style='font-size:16px;color:black;text-decoration:none;background-color:white;'>";
 		
-		dmp("<b>Widget Debug Data</b> (turned on by setting in widget advanced section)");
-		dmp($arrData);
+		dmp("<b>Widget Debug Data</b> (turned on by setting in widget advanced section)<br>");
 		
-		if(empty($arrItemData))
-			return(false);
-			
-		$arrItemData = $this->modifyItemsDataForShow($arrItemData);
+		//get data from listing
+		$paramListing = $this->addon->getParamByType(UniteCreatorDialogParam::PARAM_LISTING);
 		
-		dmp("<b>Widget Items Data</b>");
-		
-		dmp($arrItemData);
+		if(!empty($paramListing)){
+			$arrItemData = $this->putDebugDataHtml_getItemsFromListing($paramListing, $arrData);
+		}		
 		
 		
-		//dmp($arrData);
-		//dmp("put the debug data");
+		switch($this->debugDataType){
+			case "post_titles":
+			case "post_meta":
+				
+				$this->putDebugDataHtml_posts($arrItemData);
+				
+			break;
+			default:
+				$this->putDebugDataHtml_default($arrData, $arrItemData);
+			break;
+		}
 		
-		//exit();
+		echo "</div>";
 		
 	}
 	
@@ -1263,10 +1422,13 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 	/**
 	 * set to show debug data of the addon
 	 */
-	public function showDebugData($isShow = true){
+	public function showDebugData($isShow = true, $dataType = null){
 		
 		$this->isShowDebugData = $isShow;
+		$this->debugDataType = $dataType;
+		
 	}
+	
 	
 	/**
 	 * get only processed html template
@@ -1354,9 +1516,16 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			//add html
 			
 			$output .= "\n\n			".$html;
-						
+			
+			$isOutputJs = false;
+			if(!empty($js))
+				$isOutputJs = true;
+			
+			if(isset($params["wrap_js_start"]) || isset($params["wrap_js_timeout"]))
+				$isOutputJs = true;
+			
 			//output js
-			if(!empty($js)){
+			if($isOutputJs == true){
 				
 				$title = $this->addon->getTitle();
 								
@@ -1371,7 +1540,6 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 					
 					$wrapStart = UniteFunctionsUC::getVal($params, "wrap_js_start");
 					$wrapEnd = UniteFunctionsUC::getVal($params, "wrap_js_end");
-					
 					
 					$output .= "\n\n			<script type=\"text/javascript\">";
 										
@@ -1422,7 +1590,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			return($this->cacheConstants);
 		
 		$data = array();
-		
+				
 		$prefix = "ucid";
 		if($this->isInited)
 			$prefix = "uc_".$this->addon->getName();
@@ -1570,7 +1738,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		$arrParams = $this->getAddonParams();
 				
 		$arrData = array_merge($arrData, $arrParams);
-		
+				
 		//set templates
 		$html = $this->addon->getHtml();
 		$css = $this->addon->getCss();
@@ -1590,6 +1758,8 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 		$this->objTemplate->addTemplate(self::TEMPLATE_JS, $js);
 		
 		$arrItemData = null;
+		
+		$paramPostsList = null;
 		
 		//set items template
 		if($this->isItemsExists == false){
@@ -1612,7 +1782,7 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 				case "post":		//move posts data from main to items
 					
 					$paramPostsList = $this->addon->getParamByType(UniteCreatorDialogParam::PARAM_POSTS_LIST);
-					
+										
 					if(empty($paramPostsList))
 						UniteFunctionsUC::throwError("Some posts list param should be found");
 					
@@ -1675,6 +1845,13 @@ class UniteCreatorOutputWork extends HtmlOutputBaseUC{
 			
 			$this->objTemplate->addTemplate(self::TEMPLATE_CSS_ITEM, $cssItem);
 			
+		}
+		
+		if(!empty($paramPostsList)){
+			$postListValue = UniteFunctionsUC::getVal($paramPostsList, "value");
+			
+			if(!empty($paramPostsList) && is_array($paramPostsList))
+				$arrData = array_merge($arrData, $postListValue);
 		}
 		
 		//show debug data

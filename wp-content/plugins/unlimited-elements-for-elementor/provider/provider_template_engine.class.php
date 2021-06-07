@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -37,7 +37,7 @@ class UniteCreatorTemplateEngine extends UniteCreatorTemplateEngineWork{
 	public function printPostMeta($postID){
 		
 		$postMeta = UniteFunctionsWPUC::getPostMeta($postID);
-				
+		
 		if(empty($postMeta))
 			dmp("no meta for this post");
 		else{
@@ -62,7 +62,7 @@ class UniteCreatorTemplateEngine extends UniteCreatorTemplateEngineWork{
 		
 		return($arrCustomFields);
 	}
-
+	
 	
 	/**
 	 * get term meta
@@ -100,7 +100,33 @@ class UniteCreatorTemplateEngine extends UniteCreatorTemplateEngineWork{
 		return($arrTermsOutput);
 	}
 	
+	/**
+	 * get term meta
+	 */
+	public function getUserMeta($userID, $key = null){
 		
+		$user = get_user_by("id", $userID);
+				
+		if(empty($user))
+			UniteFunctionsUC::throwError("user with id: $userID not found");
+
+		if(empty($key)){
+			
+			dmp("getUserMeta Error. no key given. please select meta key from this keys: ");
+			$arrMeta = get_user_meta($userID);
+			
+			$arrKeys = array_keys($arrMeta);
+			
+			dmp($arrKeys);
+			
+			return(null);
+		}
+
+		$value = get_user_meta($userID, $key, true);
+		
+		return($value);
+	}
+	
 	
 	/**
 	 * get post meta
@@ -141,7 +167,6 @@ class UniteCreatorTemplateEngine extends UniteCreatorTemplateEngineWork{
 		echo UniteProviderFunctionsUC::escCombinedHtml($htmlTags);
 	}
 	
-		
 	
 	/**
 	 * add extra functions to twig

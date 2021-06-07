@@ -17,7 +17,6 @@ function UniteProviderAdminUC(){
 			keyUrlAssets: "[url_assets]/"
 	};
 	
-	
 	/**
 	 * open new add image dialog
 	 */

@@ -5,7 +5,8 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 
 class UniteProviderCoreFrontUC_Elementor extends UniteProviderFrontUC{
 	
-			
+	private $objFiltersProcess;
+
 	
 	/**
 	 *
@@ -14,6 +15,12 @@ class UniteProviderCoreFrontUC_Elementor extends UniteProviderFrontUC{
 	public function __construct(){
 		
 		HelperProviderCoreUC_EL::globalInit();
+		
+		//run front filters process
+		
+		$this->objFiltersProcess = new UniteCreatorFiltersProcess();
+		$this->objFiltersProcess->initWPFrontFilters();
+		
 		
 		/*
 		$disableFilters = HelperProviderCoreUC_EL::getGeneralSetting("disable_autop_filters");

@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -107,7 +107,9 @@ class UniteCreatorParamsEditor{
 								<span class="uc-attr-list__section-numitems"></span>
 																
 								<i class="uc-attr-list-sections__icon-edit fas fa-pen uc-hide-on-movemode" title="<?php _e("Edit Section", "unlimited-elements-for-elementor")?>"></i>
-																
+								
+								<i class="uc-attr-list-sections__icon-copy fas fa-copy uc-hide-on-movemode" title="<?php _e("Copy Section", "unlimited-elements-for-elementor")?>"></i>
+								
 								<i class="uc-attr-list-sections__icon-move fas fa-bullseye uc-show-on-movemode" title="<?php _e("Move Here", "unlimited-elements-for-elementor")?>"></i>
 								
 							</li>
@@ -153,11 +155,11 @@ class UniteCreatorParamsEditor{
 							
 							<div class="uc-attr-cats-copied-section__links">
 								
-								<a id="uc_attr_cats_copied_section_paste_content" href="javascript:void(0)" class="uc-attr-cats-copied-section__link" title="<?php _e("Paste section in content tab")?>">
+								<a id="uc_attr_cats_copied_section_paste_content" href="javascript:void(0)" data-tab="content" class="uc-attr-cats-copied-section__link" title="<?php _e("Paste section in content tab")?>">
 									<?php _e("to content","unlimited-elements-for-elementor")?>
 								</a>
 															
-								<a id="uc_attr_cats_copied_section_paste_style" href="javascript:void(0)" class="uc-attr-cats-copied-section__link" title="<?php _e("Paste section in style tab")?>">
+								<a id="uc_attr_cats_copied_section_paste_style" href="javascript:void(0)" class="uc-attr-cats-copied-section__link" data-tab="style" title="<?php _e("Paste section in style tab")?>">
 									<?php _e("to style","unlimited-elements-for-elementor")?>
 								</a>
 							

@@ -208,9 +208,10 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		 * add ajax back end callback, on some action to some function.
 		 */
 		protected function addActionAjax($ajaxAction, $eventFunction){
-						
+			
 			$this->addAction('wp_ajax_'.GlobalsUC::PLUGIN_NAME."_".$ajaxAction, $eventFunction, true);
 			$this->addAction('wp_ajax_nopriv_'.GlobalsUC::PLUGIN_NAME."_".$ajaxAction, $eventFunction, true);
+			
 		}
 		
 		

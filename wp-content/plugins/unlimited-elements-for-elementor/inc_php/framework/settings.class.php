@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -753,6 +753,7 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 		 * add select setting
 		 */
 		public function addMultiSelect($name,$arrItems,$text,$defaultItem="",$arrParams=array()){
+			
 			$params = array("items"=>$arrItems);
 			$params = array_merge($params,$arrParams);
 			
@@ -1166,6 +1167,10 @@ defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
 				$loadParam = (string)UniteFunctionsUC::getVal($attribs, "loadparam");	
 				$loadedSettingsType = (string)UniteFunctionsUC::getVal($attribs, "loadtype");	
 				$nodraw = (string)UniteFunctionsUC::getVal($attribs, "nodraw");				
+				$visibility = (string)UniteFunctionsUC::getVal($attribs, "visibility");				
+								
+				if($visibility == "dev" && GlobalsUC::$inDev == false)
+					continue;
 				
 				$sapParams = array();
 				if(!empty($nodraw)){

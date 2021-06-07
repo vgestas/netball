@@ -60,7 +60,7 @@ class UnlimitedElementsPluginUC extends UniteCreatorPluginBase{
 	 * run front 
 	 */
 	public function runFront(){
-		
+				
 		$this->includeCommonFiles();
 		$this->runCommonActions();
 				
@@ -86,6 +86,8 @@ class UnlimitedElementsPluginUC extends UniteCreatorPluginBase{
 		require_once $this->pathPlugin . 'helper_provider_core.class.php';
 		require_once $this->pathPlugin . 'elementor/elementor_integrate.class.php';
 		require_once $this->pathPlugin . 'elementor/pagination.class.php';
+		require_once $this->pathPlugin . "elementor/elementor_dynamic_visibility.class.php";
+		require_once $this->pathPlugin . "copy_paste.class.php";
 		
 		if(is_admin()){
 			require_once $this->pathPlugin . 'elementor/elementor_layout_exporter.class.php';

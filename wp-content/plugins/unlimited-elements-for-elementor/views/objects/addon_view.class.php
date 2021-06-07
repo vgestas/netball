@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -300,6 +300,8 @@ class UniteCreatorAddonView{
 		
 		$name = $this->objAddon->getNameByType();
 		
+		$catTitle = $this->objAddon->getCatTitle();
+		
 		$generalSettings = $this->initGeneralSettings();
 		
 		//set options from addon
@@ -336,10 +338,17 @@ class UniteCreatorAddonView{
 			
 			
 			<!-- TYPE -->
-			<div class="vert_sap15"></div>
+			<div class="vert_sap20"></div>
 			
 			<?php esc_html_e("Widget Type", "unlimited-elements-for-elementor");?>: <b> <?php echo esc_html($addonTypeTitle)?> </b>
 			
+			<?php if(!empty($catTitle)):?>
+			<div class="vert_sap10"></div>
+			
+			<?php esc_html_e("Category", "unlimited-elements-for-elementor");?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<b> <?php echo $catTitle?> </b>
+			
+			<?php endif?>
 			
 			<?php UniteProviderFunctionsUC::doAction(UniteCreatorFilters::ACTION_EDIT_ADDON_ADDSETTINGS, $arrOptions)?>
 			
@@ -601,6 +610,16 @@ class UniteCreatorAddonView{
 					</span>
 					
 					<?php HelperHtmlUC::putDialogControlFieldsNotice() ?>
+					
+					<div class="vert_sap10"></div>
+					
+					<label>
+						<input id="uc_dialog_include_after_elementor_frontend" type="checkbox" name="include_after_elementor_frontend">
+						&nbsp;
+						<?php _e("Include after elementor-frontend.js", "unlimited-elements-for-elementor")?>
+						
+					</label>
+					
 				</div>
 			</div>
 			
@@ -1159,6 +1178,7 @@ class UniteCreatorAddonView{
 		$arrParams[] = $this->createChildParam("link");
 		$arrParams[] = $this->createChildParam("isvideo");
 		$arrParams[] = $this->createChildParam("num_video_views");
+		$arrParams[] = $this->createChildParam("video_class");
 		
 		return($arrParams);
 	}
@@ -1191,6 +1211,21 @@ class UniteCreatorAddonView{
 		
 		return($arrParams);
 		
+	}
+	
+	/**
+	 * add simple array
+	 */
+	protected function getAddParams_array(){
+		
+		$strText = "{% for value in [param_prefix] %}\n";
+		$strText .= "	{{value}}\n";
+		$strText .= "{% endfor %}\n";
+		
+		$arrParams = array();
+		$arrParams[] = $this->createChildParam(null, null, array("raw_insert_text"=>$strText));
+		
+		return($arrParams);
 	}
 	
 	/**
@@ -1391,6 +1426,8 @@ class UniteCreatorAddonView{
 	protected function getAddParamKeys(){
 		
 		$arrAddKeys = array();
+		
+		$arrAddKeys[UniteCreatorDialogParam::PARAM_MULTIPLE_SELECT] = $this->getAddParams_array();
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_NUMBER] = $this->getAddParams_responsive();
 		
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_FORM] = $this->getAddParams_form();
@@ -1399,6 +1436,8 @@ class UniteCreatorAddonView{
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_POST_TERMS] = $this->objChildParams->getAddParams_terms();
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_WOO_CATS] = $this->objChildParams->getAddParams_terms(true);
 		
+		$arrAddKeys[UniteCreatorDialogParam::PARAM_LISTING] = $this->objChildParams->getAddParams_listing();
+		
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_USERS] = $this->objChildParams->getAddParams_users();
 		
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_ICON_LIBRARY] = $this->objChildParams->getAddParams_iconLibrary();
@@ -1406,6 +1445,7 @@ class UniteCreatorAddonView{
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_SLIDER] = $this->objChildParams->getAddParams_slider();
 		
 		$arrAddKeys[UniteCreatorDialogParam::PARAM_MENU] = $this->objChildParams->getAddParams_menu();
+		$arrAddKeys[UniteCreatorDialogParam::PARAM_TEMPLATE] = $this->objChildParams->getAddParams_template();
 		
 		return($arrAddKeys);
 	}

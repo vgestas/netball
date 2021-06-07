@@ -166,6 +166,11 @@ function UniteCreatorIncludes(){
 		if(objCondition)
 			objHtml.data("condition", objCondition);
 		
+		//update params
+		var objParams = g_ucAdmin.getVal(item, "params");
+		if(objParams)
+			objHtml.data("params",objParams);
+		
 		return(objHtml)
 	}
 
@@ -314,6 +319,13 @@ function UniteCreatorIncludes(){
 		if(!data.condition && typeof data.condition != "object")
 			data.condition = null;
 		
+		//get params
+		var objParams = objRow.data("params");
+		if(!objParams)
+			objParams = null;
+		
+		data.params = objParams;
+		
 		return(data);
 	}
 	
@@ -380,8 +392,9 @@ function UniteCreatorIncludes(){
 	 * init include list
 	 */
 	function initIncludeList(objList){
-		var data = objList.data("init");
 		
+		var data = objList.data("init");
+				
 		if(!data || typeof data != "object" || data.length == 0){
 			addIncludesListItem(objList);
 			return(false);
@@ -456,6 +469,26 @@ function UniteCreatorIncludes(){
 			
 		}
 		
+		//checkboxes
+		var objCheckboxes = objDialog.find("input[type='checkbox']");
+		
+		var objParams = g_ucAdmin.getVal(objData, "params");
+		if(!objParams)
+			objParams = null;
+		
+		jQuery.each(objCheckboxes,function(index, checkbox){
+						
+			var objCheckbox = jQuery(checkbox);
+			
+			var name = objCheckbox.prop("name");
+			
+			var value = g_ucAdmin.getVal(objParams, name);
+			value = g_ucAdmin.strToBool(value);
+			
+			objCheckbox.prop("checked", value);
+							
+		});
+		
 	}
 
 	
@@ -529,12 +562,22 @@ function UniteCreatorIncludes(){
 	function openIncludeSettingsDialog(){
 		
 		var objRow = jQuery(this).parents("li");
+		var objList = objRow.parents("ul");
+		
+		var listType = objList.data("type");
+		
 		
 		var data = getIncludeData(objRow);
 		
 		var objDialog = jQuery("#uc_dialog_unclude_settings");
 		objDialog.data("objRow", objRow);
 		
+		if(listType == "js"){
+			objDialog.addClass("uc-include-type-js");
+		}else{
+			objDialog.removeClass("uc-include-type-js");
+		}
+				
 		var buttonOpts = {};
 		
 		buttonOpts[g_uctext.update] = function(){
@@ -542,6 +585,20 @@ function UniteCreatorIncludes(){
 			var paramValue = jQuery("#uc_dialog_include_values").val();
 			
 			updateInputCondition(objRow, paramName, paramValue);
+			
+			var rowParams = {};
+			var objCheckboxes = objDialog.find("input[type='checkbox']");
+			jQuery.each(objCheckboxes,function(index, checkbox){
+				var objCheckbox =  jQuery(checkbox);
+				var name = objCheckbox.prop("name");
+				var isChecked = objCheckbox.is(":checked");
+				
+				if(isChecked == true)
+					rowParams[name] = true;
+			});
+			
+			objRow.data("params", rowParams);
+			
 			objDialog.dialog("close");
 		}
 		
@@ -559,7 +616,9 @@ function UniteCreatorIncludes(){
 			minWidth:700,
 			modal:true,
 			open:function(){
+								
 				var arrParams = g_parent.getControlParams();
+				
 				dialogSettings_fillParams(arrParams, data);
 			}
 		});

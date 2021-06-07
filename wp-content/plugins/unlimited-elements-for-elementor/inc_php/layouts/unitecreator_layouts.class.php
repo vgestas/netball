@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved.
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved.
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -309,7 +309,6 @@ class UniteCreatorLayoutsWork extends UniteElementsBaseUC{
 				
 		$arrLayouts = $this->getArrLayouts(null, array(), $layoutType);
 		
-		
 		$generated = UniteFunctionsUC::getRandomString(5);
 		$prefix = "layout_".$generated."_";
 		
@@ -339,7 +338,7 @@ class UniteCreatorLayoutsWork extends UniteElementsBaseUC{
 	}
 	
 	
-	private function a_OTHER_GETTERS(){}
+	private function a_______OTHER_GETTERS_________(){}
 	
 	
 	/**

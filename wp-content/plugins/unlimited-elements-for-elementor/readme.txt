@@ -3,7 +3,7 @@ Contributors: Maxim Vendorov, Amit Keren
 Donate link: http://unlimited-elements.com/
 Tags: elementor, elements, addons, elementor addon, elementor widget, page builder, builder, visual editor, wordpress page builder, elementor
 Requires at least: 3.5
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,254 +19,120 @@ Take your Elementor page building experience to the next level with Unlimited El
 Use any of are free widgets or upgrade to our pro version and enjoy +200 more unique widgets for Elementor. Each element comes with a bunch of options to control every possible setting. In case you are missing something you can easily add it using our unique Widget Creator Framework.
 
 
-<h3>Content Boxes for Elementor</h3>
+<h3>Creative Widgets for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/image-zoom-content-box-widget-for-elementor/">Image Zoom Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/image-card-content-box-widget-for-elementor/">Image Card Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/hover-text-reveal-content-box-widget-for-elementor/">Hover Text Reveal Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-image-content-box-widget-for-elementor">Icon Image Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-content-box-widget-for-elementor">Icon Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/diagonal-content-box-widget-for-elementor">Diagonal Content Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/subtle-overlay-content-box-widget-for-elementor/">Subtle Overlay Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/border-hover-overlay-content-box-widget-for-elementor">Border Hover Overlay Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-card-content-box-widget-for-elementor/">Overlay Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/shrink-content-box-widget-for-elementor/">Shrink Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/sliding-content-box-widget-for-elementor/">Sliding Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/animated-border-content-box-widget-for-elementor">Animated Border Content Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/zoom-caption-reveal-content-box-widget-for-elementor">Zoom Caption Reveal Content Box for Elementor (Pro)</li>
-</ol>
-
-<h3>Image Galleries for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/minimalistic-image-gallery-for-elementor/">Minimalistic Image Gallery for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/tile-grid-image-gallery-for-elementor/">Tile Grid Image Gallery for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/slider-image-gallery-for-elementor/">Slider Image Gallery for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/video-and-image-gallery-grid-panel-widget-for-elementor/">Video and Image Gallery Grid Panel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/carousel-slider-image-gallery-widget-for-elementor/">Carousel Slider Image Gallery for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/carousel-image-gallery-for-elementor">Carousel Image Gallery for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/justified-columns-image-gallery-for-elementor">Justified Columns Image Gallery for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/grid-panel-image-gallery-for-elementor">Grid Panel Image Gallery for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/basic-image-gallery-for-elementor/">Basic Image Gallery for Elementor (Pro)</li>
-</ol>
-
-<h3>Event Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/date-event-box-widget-for-elementor">Date Event Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/event-box-widget-for-elementor">Event Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/row-event-widget-for-elementor">Row Event for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/diagonal-event-box-widget-for-elementor">Diagonal Event Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/material-event-box-widget-for-elementor/">Material Event Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/event-list-widget-for-elementor/">Event List for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/date-event-list-widget-for-elementor">Date Event List for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/cta-row-event-widget-for-elementor/">CTA Row Event for Elementor (Pro)</li>
-</ol>
-
-<h3>Menu Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/simple-fullscreen-navigation-menu-widget-for-elementor/">Fullscreen Navigation Menu for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/simple-list-menu-widget-for-elementor">Simple List Menu for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/bullet-one-page-scroll-navigation-widget-for-elementor">Bullet One Page Scroll Navigation for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-one-page-scroll-navigation-widget-for-elementor/">Icon One Page Scroll Navigation for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/liquid-fullscreen-menu-widget-for-elementor">Liquid Full Screen Menu for Elementor (Pro)</li>
-</ol>
-
-<h3>Hero Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/title-hero-widget-for-elementor">Title Hero for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/split-hero-widget-for-elementor">Split Hero for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/transparent-split-hero-widget-for-elementor">Transparent Split Hero for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/box-hero-widget-for-elementor/">Box Hero for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/border-hero-widget-for-elementor">Border Hero for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/video-hero-widget-for-elementor/">Video Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/split-video-hero-widget-for-elementor">Split Video Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/diagonal-hero-widget-for-elementor/">Diagonal Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/quote-hero-widget-for-elementor">Quote Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/persona-hero-widget-for-elementor">Persona Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/service-box-hero-widget-for-elementor">Service Box Hero for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/solid-color-hero-widget-for-elementor">Solid Color Hero for Elementor (Pro)</li>
-</ol>
-
-<h3>Flip Boxes for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/material-flip-box-for-elementor/">Material Flip Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/flat-flip-box-widget-for-elementor">Flat Flip Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-flip-box-widget-for-elementor">Icon Flip Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/image-icon-flip-box-widget-for-elementor">Image Icon Flip Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/product-flip-box-widget-for-elementor/">Product Flip Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/pricing-flip-box-widget-for-elementor/">Pricing Flip Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/gradient-flip-box-widget-for-elementor">Gradient Flip Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-product-flipbox-widget-for-elementor/">Image Product Flipbox for Elementor (Pro)</li>
-</ol>
-
-<h3>Instagram Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/grid-instagram-widget-for-elementor">Grid Instagram Widget for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/latest-instagram-image-widget-for-elementor">Latest Instagram Image for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/instagram-card-widget-for-elementor/">Instagram Card Widget for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/metro-instagram-widget-for-elementor">Metro Instagram Widget for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/instagram-teaser-box-for-elementor/">Instagram Teaser Box for Elementor (Pro)</li>
-</ol>
-
-<h3>Pricing Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/material-pricing-table-widget-for-elementor/">Material Pricing Table for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/box-pricing-table-widget-for-elementor">Box Pricing Table for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-pricing-table-widget-for-elementor/">Icon Pricing Table for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-pricing-table-widget-for-elementor">Gradient Pricing Table for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/border-pricing-table-widget-for-elementor/">Border Pricing Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/wave-pricing-table-widget-for-elementor">Wave Pricing Table for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/round-animated-pricing-table-widget-for-elementor">Round Animated Pricing Table for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/diagonal-pricing-table-widget-for-elementor">Diagonal Pricing Table for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/alternating-pricing-table-widget-for-elementor">Alternating Pricing Table for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/solid-color-pricing-table-widget-for-elementor">Solid Color Pricing Table for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/mini-pricing-box-widget-for-elementor">Mini Pricing Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/price-list-box-widget-for-elementor">Price List Box for Elementor (Pro)</li>
-</ol>
-
-<h3>Icon Boxes for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/square-icon-box-widget-for-elementor">Square Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/border-hover-icon-box-widget-for-elementor">Border Hover Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/twist-hover-icon-box-widget-for-elementor/">Twist Hover Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/solid-color-icon-box-widget-for-elementor">Solid Color Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/material-card-icon-box-widget-for-elementor/">Material Card Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/circle-icon-box-widget-for-elementor">Circle Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-icon-box-widget-for-elementor">Gradient Icon Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-button-number-box-widget-for-elementor">Icon Button Number Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/content-reveal-icon-box-widget-for-elementor/">Content Reveal Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/animated-line-icon-box-widget-for-elementor/">Animated Line Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/subtle-border-hover-icon-box-widget-for-elementor/">Subtle Border Hover Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/subtle-hover-icon-box-widget-for-elementor/">Subtle Hover Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/diamond-icon-box-widget-for-elementor/">Diamond Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-box-hover-effect-widget-for-elementor/">Icon Box Hover Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/square-solid-hover-icon-box-widget-for-elementor/">Square Solid Hover Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/square-border-icon-box-widget-for-elementor">Square Border Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/animated-icon-box-widget-for-elementor/">Animated Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/animated-border-icon-box-widget-for-elementor/">Animated Border Icon Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/solid-color-overlay-icon-box-widget-for-elementor">Solid Color Overlay Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/blob-shape-widget-for-elementor/">Blob Shapes for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/animated-mouse-scroll-icon-widget-for-elementor/">Animated Mouse Scroll Icon for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/animated-hamburger-icon-for-elementor/">Animated Hamburger Icon for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/svg-animation-widget-for-elementor">SVG Animation for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/image-tooltip-widget-for-elementor/">Image Tooltip for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/number-box-widget-widget-for-elementor/">Number Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/statistic-counters-for-elementor">Statistic Counter for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/flip-box-widget-for-elementor/">Flip Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/before-after-image-comparison-widget-for-elementor/">Before After for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/hotspots-for-elementor-page-builder/">Hotspots for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/audio-player-widget-for-elementor/">Audio Player for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-tabs-widget-for-elementor">Icon Tabs for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/audio-playlist-widget-for-elementor">Audio Playlist for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/background-switcher-widget-for-elementor/">Background Switcher for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-zoom-magnifier-widget-for-elementor/">Image Zoom Magnifier for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-shapes-for-elementor-page-builder/">Image Shapes for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/notification-widget-for-elementor">Notification for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-accordion-widget-for-elementor/">Image Accordion for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-reveal-on-scroll-widget-for-elementor">Image Reveal On Scroll for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/interactive-circle-infographic-widget-for-elementor/">Interactive Circle Infographic for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-accordion-widget-for-elementor/">Icon Accordion for Elementor (Pro)</li>
 </ol>
 
 <h3>Post Widgets for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/squeeze-post-grid-widget-for-elementor">Squeeze Post Grid for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/post-tabs-for-elementor/">Post Tabs for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/square-post-grid-widget-for-elementor/">Square Post Grid Image Overlay for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/post-news-ticker-widget-for-elementor">Post Ticker for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/post-list-widget-for-elementor">Post List for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/post-accordions-for-elementor/">Post Accordion for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/post-blocks-widget-for-elementor">Post Blocks for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/post-tabs-for-elementor/">Post Tabs for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/card-post-carousel-widget-for-elementor">Card Post Carousel for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/image-post-news-scroller-widget-for-elementor">Image Post News Scroller for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/portfolio-post-grid-widget-for-elementor">Portfolio Post Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-timeline-widget-for-elementor/">Post Timeline for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-gallery-widget-for-elementor">Post Gallery for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/vertical-post-tabs-widget-for-elementor">Vertical Post Tabs for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/masonry-post-grid-widget-for-elementor">Masonry Post Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-carousels-for-elementor/">Post Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-news-scroller-widget-for-elementor">Post News Scroller for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/news-scroller-with-thumbnail-widget-for-elementor/">News Scroller With Thumbnail for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-sliders/">Post Slider for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-tiles-widget-for-elementor">Post Tile for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/post-news-tickers-for-elementor/">Post News Ticker for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-accordions-for-elementor/">Post Accordion for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/post-grid">Post Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/alternating-post-grid-widget-for-elementor">Alternating Post Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/metro-post-grid-widget-for-elementor/">Metro Post Grid for Elementor (Pro)</li>
-</ol>
-
-<h3>Social Network Icons for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/glare-social-icons-widget-for-elementor/">Social Icons Glare Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/3d-social-icon-buttons-widget-for-elementor">3d Social Icon Buttons for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/square-to-circle-social-icon-button-widgets-for-elementor">Square to Circle Social Icons for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/rotating-social-icon-button-widgets-for-elementor">Rotating Social Icons for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/label-social-icon-button-widgets-for-elementor">Social Icons With Label for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/circle-fill-social-icon-button-widgets-for-elementor">Social Icons With Circle Fill Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/shape-social-icon-button-widgets-for-elementor">Shape Social Icons for Elementor (Pro)</li>
-</ol>
-
-<h3>Button Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/toggle-text-button-widget-for-elementor/">Toggle Text Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-button-widget-for-elementor/">Gradient Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/button-group-widget-for-elementor/">Button Group for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/multi-line-button-widget-for-elementor/">Multi Line Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/underline-animated-button-widget-for-elementor/">Underline Animated Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-pointer-button-widget-for-elementor/">Icon Pointer Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-hover-effect-button-widget-for-elementor/">Icon Hover Effect Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/gradient-button-widget-for-elementor/">Gradient Button Group for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/simple-artistic-button-widget-for-elementor/">Simple Artistic Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/border-button-effect-widget-for-elementor/">Border Button Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/angled-button-with-glint-effect-for-elementor/">Angled Button With Glint Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/glare-effect-button-widget-for-elementor/">Glare Effect Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/gradient-hover-effect-button-widget-for-elementor/">Gradient Hover Effect Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/neon-glowing-button-effect-widget-for-elementor/">Neon Glowing Button Effect for Elementor (Pro)</li>
-</ol>
-
-<h3>Google Charts for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/pie-chart-for-elementor">Pie chart for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/line-chart-for-elementor">Line Chart for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/donut-chart-for-elementor">Donut Chart for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/line-chart-for-elementor">Comparison Line Chart for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/area-chart-for-elementor">Area Chart for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/elementor-author-list-widget/">Author List for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/masonry-post-grid-widget-for-elementor">Masonry Post Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/taxonomy-terms-widget-for-elementor/">Taxonomy Terms for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-tiles-widget-for-elementor">Post Tile for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-timeline-widget-for-elementor/">Post Timeline for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-pagination-widget-for-elementor/">Post Pagination for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-carousels-for-elementor/">Post Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-sliders/">Post Slider for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/blog-card-slider-widget-for-elementor">Post Card Slider for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-scroll-widget-for-elementor">Post Scroll for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/post-gallery-widget-for-elementor">Post Gallery for Elementor (Pro)</li>
 </ol>
 
 <h3>Marketing Widgets for Elementor</h3>
 <ol>
 	<li><a href="https://unlimited-elements.com/timer-countdowns-for-elementor-page-builder/">Timer Countdown for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/phone-button-for-elementor">Telephone Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/email-button-for-elementor/">Email Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/sms-button-for-elementor">SMS Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/whatsapp-button-for-elementor">Whatsapp Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/facebook-messenger-button-for-elementor">Facebook Messenger Button for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-mobile-menu-for-elementor">Icon Mobile Menu for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/mobile-conversion-menu-for-elementor">Mobile Conversion Menu for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/price-list-widget-for-elementor/">Price List for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/price-list-widget-for-elementor/">Price List for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/pricing-table-widget-for-elementor/">Pricing Table for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/review-box-widget-for-elementor">Review Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/call-to-action-button-widget-for-elementor/">Call To Action Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/event-box-widget-for-elementor">Event Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/list-marquee-widget-for-elementor/">List Marquee for Elementor (Pro)</li>
 	<li><a href="https://unlimited-elements.com/timer-countdown-banner-widget-for-elementor">Timer Countdown Banner for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/card-testimonial-review-carousel-widget-for-elementor">Review Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/copy-coupon-code-widget-for-elementor">Copy Coupon Code for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/pricing-flip-box-widget-for-elementor/">Pricing Table Flip Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/event-list-widget-for-elementor/">Event List for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/price-box-widget-for-elementor/">Price Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-mobile-menu-for-elementor">Icon Mobile Menu for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/whatsapp-chat-widget-for-elementor">Whatsapp Chat for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/mobile-conversion-menu-for-elementor">Mobile Conversion Menu for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/business-hours-widget-for-elementor">Business Hours for Elementor (Pro)</li>
 </ol>
 
-<h3>Team Members for Elementor</h3>
+<h3>Dynamic Loops for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/team-member-box-overlay-widget-for-elementor">Team Member Box Overlay for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/overlay-card-team-member-widget-for-elementor">Overlay Card Team Member for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-team-member-card-widget-for-elementor">Gradient Team Member Card for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/material-card-team-member-widget-for-elementor/">Material Card Team Member for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/round-team-member-card-widget-for-elementor">Round Team Member Card for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/circle-overlay-team-member-widget-for-elementor">Circle Overlay Team Member for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/subtle-overlay-team-member-widget-for-elementor/">Subtle Overlay Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/zoom-in-team-member-widget-for-elementor/">Zoom In Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/border-team-member-widget-for-elementor">Border Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/sliding-effect-team-member-widget-for-elementor">Sliding Effect Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/slide-up-zoom-team-member-widget-for-elementor">Slide Up Zoom Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-team-member-widget-for-elementor">Icon Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/overlay-team-member-widget-for-elementor">Overlay Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/content-reveal-team-member-widget-for-elementor/">Content Reveal Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/round-team-member-carousel-widget-for-elementor">Round Team Member Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/team-member-card-carousel-widget-for-elementor">Card Team Member Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/contact-card-team-member-widget-for-elementor/">Contact Card Team Member for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/transparent-overlay-team-member-widget-for-elementor">Transparent Overlay Team Member for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/dynamic-loop-builder/">Dynamic Template Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/dynamic-loop-builder/">Dynamic Template Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/dynamic-loop-builder/">Dynamic Template Tabs for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/dynamic-loop-builder/">Dynamic Template Slider for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/dynamic-loop-builder/">Dynamic Template Accordion for Elementor (Pro)</li>
+</ol>
+
+<h3>Woocommerce for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/woocommerce-product-list-widget-for-elementor/">Woocommerce Product List for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/woocommerce-product-carousel-widget-for-elementor">Woocommerce Product Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/woocommerce-product-slider-widget-for-elementor">Woocommerce Product Slider for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/woocommerce-product-grid-widget-for-elementor/">Woocommerce Product Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/woocommerce-category-grid-for-elemenetor/">Woocommerce Category Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/woocommerce-category-carousel-widget-for-elementor/">Woocommerce Category Carousel for Elementor (Pro)</li>
 </ol>
 
 <h3>Testimonials for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/diagonal-testimonial-widget-for-elementor/">Diagonal Testimonial for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/box-testimonial-widget-for-elementor/">Box Testimonial for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/testimonial-review-box-widget-for-elementor">Testimonial Review Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/rating-card-testimonial-widget-for-elementor">Rating Card Testimonial for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/box-testimonial-widget-for-elementor/">Testimonial Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/logo-card-testimonial-widget-for-elementor">Testimonial Card for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/testimonial-carousel-widget-for-elementor/">Testimonial Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/card-testimonial-review-carousel-widget-for-elementor">Card Testimonial Review Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/3d-testimonial-card-carousel-widget-for-elementor">3D Testimonial Card Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/background-image-testimonial-widget-for-elementor">Background Image  Testimonial for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/horizontal-box-testimonial-widget-for-elementor/">Horizontal Box Testimonial for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/testimonial-quote-slider-widget-for-elementor">Testimonial Quote Slider for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/logo-card-testimonial-widget-for-elementor">Logo Card Testimonial for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/3d-testimonial-card-carousel-widget-for-elementor">Testimonial Card Carousel for Elementor (Pro)</li>
 </ol>
 
-<h3>Logo Widgets for Elementor</h3>
+<h3>Team Members for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/logo-grid-widget-for-elementor/">Logo Grid for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/logo-card-widget-for-elementor">Logo Card for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/logo-carousel-widget-for-elementor/">Logo Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/logo-marquee-widget-for-elementor">Logo Marquee for Elementor (Pro)</li>
+	<li><a href="http://unlimited-elements.com/team-member-card-widget-for-elementor/">Team Member Card for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/team-member-box-overlay-widget-for-elementor">Team Member Box for Elementor (Free)</li>
+	<li><a href="http://unlimited-elements.com/team-member-carousel-widget-for-elementor/">Team Member Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-team-member-widget-for-elementor">Icon Team Member for Elementor (Pro)</li>
+	<li><a href="http://unlimited-elements.com/team-member-grid-widget-for-elementor/">Team Member Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/sliding-effect-team-member-widget-for-elementor">Sliding Effect Team Member for Elementor (Pro)</li>
+</ol>
+
+<h3>Menu Widgets for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/simple-fullscreen-navigation-menu-widget-for-elementor/">Fullscreen Navigation Menu for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/simple-list-menu-widget-for-elementor">List Menu for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/liquid-fullscreen-menu-widget-for-elementor">Liquid Full Screen Menu for Elementor (Pro)</li>
+	<li><a href="http://unlimited-elements.com/side-menu-widget-for-elementor">Side Menu for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/one-page-scroll-navigation-widget-for-elementor">One Page Scroll Navigation for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/accordion-menu-widget-for-elementor">Accordion Menu for Elementor (Pro)</li>
+	<li><a href="http://unlimited-elements.com/circle-menu-widget-for-elementor">Circle Menu for Elementor (Pro)</li>
 </ol>
 
 <h3>Carousel Widgets for Elementor</h3>
@@ -281,67 +147,160 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/portfolio-carousel-widget-for-elementor/">Portfolio Carousel for Elementor (Pro)</li>
 </ol>
 
-<h3>Progress Bar for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/linear-progress-bar-widget-for-elementor">Linear Progress Bar for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/material-progress-bar-widget-for-elementor/">Material Progress Bar for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/circle-progress-bar-widget-for-elementor/">Circle Progress Bar for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/semi-circle-progress-bar-widget-for-elementor/">Semi Circle Progress Bar for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/vertical-progress-bar-widget-for-elementor">Vertical Progress Bar for Elementor (Pro)</li>
-</ol>
-
 <h3>Slider Widgets for Elementor</h3>
 <ol>
 	<li><a href="https://unlimited-elements.com/simple-slider-widget-for-elementor/">Simple Slider for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/image-video-content-slider-widget-for-elementor">Image and Video Content Slider for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/thumbnail-slider-widget-for-elementor/">Thumbnail Slider for Elementor (Pro)</li>
 </ol>
 
-<h3>Hover Effects for Elementor</h3>
+<h3>Content Boxes for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/link-hover-effects/">Link Hover Effects for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-hover-effects-for-elementor/">Icon Hover Effects for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/creative-button-hover-widget-for-elementor/">Creative Button Hovers for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/ihover-for-elementor/">iHover Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/caption-hover-effects/">Caption Hover Effects for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/border-link-hover-effects-widget-for-elementor/">Border Link Hover Effects for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/banner-hover-effect-widgets-for-elementor/">Banner Hover Effects for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-zoom-content-box-widget-for-elementor/">Image Zoom Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/image-card-content-box-widget-for-elementor/">Image Card Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/hover-text-reveal-content-box-widget-for-elementor/">Hover Text Reveal Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-image-content-box-widget-for-elementor">Icon Image Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-content-box-widget-for-elementor">Icon Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/diagonal-content-box-widget-for-elementor">Diagonal Content Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/zoom-caption-reveal-content-box-widget-for-elementor">Zoom Caption Reveal Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/subtle-overlay-content-box-widget-for-elementor/">Subtle Overlay Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/border-hover-overlay-content-box-widget-for-elementor">Border Hover Overlay Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/animated-border-content-box-widget-for-elementor">Animated Border Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/overlay-content-box-widget-for-elementor/">Overlay Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/shrink-content-box-widget-for-elementor/">Shrink Content Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/sliding-content-box-widget-for-elementor/">Sliding Content Box for Elementor (Pro)</li>
 </ol>
 
-<h3>Lightbox Modal Popup for Elementor</h3>
+<h3>Instagram Widgets for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/video-play-button-popup-widget-for-elementor/">Video Play Button Popup for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/button-with-video-popup-widget-for-elementor">Button With Video Popup for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/video-play-button-on-image-with-popup-widget-for-elementor/">Video Play Button on Image with Popup for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/latest-instagram-image-widget-for-elementor">Latest Instagram Image for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/grid-instagram-widget-for-elementor">Instagram Grid for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/instagram-card-widget-for-elementor/">Instagram Card Widget for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/metro-instagram-widget-for-elementor">Metro Instagram Widget for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/instagram-teaser-box-for-elementor/">Instagram Teaser Box for Elementor (Pro)</li>
 </ol>
 
-<h3>Bullet Lists for Elementor</h3>
+<h3>Typography for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/diamond-bullets-widget-for-elementor">Diamond Bullets for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/timeline-bullets-widget-for-elementor/">Timeline Bullets for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/material-bullets-widget-for-elementor">Material Bullets for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/alternating-color-background-bullets-widget-for-elementor">Alternating Color Background Bullets for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/two-column-product-bullets-widget-for-elementor/">Two Column Product Bullets for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/alternating-timeline-bullets-widget-for-elementor">Alternating Timeline Bullets for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/rounded-icon-bullets-widget-for-elementor/">Rounded Icon Bullets for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/solid-bullets-widget-for-elementor/">Solid Bullets for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/product-bullets-widget-for-elementor">Product Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/3d-text-effect-for-elementor/">3d Text for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/3d-extrude-text-effect-widget-for-elementor">3D Extrude Text Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/gradient-underline-text-effect-widget-for-elementor/">Gradient Underline Text Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/dual-color-heading-widget-for-elementor/">Dual Color Heading for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/text-marquee-for-elementor/">Text Marquee Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/stroke-text-effect-widget-for-elementor/">Stroke Text Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/gradient-text-effect-for-elementor/">Gradient Text Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/sideways-vertical-text-widget-for-elementor">Sideways Vertical Text for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/futuristic-typing-text-effect-widget-for-elementor/">Futuristic Typing Text Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/text-rotator-for-elementor-page-builder/">Text Rotator for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-background-text-effect-widget-for-elementor/">Image Background Text Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/typewriter-text-effect-for-elementor/">Typewriter Text Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/scroll-reveal-text-widget-for-elementor/">Scroll Reveal Text for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/side-line-heading-widget-for-elementor/">Side Line Heading for Elementor (Pro)</li>
 </ol>
 
-<h3>Audio Player for Elementor</h3>
+<h3>Button Widgets for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/minified-audio-player-widget-for-elementor">Minified Audio Player for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/solid-audio-player-widget-for-elementor">Solid Audio Player for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/background-image-audio-player-widget-for-elementor">Background Image Audio Player for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/album-audio-player-widget-for-elementor">Album Audio Player for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/gradient-audio-player-widget-for-elementor/">Gradient Audio Player for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/timer-audio-player-widget-for-elementor">Timer Audio Player for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/toggle-text-button-widget-for-elementor/">Toggle Text Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/gradient-button-widget-for-elementor/">Gradient Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/button-group-widget-for-elementor/">Button Group for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/multi-line-button-widget-for-elementor/">Multi Line Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-pointer-button-widget-for-elementor/">Icon Pointer Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/underline-animated-button-widget-for-elementor/">Underline Animated Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/parellogram-button-widget-for-elementor/">Parellogram Button for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/border-button-effect-widget-for-elementor/">Border Button Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/gradient-hover-effect-button-widget-for-elementor/">Gradient Hover Effect Button for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/simple-artistic-button-widget-for-elementor/">Simple Artistic Button for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/angled-button-with-glint-effect-for-elementor/">Angled Button With Glint Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/neon-glowing-button-effect-widget-for-elementor/">Neon Glowing Button Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-hover-effect-button-widget-for-elementor/">Icon Hover Effect Button for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/gradient-button-widget-for-elementor/">Gradient Button Group for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/glare-effect-button-widget-for-elementor/">Glare Effect Button for Elementor (Pro)</li>
 </ol>
 
-<h3>Audio Playlist for Elementor</h3>
+<h3>Image Galleries for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/album-playlist-widget-for-elementor">Album Playlist for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/background-playlist-widget-for-elementor">Background Playlist for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/minified-playlist-widget-for-elementor">Minified Playlist for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/minimalistic-image-gallery-for-elementor/">Minimalistic Image Gallery for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/tile-grid-image-gallery-for-elementor/">Tile Grid Image Gallery for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/slider-image-gallery-for-elementor/">Slider Image Gallery for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/justified-columns-image-gallery-for-elementor">Justified Columns Image Gallery for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/video-and-image-gallery-grid-panel-widget-for-elementor/">Video and Image Gallery Grid Panel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/carousel-image-gallery-for-elementor">Carousel Image Gallery for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/grid-panel-image-gallery-for-elementor">Grid Panel Image Gallery for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/basic-image-gallery-for-elementor/">Basic Image Gallery for Elementor (Pro)</li>
+</ol>
+
+<h3>Restaurant Widgets for Elementor</h3>
+<ol>
+	<li><a href="http://unlimited-elements.com/food-menu-box-widget-for-elementor/">Food Menu Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/food-menu-widget-for-elementor/">Food Menu for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/food-menu-list-widget-for-elementor">Food Menu List for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/food-menu-carousel-widget-for-elementor">Food Menu Carousel for Elementor (Pro)</li>
+</ol>
+
+<h3>Hero Widgets for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/title-hero-widget-for-elementor">Title Hero for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/box-hero-widget-for-elementor/">Box Hero for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/split-hero-widget-for-elementor">Split Hero for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/transparent-split-hero-widget-for-elementor">Transparent Split Hero for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/border-hero-widget-for-elementor">Border Hero for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/video-hero-widget-for-elementor/">Video Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/split-video-hero-widget-for-elementor">Split Video Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/diagonal-hero-widget-for-elementor/">Diagonal Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/quote-hero-widget-for-elementor">Quote Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/persona-hero-widget-for-elementor">Persona Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/service-box-hero-widget-for-elementor">Service Box Hero for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/solid-color-hero-widget-for-elementor">Solid Color Hero for Elementor (Pro)</li>
+</ol>
+
+<h3>Logo Widgets for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/logo-grid-widget-for-elementor/">Logo Grid for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/logo-card-widget-for-elementor">Logo Card for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/logo-carousel-widget-for-elementor/">Logo Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/logo-marquee-widget-for-elementor">Logo Marquee for Elementor (Pro)</li>
+</ol>
+
+<h3>Footer for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/material-footer-card-widget-for-elementor">Material Footer Card for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-footer-box-widget-for-elementor">Icon Footer Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/horizontal-footer-box-widget-for-elementor/">Horizontal Footer Box for Elementor (Pro)</li>
+</ol>
+
+<h3>Icon Boxes for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/square-icon-box-widget-for-elementor">Square Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/twist-hover-icon-box-widget-for-elementor/">Twist Hover Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/gradient-icon-box-widget-for-elementor">Gradient Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/material-card-icon-box-widget-for-elementor/">Material Card Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/solid-color-icon-box-widget-for-elementor">Solid Color Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/circle-icon-box-widget-for-elementor">Circle Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/border-hover-icon-box-widget-for-elementor">Border Hover Icon Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-button-number-box-widget-for-elementor">Icon Button Number Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/material-flip-box-for-elementor/">Icon Box Flip Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/animated-border-icon-box-widget-for-elementor/">Animated Border Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/icon-box-hover-effect-widget-for-elementor/">Icon Box Hover Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/animated-icon-box-widget-for-elementor/">Animated Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/square-solid-hover-icon-box-widget-for-elementor/">Square Solid Hover Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/diamond-icon-box-widget-for-elementor/">Diamond Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/square-border-icon-box-widget-for-elementor">Square Border Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/content-reveal-icon-box-widget-for-elementor/">Content Reveal Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/subtle-hover-icon-box-widget-for-elementor/">Subtle Hover Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/subtle-border-hover-icon-box-widget-for-elementor/">Subtle Border Hover Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/animated-line-icon-box-widget-for-elementor/">Animated Line Icon Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/solid-color-overlay-icon-box-widget-for-elementor">Solid Color Overlay Icon Box for Elementor (Pro)</li>
+</ol>
+
+<h3>Social Network Icons for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/glare-social-icons-widget-for-elementor/">Social Icons Glare Effect for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/3d-social-icon-buttons-widget-for-elementor">3d Social Icon Buttons for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/square-to-circle-social-icon-button-widgets-for-elementor">Square to Circle Social Icons for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/rotating-social-icon-button-widgets-for-elementor">Rotating Social Icons for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/label-social-icon-button-widgets-for-elementor">Social Icons With Label for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/shape-social-icon-button-widgets-for-elementor">Shape Social Icons for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/circle-fill-social-icon-button-widgets-for-elementor">Social Icons With Circle Fill Effect for Elementor (Pro)</li>
 </ol>
 
 <h3>Content Widgets for Elementor</h3>
@@ -356,39 +315,45 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/content-toggle-widget-for-elementor/">Content Toggle for Elementor (Pro)</li>
 </ol>
 
-<h3>Typography for Elementor</h3>
+<h3>Progress Bar for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/3d-text-effect-for-elementor/">3d Text for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/3d-extrude-text-effect-widget-for-elementor">3D Extrude Text Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-underline-text-effect-widget-for-elementor/">Gradient Underline Text Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/dual-color-heading-widget-for-elementor/">Dual Color Heading for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/text-marquee-for-elementor/">Text Marquee Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/gradient-text-effect-for-elementor/">Gradient Text Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/stroke-text-effect-widget-for-elementor/">Stroke Text Effect for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/sideways-vertical-text-widget-for-elementor">Sideways Vertical Text for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/futuristic-typing-text-effect-widget-for-elementor/">Futuristic Typing Text Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/text-rotator-for-elementor-page-builder/">Text Rotator for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-background-text-effect-widget-for-elementor/">Image Background Text Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/type-writer-text-effect-for-elementor/">Typewriter Text Effect for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/scroll-reveal-text-widget-for-elementor/">Scroll Reveal Text for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/side-line-heading-widget-for-elementor/">Side Line Heading for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/linear-progress-bar-widget-for-elementor">Linear Progress Bar for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/material-progress-bar-widget-for-elementor/">Material Progress Bar for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/circle-progress-bar-widget-for-elementor/">Circle Progress Bar for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/semi-circle-progress-bar-widget-for-elementor/">Semi Circle Progress Bar for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/vertical-progress-bar-widget-for-elementor">Vertical Progress Bar for Elementor (Pro)</li>
 </ol>
 
-<h3>Woocommerce for Elementor</h3>
+<h3>Hover Effects for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/woocommerce-product-list-widget-for-elementor/">Woocommerce Product List for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/woocommerce-product-carousel-widget-for-elementor">Woocommerce Product Carousel for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/woocommerce-product-grid-widget-for-elementor/">Woocommerce Product Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/woocommerce-product-grid-widget-for-elementor/">Woocommerce Product Grid - copy for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/woocommerce-category-grid-for-elemenetor/">Woocommerce Category Grid for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/woocommerce-category-carousel-widget-for-elementor/">Woocommerce Category Carousel for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/link-hover-effects/">Link Hover Effects for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/icon-hover-effects-for-elementor/">Icon Hover Effects for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/creative-button-hover-widget-for-elementor/">Creative Button Hovers for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/ihover-for-elementor/">iHover Effect for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/caption-hover-effects/">Caption Hover Effects for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/border-link-hover-effects-widget-for-elementor/">Border Link Hover Effects for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/banner-hover-effect-widgets-for-elementor/">Banner Hover Effects for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/scrolling-screenshot-widget-for-elementor">Scrolling Screenshot for Elementor (Pro)</li>
 </ol>
 
-<h3>Opening Hours for Elementor</h3>
+<h3>Lightbox Modal Popup for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/opening-hours-list-widget-for-elementor">Opening Hours List for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/opening-hours-table-widget-for-elementor">Opening Hours Table for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/opening-hours-box-widget-for-elementor/">Opening Hours Box for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/video-play-button-popup-widget-for-elementor/">Video Play Button Popup for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/button-with-video-popup-widget-for-elementor">Button With Video Popup for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/video-play-button-on-image-with-popup-widget-for-elementor/">Video Play Button on Image with Popup for Elementor (Pro)</li>
+</ol>
+
+<h3>Bullet Lists for Elementor</h3>
+<ol>
+	<li><a href="https://unlimited-elements.com/material-bullets-widget-for-elementor">Material Bullets for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/timeline-bullets-widget-for-elementor/">Timeline Bullets for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/two-column-product-bullets-widget-for-elementor/">Two Column Product Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/diamond-bullets-widget-for-elementor">Diamond Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/alternating-color-background-bullets-widget-for-elementor">Alternating Color Background Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/alternating-timeline-bullets-widget-for-elementor">Alternating Timeline Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/rounded-icon-bullets-widget-for-elementor/">Rounded Icon Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/solid-bullets-widget-for-elementor/">Solid Bullets for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/product-bullets-widget-for-elementor">Product Bullets for Elementor (Pro)</li>
 </ol>
 
 <h3>Product Boxes for Elementor</h3>
@@ -399,12 +364,13 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/slide-up-product-box-widget-for-elementor">Slide Up Product Box for Elementor (Pro)</li>
 	<li><a href="https://unlimited-elements.com/button-overlay-product-box-widget-for-elementor">Button Overlay Product Box for Elementor (Pro)</li>
 	<li><a href="https://unlimited-elements.com/overlay-slide-product-box-widget-for-elementor">Overlay Slide Product Box for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/image-product-flipbox-widget-for-elementor/">Product Flipbox for Elementor (Pro)</li>
 	<li><a href="https://unlimited-elements.com/slider-product-box-widget-for-elementor/">Slider Product Box for Elementor (Pro)</li>
 </ol>
 
 <h3>Separators and Dividers for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/separator-and-dividers-widgets-for-elementor/">Lind Diamond Separator for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/separator-and-dividers-widgets-for-elementor/">Line Diamond Separator for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/separator-and-dividers-widgets-for-elementor/">Divider for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/separator-and-dividers-widgets-for-elementor/">Line Separator for Elementor (Free)</li>
 	<li><a href="https://unlimited-elements.com/separator-and-dividers-widgets-for-elementor/">Victorian Separator Style 1 for Elementor (Free)</li>
@@ -429,27 +395,6 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/block-quote-slider-widget-for-elementor">Block Quote Slider for Elementor (Pro)</li>
 </ol>
 
-<h3>Creative Widgets for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/pulsing-icon-button-widget-for-elementor/">Pulsing Icon Button for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/circle-number-widget-widget-for-elementor/">Circle Number for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/statistic-counters-for-elementor">Statistic Counter for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/animated-mouse-scroll-icon-widget-for-elementor/">Animated Mouse Scroll Icon for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/image-tooltip-widget-for-elementor/">Image Tooltip for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/svg-animation-widget-for-elementor">SVG Animation for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/animated-hamburger-icon-for-elementor/">Animated Hamburger Icon for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/blob-shape-widget-for-elementor/">Blob Shapes for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/image-accordion-widget-for-elementor/">Image Accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-zoom-magnifier-widget-for-elementor/">Image Zoom Magnifier for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-reveal-on-scroll-widget-for-elementor">Image Reveal On Scroll for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/notification-widget-for-elementor">Notification for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/image-shapes-for-elementor-page-builder/">Image Shapes for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/before-after-image-comparison-widget-for-elementor/">Before After for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/hotspots-for-elementor-page-builder/">Hotspots for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/background-switcher-widget-for-elementor/">Background Switcher for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/interactive-circle-infographic-widget-for-elementor/">Interactive Circle Infographic for Elementor (Pro)</li>
-</ol>
-
 <h3>Timelines for Elementor</h3>
 <ol>
 	<li><a href="https://unlimited-elements.com/alternating-timeline-widget-for-elementor">Alternating Timeline for Elementor (Free)</li>
@@ -463,41 +408,13 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/alternating-card-timeline-widget-for-elementor">Alternating Card Timeline for Elementor (Pro)</li>
 </ol>
 
-<h3>Footer for Elementor</h3>
+<h3>Google Charts for Elementor</h3>
 <ol>
-	<li><a href="https://unlimited-elements.com/material-footer-card-widget-for-elementor">Material Footer Card for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/icon-footer-box-widget-for-elementor">Icon Footer Box for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/horizontal-footer-box-widget-for-elementor/">Horizontal Footer Box for Elementor (Pro)</li>
-</ol>
-
-<h3>Food Menus for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/food-menu-border-box-widget-for-elementor">Food Menu Border Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/food-menu-box-overlay-widget-for-elementor">Food Menu Box Overlay for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/food-menu-box-widget-for-elementor">Food Menu Box for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/food-menu-widget-for-elementor/">Food Menu for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/food-menu-list-widget-for-elementor">Food Menu List for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/food-menu-carousel-widget-for-elementor">Food Menu Carousel for Elementor (Pro)</li>
-</ol>
-
-<h3>Content Tabs for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/icon-bullet-tabs-widget-for-elementor">Icon Bullet Tabs for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/color-tabs-widget-for-elementor/">Color Tabs for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/vertical-tabs-widget-for-elementor/">Vertical Tabs for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-tabs-widget-for-elementor">Icon Tabs for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/border-icon-tabs-widget-for-elementor/">Border Icon Tabs for Elementor (Pro)</li>
-</ol>
-
-<h3>Content Accordions for Elementor</h3>
-<ol>
-	<li><a href="https://unlimited-elements.com/faq-accordion-widget-for-elementor">Faq Accordion for Elementor (Free)</li>
-	<li><a href="https://unlimited-elements.com/border-icon-accordion-widget-for-elementor/">Border Icon Accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/icon-accordion-widget-for-elementor/">Icon Accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/material-icon-accordion-widget-for-elementor">Material Icon Accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/material-accordion-widget-for-elementor/">Material Accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/rounded-accordion-widget-for-elementor/">Rounded accordion for Elementor (Pro)</li>
-	<li><a href="https://unlimited-elements.com/rounded-color-accordion-widget-for-elementor">Rounded Color Accordion for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/pie-chart-for-elementor">Pie chart for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/line-chart-for-elementor">Line Chart for Elementor (Free)</li>
+	<li><a href="https://unlimited-elements.com/donut-chart-for-elementor">Donut Chart for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/line-chart-for-elementor">Comparison Line Chart for Elementor (Pro)</li>
+	<li><a href="https://unlimited-elements.com/area-chart-for-elementor">Area Chart for Elementor (Pro)</li>
 </ol>
 
 <h3>Video Galleries for Elementor</h3>
@@ -511,6 +428,8 @@ Use any of are free widgets or upgrade to our pro version and enjoy +200 more un
 	<li><a href="https://unlimited-elements.com/grid-panel-video-gallery-widget-for-elementor/">Grid Panel Video Gallery for Elementor (Pro)</li>
 	<li><a href="https://unlimited-elements.com/tiles-grid-video-gallery-widget-for-elementor/">Tiles Grid Video Gallery for Elementor (Pro)</li>
 </ol>
+
+
 
 
  
@@ -579,6 +498,146 @@ Note : This plugin works with Elementor. Make sure you have [Elementor](https://
 3. Navigate to Unlimited Elements in the WordPress side menu and install the widget you want by hovering over it and clicking install.
 
 == Changelog ==
+
+version 1.4.74 = 2021-06-02
+
+* Feature: added function put_date_range to twig functions. good for events widgets
+* Feature: added integration with google map
+* Feature: added function: "run_code_once" for twig
+* Feature: added grouped options for the gallery
+* Feature: added option to get posts by date from custom ACF field
+* Feature: added gallery settings options for dynamic settings attribute
+* Feature: added pagination to dynamic loop
+* Change: improved dynamic settings attribute
+
+
+version 1.4.73 = 2021-05-20
+
+* Feature: added twig function: "put_attributes_json" that available in js tab in widget editor
+* Feature: added constant - uc_inside_editor - for distinquish between editor and site front
+* Feature: added multiple select attribute
+* Feature: added listing attribute support
+* Fix: fixed "request too long" message on a widget preview - shortened preview url
+* Fix: fixed several bugs with condition field in widgets editor
+* Fix: fixed hidden image size select on item attributes
+* Fix: fixed acf group field output
+* Fix: fixed elementor template in items, changed to specific function
+
+
+version 1.4.72 = 2021-05-02
+
+* Feature: added rating stars helper placeholder for woocommerce
+* Feature: added option to include js file after elementor-frontend
+* Fix: fixed new typography deprecation message
+
+
+version 1.4.71 = 2021-04-22
+
+* Feature: added option to take post id's from php function in post selection
+* Feature: added option for get posts by meta field that located in current or different post
+* Feature: added twig filter: wc_price for native price filtering
+* Feature: added post terms titles to post data debug
+* Change: added option for woocommerce categories in terms selection
+* Fix: fixed price issues in woocommerce related grids
+* Fix: fixed include and exclude terms mismatch with nested tax query
+* Fix: fixed pagination on search pages
+
+
+version 1.4.70 = 2021-04-14
+
+* Feature: added show widget data debug options
+* Feature: added option for filter post by post meta
+* Feature: added option for simple condition for attributes
+* Feature: added integration with wordpress popular post plugin for most viewed posts selection
+* Feature: added post list variables for data debug
+* Feature: added image sizes selector for post list
+* Feature: get thumbnailID from content in case that it's missing in post
+* Fix: when bulk moving attribute it now always goes to general category
+* Fix: fixed filter posts by status
+* Fix: fixed instagram media albom
+
+
+version 1.4.69 = 2021-04-04
+
+* Feature: added extra query debug options for custom post types selector
+* Feature: added choose image size select option to image attribute
+* Feature: added "image_attributes" placeholder for image output in widget editor
+* Change: added default values select to hover animations attribute
+* Change: changed button "add to cart" to "select options" for variable products in woocommerce list widgets
+* Fix: fixed border radius attribute from width to radius
+* Fix: added missing thumb sizes for image select
+
+
+version 1.4.68 = 2021-03-22
+
+* Feature: added include recently viewed products in woocommerce
+* Feature: added option for default max posts in post selector
+* Feature: added attribute type: Border Dimensions
+* Feature: added attribute type: CSS Filters
+* Feature: added attribute type: Hover Animations
+* Fix: removed max posts from archive type post query selection, because has no control over pagination.
+* Fix: fixed bug when instagram video images didn't show up
+
+
+version 1.4.67 = 2021-03-12
+
+* Feature: added api connectivity to troubleshooting section
+* Feature: added options in terms selection fields
+* Feature: added order by meta key for woo categories select
+
+* Fix: fixed woo product price format for decimal prices
+* Fix: fixed context menu cut from bottom inside the widgets manager
+* Fix: fixed show item data in widgets items repeater
+* Fix: fixed float to round in woocommerce discount percents
+
+
+version 1.4.66 = 2021-02-18
+
+* Feature: added "box shadow" attribute type
+* Feature: added url_posts and num_posts to users output
+* Feature: added option for selector 2 and selector 3 in several attributes
+* Feature: added copy / paste attributes sections in widget editor
+* Feature: added option for get default object to getListingItemData function
+* Feature: added support for wpml site language inside a widget
+* Feature: added acf image and thumbnails widths and heights to placeholders list
+* Fix: load js include file in editor even if no js code
+* Fix: fixed some php notice with exclude terms posts selection
+* Fix: fixed small bug in getListingItemData function with no object returned
+* Fix: fixed post selection manual select no posts shown at init
+* Fix: fixed bug when private posts not fetched on manual posts selection
+* Change: updated codemirror to latest version, added code search feature
+* Change: updated freemius sdk to 2.4.2
+
+
+version 1.4.65 = 2021-02-03
+
+* Feature: added option to fetch custom meta fields in users list
+* Feature: added function to twig: getByPHPFunction()
+* Feature: added function to twig: getUserMeta()
+* Feature: added function to twig: getListingItemData() - working inside any plugin listing
+* Fix: fixed php sanitize array bug
+* Fix: fixed post type in related posts post selection
+
+
+version 1.4.64 = 2021-02-02
+
+* Change: moved "edit widget html" button to advanced section in general tab
+* Feature:  added option to exclude products on sale in products query section in widget settings
+* Feature:  added option to exclude specific posts in post selection widget settings
+* Feature:  added woocommerce related products select in post selection
+* Feature:  added include/exclude posts by author in widget posts selection
+* Feature:  added include/exclude posts by date in widget posts selection
+* Feature:  added date/time picker to widget attributes types
+* Feature:  added post status to widget posts selection
+* Feature:  added offset setting to widget posts selection
+* Feature:  added author url and author post count to users fields
+* Feature:  added max number of users to user selection attribute
+* Feature:  added "elementor template" attribute
+* Fix:  fixed small php bug in post selection control
+* Fix: fixed js bug in items repeater
+* Fix: fixed exclude role not worked in user selection attribute
+* Fix: fixed get products on sale selection with variations
+
 
 version 1.4.63 = 2021-01-26
 

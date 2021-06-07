@@ -178,7 +178,7 @@ function UniteCreatorElementorEditorAdmin(){
 		
 		var isCurrentTaxRelevant = objTax.hasOwnProperty(selectedTax);
 		if(isCurrentTaxRelevant == false && firstVisibleOption){
-			
+						
 			selectPostTaxonomy.val(firstVisibleOption).trigger("change");
 		}
 			
@@ -227,9 +227,15 @@ function UniteCreatorElementorEditorAdmin(){
 			placeholder:placeholder
 		});
 				
-		if(jQuery.isEmptyObject(selectedCatID) == false)
-			objSelectPostCategory.val(selectedCatID).trigger("change");
-		
+		if(jQuery.isEmptyObject(selectedCatID) == false){
+			
+			objSelectPostCategory.val(selectedCatID);
+			
+			//var newSelectedCatID = objSelectPostCategory.select2("val");
+			
+			objSelectPostCategory.trigger("change");
+			
+		}
 	}
 	
 	/**
@@ -440,7 +446,7 @@ function UniteCreatorElementorEditorAdmin(){
 	/**
 	 * get select 2 ajax options
 	 */
-	function getSelect2AjaxOptions(action){
+	function getSelect2AjaxOptions(action, postType, taxonomySettingName){
 		
 		var optionsAjax = {};
 		optionsAjax["url"] = ajaxurl;
@@ -450,6 +456,17 @@ function UniteCreatorElementorEditorAdmin(){
 		optionsAjax["data"] = function(params){
 			
 			params["q"] = getVal(params,"term");
+			
+			if(postType)
+				params["post_type"] = postType;
+			
+			//add taxonomy dynamic
+			if(taxonomySettingName){
+				
+				var objSettingTaxonomy = getElementorControlByName(taxonomySettingName);
+				if(objSettingTaxonomy)
+					params["taxonomy"] = objSettingTaxonomy.val();
+			}
 			
 			var objData = {
 				action: "unlimitedelements_ajax_action",
@@ -472,18 +489,61 @@ function UniteCreatorElementorEditorAdmin(){
 	}
 	
 	/**
+	 * get elementor control by name
+	 */
+	function getElementorControlByName(controlName){
+		
+		if(!controlName)
+			return(null);
+		
+		var objWrapper = jQuery("#elementor-controls");
+		if(objWrapper.length == 0)
+			return(null);
+		
+		var selector = "*[data-setting=\""+controlName+"\"]";
+		
+		var objControl = objWrapper.find(selector);
+		
+		if(objControl.length == 0)
+			return(null);
+		
+		return(objControl);
+	}
+	
+	/**
 	 * init the select 2 object eventually
 	 */
 	function initPostIDsSelect_initObject(objSelect, arrInitData){
 		
-		var options = getSelect2AjaxOptions("get_posts_list_forselect");
+		var data = objSelect.data();
+		
+		var postType = null;
+		var taxonomy = null;
+		
+		var isWoo = objSelect.data("woo");
+		if(isWoo == "yes")
+			postType = "product";
+		
+		var type = objSelect.data("datatype");
+		if(type == "elementor_template")
+			postType = "elementor_template";
+		
+		//get terms
+		var action = "get_posts_list_forselect";
+		if(type == "terms"){
+			action = "get_terms_list_forselect";
+		}
+		
+		var taxonomyName = objSelect.data("taxonomyname");
+		
+		var options = getSelect2AjaxOptions(action, postType, taxonomyName);
 		
 		var placeholder = objSelect.data("placeholdertext");
 		if(placeholder){
 			placeholder = placeholder.replace("--"," ");
 			options["placeholder"] = placeholder;
 		}
-				
+		
 		if(arrInitData){
 			options["data"] = arrInitData;
 		}
@@ -526,14 +586,29 @@ function UniteCreatorElementorEditorAdmin(){
 		var widgetSettings = getLastOpenedWidgetSettings();
 		
 		var settingName = objSelect.data("setting");
+		var isSingle = objSelect.data("issingle");
+		var dataType = objSelect.data("datatype");
+		
+		if(isSingle === true)
+			objSelect.removeAttr("multiple");
 		
 		var initValue = getVal(widgetSettings, settingName);
 		
-		if(jQuery.isArray(initValue) == false || jQuery.isEmptyObject(initValue)){
+		//treat single number
+		if(jQuery.isArray(initValue) == false && jQuery.isNumeric(initValue))
+			initValue = [initValue];
+		
+		if(jQuery.isEmptyObject(initValue)){
 			initPostIDsSelect_initObject(objSelect);
 			return(false);
 		}
 		
+		if( jQuery.isArray(initValue) == false && dataType != "terms" ){
+			
+			initPostIDsSelect_initObject(objSelect);
+			return(false);
+		}
+				
 		//get titles by ajax
 		objSelect.hide();
 		
@@ -549,9 +624,13 @@ function UniteCreatorElementorEditorAdmin(){
 		var ajaxData = {
 				post_ids: initValue
 		};
-				
-		ajaxRequest("get_select2_post_titles", ajaxData, function(response){
-						
+		
+		var action = "get_select2_post_titles";
+		if(dataType == "terms")
+			action = "get_select2_terms_titles";
+		
+		ajaxRequest(action, ajaxData, function(response){
+			
 			objLoader.remove();
 			
 			var arrSelectData = getVal(response, "select2_data");
@@ -567,24 +646,29 @@ function UniteCreatorElementorEditorAdmin(){
 	 */
 	function initSpecialSelects(){
 		
-		var objSelect = g_objSettingsPanel.find(".unite-setting-special-select");
-		if(objSelect.length == 0)
+		var objSelects = g_objSettingsPanel.find(".unite-setting-special-select");
+		if(objSelects.length == 0)
 			return(false);
 		
-		var isInited = objSelect.data("isinited");
-		if(isInited === true)
-			return(false);
-		
-		objSelect.data("isinited", true);
-		
-		var settingType = objSelect.data("settingtype");
+		jQuery.each(objSelects, function(index, select){
+			var objSelect = jQuery(select);
+			
+			var isInited = objSelect.data("isinited");
+			if(isInited === true)
+				return(true);
+			
+			objSelect.data("isinited", true);
+			
+			var settingType = objSelect.data("settingtype");
+			
+			switch(settingType){
+				case "post_ids":
+					initPostIDsSelect(objSelect);
+				break;
+			}
+			
+		});
 				
-		switch(settingType){
-			case "post_ids":
-				initPostIDsSelect(objSelect);
-			break;
-		}
-		
 	}
 	
 	

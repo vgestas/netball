@@ -75,6 +75,14 @@
 					label="		Show &quot;Edit HTML&quot; Button in Widget Settings"
 					description="Show &quot;Edit HTML&quot; button in elementor panel widget settings">	
 				</field>
+				
+				<field name="enable_dynamic_visibility" 
+					type="boolean"
+					default="false" 
+					label="		Enable Dynamic Visibility"
+					hidden="true"
+					description="">	
+				</field>
 						
 				<field type="bulk_control_end"/>
 								
@@ -134,7 +142,38 @@
 			</field>
 			
 		</fieldset>		
+		<fieldset name="integrations" label="Integrations">
+			
+			<field name="google_map_heading" 
+				type="statictext"
+				label="&lt;b&gt;---- Google Maps ----&lt;/b&gt;">
+			</field>
+	
+			<field name="google_map_key" 
+				type="text"
+				label="Google Map API Key"
+				description="Used to output a map in google maps related widget"
+				default="">
+			</field>
 		
+		</fieldset>
+		<fieldset name="copy_paste_mode" label="Copy Paste Mode" visibility="dev">
+				
+			<field name="copy_mode_enable_copy" 
+				type="boolean"
+				default="false" 
+				label="		Enable Copy"
+				description="">	
+			</field>
+			
+			<field name="copy_mode_enable_paste" 
+				type="boolean"
+				default="false" 
+				label="		Enable Paste"
+				description="">	
+			</field>
+			
+		</fieldset>	
 		<fieldset name="troubleshooting" label="Troubleshooting">
 			
 			<field name="memory_limit_text" 
@@ -177,9 +216,25 @@
 				type="button"
 				value="Run Test"
 				gotoview="troubleshooting-overload"
-				label="Test the server for overload bug, &lt;br&gt; run this test when the edit page get stuck for any reason &lt;br&gt; when the unlimited addons plugin is on."
+				label="Test the server for overload bug, &lt;br&gt; run this test when the edit page get stuck for any reason &lt;br&gt; when the unlimited elements plugin is on."
 			>
 			</field>
+			<field name="api-connectivity" 
+				type="hr">
+			</field>
+			<field name="text_api_connectivity" 
+				type="statictext"
+				label="API Connectivity Test">
+			</field>
+			
+			<field name="text_connectivity_button" 
+				type="button"
+				value="Run Test"
+				gotoview="troubleshooting-connectivity"
+				label="Test the api connectivity. Run it if you don't see any widgets inside the widgets catalog"
+			>
+			</field>
+				
 		</fieldset>
 		
 						

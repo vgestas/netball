@@ -5,7 +5,7 @@ function UniteCreatorParamsDialog(){
 	var t = this;
 	var g_objWrapper, g_objSelectType, g_objTabContentWrapper, g_objLeftArea, g_objRightArea;
 	var g_objError, g_objParamTitle, g_objParamName;
-	var g_objTexts, g_objParent, g_objData, g_objSettings;
+	var g_objTexts, g_objParent, g_objData, g_objSettings, g_currentOpenedType, g_currentOpenedName;
 	
 	var g_arrSpecialInputs = {};	//array of special inputs
 	
@@ -404,7 +404,7 @@ function UniteCreatorParamsDialog(){
 	 * paramType - main / items
 	 */
 	this.open = function(objData, rowIndex, onActionFunc, dialogType){
-				
+		
 		var isEdit = false;
 		if(objData)
 			isEdit = true;
@@ -413,7 +413,13 @@ function UniteCreatorParamsDialog(){
 		var dialogTitle = g_objTexts.add_title;
 		var paramType = null;
 		
+		g_currentOpenedType = dialogType;
+		g_currentOpenedName = null;
+				
 		if(isEdit == true){
+			
+			g_currentOpenedName = objData.name;
+			
 			actionTitle = g_objTexts.update_button;
 			
 			var paramTitle = objData.name;
@@ -437,7 +443,6 @@ function UniteCreatorParamsDialog(){
 		//set wrapper type class
 		if(dialogType == "items"){
 			g_objWrapper.addClass("uc-param-type-item");
-			trace("add class");
 		}
 		else
 			g_objWrapper.removeClass("uc-param-type-item");
@@ -491,9 +496,7 @@ function UniteCreatorParamsDialog(){
 			title: dialogTitle,
 			modal:true,
 			open:function(){
-				
-				triggerEvent(events.OPEN);
-				
+								
 				if(isEdit == false){
 					clearParamDialog();
 					g_objData = null;
@@ -511,6 +514,8 @@ function UniteCreatorParamsDialog(){
 					else
 						g_objParamName.focus();
 				}
+				
+				triggerEvent(events.OPEN);
 				
 			}
 		});
@@ -576,8 +581,8 @@ function UniteCreatorParamsDialog(){
 		html += "<td><input type=\"text\" value=\""+valueName+"\" class='uc-dropdown-item-name'></td>";
 		html += "<td><input type=\"text\" value=\""+valueValue+"\" class='uc-dropdown-item-value'></td>";
 		html += "<td>";
-		html += "<div class='uc-dropdown-icon uc-dropdown-item-delete' title=\"Add Item\"></div>";
-		html += "<div class='uc-dropdown-icon uc-dropdown-item-add' title=\"Delete Item\"></div>";
+		html += "<div class='uc-dropdown-icon uc-dropdown-item-delete' title=\"Delete Item\"></div>";
+		html += "<div class='uc-dropdown-icon uc-dropdown-item-add' title=\"Add Item\"></div>";
 		html += "<div class='uc-dropdown-icon uc-dropdown-item-default"+selectedClass+"' title=\"Default Item\"></div>";
 		html += "</td>";
 		html += "</tr>";
@@ -609,10 +614,16 @@ function UniteCreatorParamsDialog(){
 	 */
 	function getDropdownParamData(objTable){
 		
+		var isMultiple = objTable.data("ismultiple");
+				
 		var rows = objTable.find(" tbody tr");
 		
 		var objOptions = {};
-		var defaultOption = "";
+		if(isMultiple === true)
+			var defaultOption = [];
+		else
+			var defaultOption = "";
+			
 		
 		jQuery.each(rows, function(index, row){
 			var objRow = jQuery(row);
@@ -627,12 +638,20 @@ function UniteCreatorParamsDialog(){
 			if(optionName == "")
 				return(true);
 			
-			if(defaultOption == "")
-				defaultOption = optionValue;
-			
-			if(isDefault == true)
-				defaultOption = optionValue;
+			//set default option
+			if(isMultiple !== true){
+				if(defaultOption == "")
+					defaultOption = optionValue;
 				
+				if(isDefault == true)
+					defaultOption = optionValue;
+			}else{		//multiple
+				
+				if(isDefault == true)
+					defaultOption.push(optionValue);
+				
+			}
+			
 			objOptions[optionName] = optionValue;
 			
 		});
@@ -665,7 +684,7 @@ function UniteCreatorParamsDialog(){
 	 * fill dropdown param options
 	 */
 	function fillDropdownParamOptions(objTable, options, defaultValue){
-			
+		
 		if(objTable.length == 0)
 			throw new Error("dropdown parameter not found");
 		
@@ -676,7 +695,13 @@ function UniteCreatorParamsDialog(){
 		else{
 			
 			jQuery.each(options, function(optionName, optionValue){
-				var isDefault = (optionValue == defaultValue);
+				
+				if(jQuery.isArray(defaultValue)){
+					var isDefault = (jQuery.inArray(optionValue, defaultValue) !== -1);
+				}else{
+					var isDefault = (optionValue == defaultValue);
+				}
+				
 				dropdownParamAddRow(objTable, null, {name: optionName, value: optionValue , isDefault:isDefault});
 			});
 		}
@@ -781,15 +806,26 @@ function UniteCreatorParamsDialog(){
 
 		//default icon click
 		objTableDropdown.on("click", ".uc-dropdown-item-default", function(){
-			
+						
 			var objIcon = jQuery(this);
+			var objParentTable = objIcon.parents(".uc-table-dropdown-items");
+			
+			var isMultiple = objParentTable.data("ismultiple");
+			
+			if(isMultiple === true){		//multiple trigger - just toggle the class
+				
+				objIcon.toggleClass("uc-selected");
+				return(true);
+			}
+			
 			if(objIcon.hasClass("uc-selected"))
 				return(false);
 			
-			objTableDropdown.find(".uc-dropdown-item-default").removeClass("uc-selected");
+			objParentTable.find(".uc-dropdown-item-default").removeClass("uc-selected");
 			
 			objIcon.addClass("uc-selected");
 			
+						
 		});
 		
 		
@@ -816,12 +852,15 @@ function UniteCreatorParamsDialog(){
 		
 		//get
 		objDropdownParam.onGetInputData = function(objInput){
+			
 			var objParamData = getDropdownParamData(objInput);
+						
 			return(objParamData);
 		}
 		
 		//fill
 		objDropdownParam.onFillInputData = function(objTable, objData){
+						
 			if(objData.options)
 				fillDropdownParamOptions(objTable, objData.options, objData.default_value);
 		}
@@ -1304,7 +1343,7 @@ function UniteCreatorParamsDialog(){
 			
 			var arrParams = g_objParent.getControlParams("main");
 			var arrParamsItems = g_objParent.getControlParams("item");
-						
+			
 			objSelectParams.each(function(index, select){
 				var objSelect = jQuery(select);
 				objSelect.html("");
@@ -1339,7 +1378,189 @@ function UniteCreatorParamsDialog(){
 		
 	}
 	
+	function ____________CONDITIONS____________(){};
 	
+	/**
+	 * on select change conditions attribute
+	 * fill condition values select
+	 */
+	function onSelectConditionsAttributeChange(){
+		
+		var objSelect = jQuery(this);
+		
+		var paramName = objSelect.val();
+				
+		var objRow = objSelect.parents("tr");
+		var objSelectValues = objRow.find(".uc-dialog-condition-value");
+		
+		var isInitValues = objSelect.data("init_value");
+		objSelect.data("init_value",false);
+		
+		objSelectValues.html("");
+		
+		//get param
+		var arrParams = g_objWrapper.data("condition_params");
+				
+		var objParam = g_ucAdmin.getVal(arrParams, paramName);
+		
+		//set or remove not selected mode
+		if(!paramName || !objParam){
+			objRow.addClass("uc-no-attribute-selected");
+			return(false);
+		}
+		
+		objRow.removeClass("uc-no-attribute-selected");
+		
+		//fill values select
+		var paramType = g_ucAdmin.getVal(objParam, "type");
+		
+		if(paramType == "uc_radioboolean"){
+			
+			var trueName = g_ucAdmin.getVal(objParam, "true_name");
+			var trueValue = g_ucAdmin.getVal(objParam, "true_value");
+			
+			var falseName = g_ucAdmin.getVal(objParam, "false_name");
+			var falseValue = g_ucAdmin.getVal(objParam, "false_value");
+			
+			var options = {};
+			options[trueName] = trueValue;
+			options[falseName] = falseValue;
+			
+		}else{		//select and dropdown
+			var options = g_ucAdmin.getVal(objParam, "options");
+		}
+				
+		var selectName = objSelectValues.prop("name");
+		
+		var currentValue = null;
+		
+		if(isInitValues === true)
+			var currentValue = g_ucAdmin.getVal(g_objData, selectName);
+		
+		var isExists = false;
+		
+		jQuery.each(options,function(text, value){
+			
+			if(currentValue === null)
+				currentValue = value;
+			
+			if(currentValue === value)
+				isExists = true;
+			
+			g_ucAdmin.addOptionToSelect(objSelectValues, value, text);
+		});
+
+		if(currentValue && isExists == true)
+			objSelectValues.val(currentValue);
+	}
+	
+	
+	/**
+	 * fill conditions select row
+	 */
+	function fillConditionSelectRow(objSelect, arrParams){
+				
+		var selectName = objSelect.prop("name");
+				
+		var currentValue = g_ucAdmin.getVal(g_objData, selectName);
+		if(!currentValue)
+			currentValue = "";
+		
+		objSelect.html("");
+		
+		g_ucAdmin.addOptionToSelect(objSelect, "", "[Select Attribute]");
+				
+		var isFound = false;
+		jQuery.each(arrParams, function(index, param){
+			
+			var name = g_ucAdmin.getVal(param, "name");
+			var title = g_ucAdmin.getVal(param, "title");
+			
+			if(name == g_currentOpenedName)
+				return(true);
+			
+			g_ucAdmin.addOptionToSelect(objSelect, name, title);
+			
+			if(currentValue == name)
+				isFound = true;
+		});
+		
+		if(isFound == false)
+			currentValue = "";
+		
+		setTimeout(function(){
+						
+			objSelect.data("init_value",true);
+			objSelect.val(currentValue).trigger("change");
+			
+		},100);
+		
+		
+		
+	}
+	
+	
+	/**
+	 * fill conditions selects
+	 */
+	function fillConditionsSelects(arrParams){
+		
+		var objSelects = g_objWrapper.find(".uc-dialog-condition-attribute");
+		if(objSelects.length == 0)
+			return(false);
+		
+		if(objSelects.length == 0)
+			return(false);
+		
+		jQuery.each(objSelects, function(index, select){
+			var objSelect = jQuery(select);
+			
+			fillConditionSelectRow(objSelect, arrParams);
+		});
+		
+	}
+		
+	/**
+	 * if no params - set empty class. if params exists - fill the selects
+	 */
+	function handleConditionsOnOpen(){
+		
+		var objConditionsWrapper = g_objWrapper.find(".uc-dialog-conditions-content");
+		var objSelects = g_objWrapper.find(".uc-dialog-condition-attribute");
+				
+		var arrParams = g_objParent.getControlParams(g_currentOpenedType);
+		var hasParams = (jQuery.isEmptyObject(arrParams) == false);
+				
+		//show empty mode
+		if(hasParams == false){
+			objSelects.html("");
+			objConditionsWrapper.addClass("uc-noparents-mode");
+			return(false);
+		}
+		
+		objConditionsWrapper.removeClass("uc-noparents-mode");
+		
+		g_objWrapper.data("condition_params", arrParams);
+		
+		fillConditionsSelects(arrParams);
+	}
+	
+	
+	/**
+	 * init the dialog conditions
+	 */
+	function initConditions(){
+		
+		var objTableConditions = g_objWrapper.find(".uc-table-dialog-conditions");
+		
+		if(objTableConditions.length == 0)
+			return(false);
+				
+		onEvent(events.OPEN, handleConditionsOnOpen);
+		
+		g_objWrapper.on("change",".uc-dialog-condition-attribute", onSelectConditionsAttributeChange);
+		
+	}
 	
 	function ____________EVENTS____________(){};
 	
@@ -1543,7 +1764,6 @@ function UniteCreatorParamsDialog(){
 		if(dialogID != "uc_dialog_param_main")
 			return(false);
 		
-		//trace(g_objWrapper);
 		var objInputs = jQuery("#uc_tabparam_main_uc_editor textarea[name='default_value']").add(
 				"#uc_tabparam_main_uc_textarea textarea[name='default_value']").add(
 				"#uc_tabparam_main_uc_content textarea[name='default_value']").add(
@@ -1645,13 +1865,15 @@ function UniteCreatorParamsDialog(){
 	function initControls(){
 		
 		var objControls = g_objWrapper.find(".uc-control");
-		
+				
 		objControls.change(function(){
 			
 			var objInput = jQuery(this);
 			var type = getInputType(objInput);
 			
 			var objContent = objInput.parents(".uc-tab-content");
+			if(objContent.length == 0)
+				objContent = g_objWrapper;
 			
 			switch(type){
 				case "checkbox":
@@ -1674,6 +1896,30 @@ function UniteCreatorParamsDialog(){
 												
 						control_operateControlled(controlledID, toShow, objContent);
 					});
+					
+				break;
+				case "select":
+					
+					var value = objInput.val();
+					var controlledSelector = objInput.data("controlled-selector");
+					
+					var objChildren = objContent.find(controlledSelector);
+					
+					jQuery.each(objChildren, function(index, child){
+						
+						var objChild = jQuery(child);
+						var childValue = objChild.data("control");
+						
+						trace(objChild);
+						trace(childValue);
+						trace(value);
+						
+						if(childValue == value)
+							objChild.show();
+						else
+							objChild.hide();						
+					});
+					
 					
 				break;
 				default:
@@ -1778,6 +2024,8 @@ function UniteCreatorParamsDialog(){
 		
 		initRightContentSettings();
 		
+		initConditions();
+		
 		//for all the special params that run on init
 		triggerEvent(events.INIT);
 		
@@ -1807,7 +2055,7 @@ function UniteCreatorParamsDialog(){
 	 * init the params dialog
 	 */
 	this.init = function(objWrapper, objParent){
-		
+				
 		g_objWrapper = objWrapper;
 		
 		if(objParent)

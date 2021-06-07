@@ -16,11 +16,18 @@ class UniteCreatorElementorPagination{
 	/**
 	 * add content controls
 	 */
-	private function addElementorControls_content($widget){
+	private function addElementorControls_content($widget,$postListParam){
     	
+		$isFilterable = UniteFunctionsUC::getVal($postListParam, "is_filterable");
+		$isFilterable = UniteFunctionsUC::strToBool($isFilterable);
+		
+		$textSection = esc_html__("Posts Pagination", "unlimited-elements-for-elementor");
+		if($isFilterable == true)
+			$textSection = esc_html__("Posts Pagination and Filter", "unlimited-elements-for-elementor");
+		
 		$widget->start_controls_section(
                 'section_pagination', array(
-                'label' => esc_html__("Posts Pagination", "unlimited-elements-for-elementor"),
+                'label' => $textSection,
               )
          );
 
@@ -48,92 +55,28 @@ class UniteCreatorElementorPagination{
 			]
 		);
 
-		/*
-		$widget->add_control(
-			'pagination_page_limit',
-			[
-				'label' => __( 'Page Limit', "unlimited-elements-for-elementor"),
-				'default' => '5',
-				'condition' => [
-					'pagination_type!' => '',
-				],
-			]
-		);
-
-		$widget->add_control(
-			'pagination_numbers_shorten',
-			[
-				'label' => __( 'Shorten', "unlimited-elements-for-elementor"),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'default' => '',
-				'condition' => [
-					'pagination_type' => [
-						'numbers',
-						'numbers_and_prev_next',
-					],
-				],
-			]
-		);
-
-		$widget->add_control(
-			'pagination_prev_label',
-			[
-				'label' => __( 'Previous Label', "unlimited-elements-for-elementor"),
-				'default' => __( '&laquo; Previous', "unlimited-elements-for-elementor"),
-				'condition' => [
-					'pagination_type' => [
-						'prev_next',
-						'numbers_and_prev_next',
-					],
-				],
-			]
-		);
-
-		$widget->add_control(
-			'pagination_next_label',
-			[
-				'label' => __( 'Next Label', "unlimited-elements-for-elementor"),
-				'default' => __( 'Next &raquo;', "unlimited-elements-for-elementor"),
-				'condition' => [
-					'pagination_type' => [
-						'prev_next',
-						'numbers_and_prev_next',
-					],
-				],
-			]
-		);
+		//add filter enabled controls
 		
-
-		$widget->add_control(
-			'pagination_align',
-			[
-				'label' => __( 'Alignment', "unlimited-elements-for-elementor"),
-				'type' => \Elementor\Controls_Manager::CHOOSE,
-				'options' => [
-					'left' => [
-						'title' => __( 'Left', "unlimited-elements-for-elementor"),
-						'icon' => 'fa fa-align-left',
+		if($isFilterable == true){
+			
+			$paramName = UniteFunctionsUC::getVal($postListParam, "name");
+			
+			$widget->add_control(
+				$paramName.'_filterable',
+				[
+					'label' => __( 'Filterable', "unlimited-elements-for-elementor"),
+					'type' => \Elementor\Controls_Manager::SELECT,
+					'default' => '',
+					'options' => [
+						'' => __( 'None', "unlimited-elements-for-elementor"),
+						'using_widget' => __( 'Using Post Filters Widgets', "unlimited-elements-for-elementor"),
 					],
-					'center' => [
-						'title' => __( 'Center', "unlimited-elements-for-elementor"),
-						'icon' => 'fa fa-align-center',
-					],
-					'right' => [
-						'title' => __( 'Right', "unlimited-elements-for-elementor"),
-						'icon' => 'fa fa-align-right',
-					],
-				],
-				'default' => 'center',
-				'selectors' => [
-					'{{WRAPPER}} .uc-posts-pagination' => 'text-align: {{VALUE}};',
-				],
-				'condition' => [
-					'pagination_type!' => '',
-				],
-			]
-		);
-		*/
-
+				]
+			);
+		
+			
+		}
+		
                   
         $widget->end_controls_section();
 	}
@@ -269,9 +212,9 @@ class UniteCreatorElementorPagination{
 	/**
 	 * add elementor controls
 	 */
-	public function addElementorSectionControls($widget){
+	public function addElementorSectionControls($widget, $postListParam = null){
 		
-		$this->addElementorControls_content($widget);
+		$this->addElementorControls_content($widget,$postListParam);
 		
 		//$this->addElementorControls_styles($widget);
 		
@@ -300,8 +243,12 @@ class UniteCreatorElementorPagination{
 		//$options["total"] = 10;
 		//$options["current"] = 3;
 		
-		if($isArchivePage == true)
+		if($isArchivePage == true){
+
+			$options = $this->getArchivePageOptions($options);
+		
 			$pagination = get_the_posts_pagination($options);
+		}
 		else{
 			
 			$options = $this->getSinglePageOptions($options);
@@ -315,6 +262,22 @@ class UniteCreatorElementorPagination{
 		$html = "<div class='uc-posts-pagination'>$pagination</div>";
 		
 		return($html);
+	}
+	
+	/**
+	 * get archive options
+	 */
+	private function getArchivePageOptions($options){
+		
+		//output demo pagination
+		$isEditMode = UniteCreatorElementorIntegrate::$isEditMode;
+		if($isEditMode == true){
+			$options["total"] = 5;
+			$options["current"] = 2;
+			return($options);
+		}
+		
+		return($options);
 	}
 	
 	
@@ -373,6 +336,7 @@ class UniteCreatorElementorPagination{
 	 */
 	public function putPaginationWidgetHtml($args){
 		
+		
 		$putPrevNext = UniteFunctionsUC::getVal($args, "put_prev_next_buttons");
 		$putPrevNext = UniteFunctionsUC::strToBool($putPrevNext);
 		
@@ -423,11 +387,15 @@ class UniteCreatorElementorPagination{
 		//$options["current"] = 3;
 		
 		//-------- put pagination html
+					
+		$isArchivePage = UniteFunctionsWPUC::isArchiveLocation();
 		
-		$isArchivePage = is_archive();
 		if($isArchivePage == true){
+						
+			$options = $this->getArchivePageOptions($options);
 			$pagination = get_the_posts_pagination($options);
-		}else{
+			
+		}else{		//on single
 			
 			//skip for home pages
 			if(is_home() == true)

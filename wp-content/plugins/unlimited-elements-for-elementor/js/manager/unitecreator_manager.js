@@ -308,6 +308,15 @@ function UCManagerAdmin(){
 		var menuX = Math.round(event.pageX - managerX);
 		var menuY = Math.round(event.pageY - managerY);
 		
+		var menuHeight = objMenu.height();
+		var menuEndY = menuY+menuHeight;
+		
+		var parentHeight = g_objWrapper.height();
+		
+		//open from bottom
+		if(menuEndY > parentHeight)
+			menuY = menuY - menuHeight;				
+		
 		jQuery("#manager_shadow_overlay").show();
 		objMenu.css({"left":menuX+"px","top":menuY+"px"}).show();
 	}

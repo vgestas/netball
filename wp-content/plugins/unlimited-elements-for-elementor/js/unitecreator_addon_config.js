@@ -338,11 +338,18 @@ function UniteCreatorAddonConfig(){
 	/**
 	 * get data object
 	 */
-	this.getObjData = function(){
+	this.getObjData = function(isChangedOnly){
 		
 		validateInited();
-		
-		var objValues = g_objSettings.getSettingsValues();
+				
+		if(isChangedOnly === true){
+			
+			var objValues = g_objSettings.getSettingsValues(false, true);
+						
+		}else{
+			
+			var objValues = g_objSettings.getSettingsValues();
+		}
 		
 		var objExtra = {};
 		objExtra["title"] = g_options.title;
@@ -354,7 +361,7 @@ function UniteCreatorAddonConfig(){
 		objData["name"] = g_addonName;
 		objData["addontype"] = g_addonType;
 		objData["extra"] = objExtra;
-			
+				
 		return(objData);
 	};
 	
@@ -372,9 +379,9 @@ function UniteCreatorAddonConfig(){
 	/**
 	 * get json data from the settings
 	 */
-	function getJsonData(){
+	function getJsonData(isChangedOnly){
 		
-		var objData = t.getObjData();
+		var objData = t.getObjData(isChangedOnly);
 		
 		var strData = JSON.stringify(objData);
 		
@@ -455,8 +462,10 @@ function UniteCreatorAddonConfig(){
 	 */
 	function getPreviewUrl(){
 		
-		var jsonData = getJsonData();
+		var jsonData = getJsonData(true);
+		
 		jsonData = encodeURIComponent(jsonData);
+		
 		var params = "data="+jsonData+"";
 		var urlPreview = g_ucAdmin.getUrlAjax("show_preview", params);
 		

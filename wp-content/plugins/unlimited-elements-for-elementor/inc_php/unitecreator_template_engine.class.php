@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -35,7 +35,7 @@ class UniteCreatorTemplateEngineWork{
 	 * output some item
 	 */
 	private function outputItem($index, $itemParams, $templateName, $sap, $newLine = true){
-			
+		
 		$params = array_merge($this->arrParams, $itemParams);
 		
 		$htmlItem = $this->twig->render($templateName, $params);
@@ -79,7 +79,7 @@ class UniteCreatorTemplateEngineWork{
 		
 		foreach($this->arrItems as $index => $itemParams)
 			$this->outputItem($index, $itemParams, $templateName, $sap, $newLine);
-		
+				
 	}
 	
 	
@@ -104,11 +104,19 @@ class UniteCreatorTemplateEngineWork{
 	/**
 	 * get the items for iteration
 	 */
-	public function getItems(){
+	public function getItems($type = null){
 		
 		$arrItems = array();
-		foreach($this->arrItems as $item)
-			$arrItems[] = $item["item"];
+		foreach($this->arrItems as $item){
+			$item = $item["item"];
+			if($type == "clean"){
+				unset($item["item_repeater_class"]);
+				unset($item["item_index"]);
+				unset($item["item_id"]);
+			}
+			
+			$arrItems[] = $item;
+		}
 		
 		return($arrItems);
 	}
@@ -116,16 +124,32 @@ class UniteCreatorTemplateEngineWork{
 	/**
 	 * put items json for js
 	 */
-	public function putItemsJson(){
-
+	public function putItemsJson($type = null){
+		
 		//modify items for output
-		$arrItems = $this->getItems();
+		$arrItems = $this->getItems($type);
 		
 		//json encode
 		$jsonItems = UniteFunctionsUC::jsonEncodeForClientSide($arrItems);
 		
 		echo $jsonItems;
 	}
+	
+	/**
+	 * put data json for js
+	 */
+	public function putAttributesJson($type = null){
+		
+		$arrAttr = $this->arrParams;
+		
+		if($type == "clean")
+			$arrAttr = UniteFunctionsUC::removeArrItemsByKeys($arrAttr, GlobalsProviderUC::$arrAttrConstantKeys);
+		
+		$jsonAttr = UniteFunctionsUC::jsonEncodeForClientSide($arrAttr);
+				
+		echo $jsonAttr;
+	}
+	
 	
 	/**
 	 * put items 2
@@ -230,6 +254,15 @@ class UniteCreatorTemplateEngineWork{
 		
 		echo "no meta for this platform";
 		exit();
+	}
+
+	/**
+	 * get term meta
+	 */
+	public function getUserMeta($userID, $key){
+		
+		echo "no user meta in this platform";
+		
 	}
 	
 	
@@ -425,15 +458,22 @@ class UniteCreatorTemplateEngineWork{
 
 	
 	/**
-	 * do some wp
+	 * get data by filters
 	 */
 	public function apply_filters($tag, $value = null, $param1 = null, $param2=null){
 		
 		UniteFunctionsUC::throwError("The apply_filters() function exists only in PRO version of the plugin");
 		
-		
-		return($value);
 	}
+
+	/**
+	 * get data by filters
+	 */
+	public function getByPHPFunction($funName){
+		
+		UniteFunctionsUC::throwError("The getByPHPFunction() function exists only in PRO version of the plugin. You can run any php function that return data and starting with 'get_' by it.");
+	}
+	
 	
 	/**
 	 * filter truncate
@@ -473,21 +513,6 @@ class UniteCreatorTemplateEngineWork{
 		//function for override
 	}
 	
-	/**
-	 * put woo commerce filter
-	 */
-	public function putWooFilter($filterName = null){
-		
-		if(empty($filterName))
-			UniteFunctionsUC::throwError("putWooFilter error: No Filter provided");
-		
-		$isActive = UniteCreatorWooIntegrate::isWooActive();
-		
-		$objWooIntegrate = UniteCreatorWooIntegrate::getInstance();
-
-		$objWooIntegrate->putHtmlFilter($filterName);
-		
-	}
 	
 	/**
 	 * get woo child product
@@ -604,6 +629,68 @@ class UniteCreatorTemplateEngineWork{
 	}
 	
 	/**
+	 * put listing loop
+	 */
+	public function putListingItemTemplate($item, $templateID){
+				
+		HelperProviderCoreUC_EL::putListingItemTemplate($item, $templateID);
+		
+	}
+	
+	/**
+	 * put dynamic loop template, similar to put listing template
+	 */
+	public function putDynamicLoopTemplate($item, $templateID){
+		HelperProviderCoreUC_EL::putListingItemTemplate($item, $templateID);
+	}
+	
+	
+	/**
+	 * put listing template
+	 */
+	/*
+	public function putListingTemplate_posts($paramName, $templateID){
+		
+		global $wp_query;
+		
+		$originalPost = $GLOBALS['post'];
+		
+		//backup the original querified object
+		$originalQueriedObject = $wp_query->queried_object;
+		$originalQueriedObjectID = $wp_query->queried_object_id;
+		
+		foreach($this->arrItems as $item){
+
+			$item = UniteFunctionsUC::getVal($item, "item");
+			
+			$postItem = UniteFunctionsUC::getVal($item, $paramName);
+			if(empty($postItem))
+				UniteFunctionsUC::throwError("Posts List attribute: $paramName not found. please write the correct post list attribute name.");
+			
+			$postID = $postItem->ID;
+			
+			
+			//set the post qieried object
+			$wp_query->queried_object = $postItem;
+			$wp_query->queried_object_id = $postID;
+			
+			$GLOBALS['post'] = $postItem;
+			
+			$output = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( 1753 );
+			
+			echo $output;
+		}
+				
+		//restore the original queried object
+		$wp_query->queried_object = $originalQueriedObject;
+		$wp_query->queried_object_id = $originalQueriedObjectID;
+		$GLOBALS['post'] = $originalPost;
+		
+	}
+	
+	*/
+	
+	/**
 	 * number format for woocommerce
 	 */
 	public function filterPriceNumberFormat($price){
@@ -611,12 +698,153 @@ class UniteCreatorTemplateEngineWork{
 		if(empty($price))
 			return($price);
 		
+		$type = getType($price);
+					
 		$price = number_format($price, "2");
-		$price = rtrim($price,"0");
-		$price = rtrim($price,".");
+		
+		$price = str_replace(".00", "", $price);
 		
 		return($price);
 	}
+
+	/**
+	 * number format for woocommerce
+	 */
+	public function filterWcPrice($price){
+
+		if(function_exists("wc_price") == false)
+			return($price);
+			
+		$newPrice = wc_price($price);
+		
+		return($newPrice);
+	}
+	
+	
+	/**
+	 * get listing item data
+	 */
+	public function getListingItemData($type = null, $defaultObjectID = null){
+		
+		$data = UniteFunctionsWPUC::getQueriedObject($type, $defaultObjectID);
+		
+		$data = UniteFunctionsUC::convertStdClassToArray($data);
+		
+		return($data);
+	}
+	
+	/**
+	 * put post image attributes
+	 */
+	public function putPostImageAttributes($arrPost, $thumbName, $isPutPlaceholder = false, $urlPlaceholder = ""){
+		
+		if(empty($arrPost))
+			UniteFunctionsUC::throwError("No post found :(");
+		
+		$attributes = "";
+		
+		if(isset($arrPost[$thumbName]) == false)
+			$thumbName = "image";
+
+		//dmp("put dummy placeholder");exit();
+			
+		if(!empty($arrPost[$thumbName])){
+			
+			$urlImage = $arrPost[$thumbName];
+			$width = UniteFunctionsUC::getVal($arrPost, $thumbName."_width");
+			$height = UniteFunctionsUC::getVal($arrPost, $thumbName."_height");
+			
+			$attributes .= "src=\"{$urlImage}\"";
+			if(!empty($width) && !empty($height))
+				$attributes .= " width=\"{$width}\" height=\"{$height}\"";
+				
+			return($attributes);
+		}
+		
+		$isPutPlaceholder = UniteFunctionsUC::strToBool($isPutPlaceholder);
+		
+		if($isPutPlaceholder == false)
+			return("");
+		
+		//put placeholder
+		
+		if(!empty($urlPlaceholder)){
+			
+			dmP("put built in placeholder");
+			exit();
+		}
+			
+		dmp("image placeholders");
+		dmp($arrPost);
+		//exit();
+		
+	}
+	
+	/**
+	 * output elementor template by id
+	 */
+	public function putElementorTemplate($templateID){
+				
+		HelperProviderCoreUC_EL::putElementorTemplate($templateID);
+		
+	}
+	
+	/**
+	 * output various functionality
+	 */
+	public function ucfunc($type, $arg1 = null, $arg2= null, $arg3=null){
+		
+		switch($type){
+			case "put_date_range":
+				
+				$dateRange = HelperUC::$operations->getDateRangeString($arg1, $arg2, $arg3);
+				echo $dateRange;
+				
+			break;
+			case "get_general_setting":
+				
+				$value = HelperProviderCoreUC_EL::getGeneralSetting($arg1);
+				
+				return($value);
+			break;
+			case "run_code_once":
+				
+				$isRunOnce = HelperUC::isRunCodeOnce($arg1);
+				return($isRunOnce);
+			break;
+			default:
+				$strTypes = "put_date_range, get_general_setting, run_code_once";
+				
+				$type = UniteFunctionsUC::sanitizeAttr($type);
+				
+				dmp("ucfunc error: unknown action <b>'$type'</b>, allowed actions are: <b>$strTypes</b>");
+			break;
+		}
+		
+	}
+	
+	
+	/**
+	 * put test html
+	 */
+	public function putTestHTML($type = null, $data = null){
+		
+		$objFilters = new UniteCreatorFiltersProcess();
+		//$objFilters->putFiltersTabs();
+		
+		switch($type){
+			case "filter_checkbox":
+				
+				$objFilters->putCheckboxFiltersTest($data);
+				
+			break;
+			default:
+				dmp("putTestHTML - type not found: $type");
+			break;
+		}
+		
+	}
+	
 	
 	/**
 	 * add extra functions to twig
@@ -628,6 +856,8 @@ class UniteCreatorTemplateEngineWork{
 		$putItemsFunction = new Twig_SimpleFunction('put_items', array($this,"putItems"));
 		$putItemsFunction2 = new Twig_SimpleFunction('put_items2', array($this,"putItems2"));
 		$putItemsJsonFunction = new Twig_SimpleFunction('put_items_json', array($this,"putItemsJson"));
+		$putAttributesJson = new Twig_SimpleFunction('put_attributes_json', array($this,"putAttributesJson"));
+		
 		$getItems = new Twig_SimpleFunction('get_items', array($this,"getItems"));
 		$putGetDataFunction = new Twig_SimpleFunction('get_data', array($this,"getData"));
 		
@@ -636,6 +866,8 @@ class UniteCreatorTemplateEngineWork{
 		$putPostTagsFunction = new Twig_SimpleFunction('putPostTags', array($this,"putPostTags"));
 		$putPostMetaFunction = new Twig_SimpleFunction('putPostMeta', array($this,"putPostMeta"));
 		$getPostMetaFunction = new Twig_SimpleFunction('getPostMeta', array($this,"getPostMeta"));
+		$getUserMeta = new Twig_SimpleFunction('getUserMeta', array($this,"getUserMeta"));
+		
 		$printPostMetaFunction = new Twig_SimpleFunction('printPostMeta', array($this,"printPostMeta"));
 		
 		$putACFFieldFunction = new Twig_SimpleFunction('putAcfField', array($this,"putAcfField"));
@@ -649,17 +881,27 @@ class UniteCreatorTemplateEngineWork{
 		$getPostData = new Twig_SimpleFunction('getPostData', array($this,"getPostData"));
 		$putPagination = new Twig_SimpleFunction('putPagination', array($this,"putPagination"));
 		
+		$putListingItemTemplate = new Twig_SimpleFunction('putListingItemTemplate', array($this,"putListingItemTemplate"));
+		$putDynamicLoopTemplate = new Twig_SimpleFunction('putDynamicLoopTemplate', array($this,"putDynamicLoopTemplate"));
+		
+		$putElementorTemplate = new Twig_SimpleFunction('putElementorTemplate', array($this,"putElementorTemplate"));
+		
+		$putPostImageAttributes = new Twig_SimpleFunction('putPostImageAttributes', array($this,"putPostImageAttributes"));
+		
 		$printVar = new Twig_SimpleFunction('printVar', array($this,"printVar"));
 		$printJsonVar = new Twig_SimpleFunction('printJsonVar', array($this,"printJsonVar"));
 		$printJsonHtmlData = new Twig_SimpleFunction('printJsonHtmlData', array($this,"printJsonHtmlData"));
 		
 		$doAction = new Twig_SimpleFunction('do_action', array($this,"do_action"));
 		$applyFilters = new Twig_SimpleFunction('apply_filters', array($this,"apply_filters"));
+		$getByPHPFunction = new Twig_SimpleFunction('getByPHPFunction', array($this,"getByPHPFunction"));
+		$ucfunc = new Twig_SimpleFunction('ucfunc', array($this,"ucfunc"));
+		
 		$getPostTerms = new Twig_SimpleFunction('getPostTerms', array($this,"getPostTerms"));
 		$getPostAuthor = new Twig_SimpleFunction('getPostAuthor', array($this,"getPostAuthor"));
 		$getUserData = new Twig_SimpleFunction('getUserData', array($this,"getUserData"));
-		$putWooFilter = new Twig_SimpleFunction('putWooFilter', array($this,"putWooFilter"));
 		$getWooChildProducts = new Twig_SimpleFunction('getWooChildProducts', array($this,"getWooChildProducts"));
+		$getListingItemData = new Twig_SimpleFunction('getListingItemData', array($this,"getListingItemData"));
 		
 		$printTermCustomFields = new Twig_SimpleFunction('printTermCustomFields', array($this,"printTermCustomFields"));
 		$getTermCustomFields = new Twig_SimpleFunction('getTermCustomFields', array($this,"getTermCustomFields"));
@@ -669,9 +911,12 @@ class UniteCreatorTemplateEngineWork{
 		$filterWPAutop = new Twig_SimpleFilter("wpautop", array($this, "filterWPAutop"));
 		$filterUCDate = new Twig_SimpleFilter("ucdate", array($this, "filterUCDate"));
 		$filterPriceNumberFormat = new Twig_SimpleFilter("price_number_format", array($this, "filterPriceNumberFormat"));
+		$filterWcPrice = new Twig_SimpleFilter("wc_price", array($this, "filterWcPrice"));
+		
+		$putTestHtml = new Twig_SimpleFunction('putTestHTML', array($this,"putTestHTML"));
 		
 		
-		//add extra functions
+		//add extra functions		
 		$this->twig->addFunction($putItemsFunction);
 		$this->twig->addFunction($putItemsFunction2);
 		$this->twig->addFunction($putCssItemsFunction);
@@ -681,6 +926,9 @@ class UniteCreatorTemplateEngineWork{
 		$this->twig->addFunction($putPostMetaFunction);
 		$this->twig->addFunction($getPostMetaFunction);
 		$this->twig->addFunction($printPostMetaFunction);
+		
+		$this->twig->addFunction($getUserMeta);
+		$this->twig->addFunction($getListingItemData);
 		
 		$this->twig->addFunction($getTermMeta);
 		
@@ -697,29 +945,40 @@ class UniteCreatorTemplateEngineWork{
 		$this->twig->addFunction($getPostData);
 		$this->twig->addFunction($printVar);
 		$this->twig->addFunction($printJsonVar);
-		$this->twig->addFunction($printJsonHtmlData);
+		$this->twig->addFunction($printJsonHtmlData);		
 		$this->twig->addFunction($putPagination);
+		$this->twig->addFunction($putListingItemTemplate);
+		$this->twig->addFunction($putDynamicLoopTemplate);
+		$this->twig->addFunction($putElementorTemplate);
 		
 		$this->twig->addFunction($getPostTerms);
 		$this->twig->addFunction($getPostAuthor);
 		$this->twig->addFunction($getUserData);
-		$this->twig->addFunction($putWooFilter);
 		$this->twig->addFunction($getWooChildProducts);
 		$this->twig->addFunction($getTermCustomFields);
 		$this->twig->addFunction($putItemsJsonFunction);
+		$this->twig->addFunction($putAttributesJson);
+		
 		$this->twig->addFunction($getItems);
+		$this->twig->addFunction($putPostImageAttributes);
+		
+		//test functions
+		$this->twig->addFunction($putTestHtml);
+		
 		
 		//add filters
 		$this->twig->addFilter($filterTruncate);
 		$this->twig->addFilter($filterWPAutop);
 		$this->twig->addFilter($filterUCDate);
 		$this->twig->addFilter($filterPriceNumberFormat);
+		$this->twig->addFilter($filterWcPrice);
 		
 		
 		//pro functions
 		$this->twig->addFunction($doAction);
 		$this->twig->addFunction($applyFilters);
-		
+		$this->twig->addFunction($getByPHPFunction);
+		$this->twig->addFunction($ucfunc);
 		
 		$this->initTwig_addExtraFunctionsPro();
 		

@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -136,6 +136,7 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 		$where = "";
 		if(!empty($arrWhere))
 			$where = implode(" and ", $arrWhere);
+		
 		
 		$response = $this->db->fetch(GlobalsUc::$table_addons, $where, $order);
 		
@@ -720,6 +721,8 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 		foreach($arrAddons as $key=>$itemID)
 			$arrAddons[$key] = (int)$itemID;
 		
+		UniteProviderFunctionsUC::doAction("uc_before_delete_widgets", $arrAddons);			
+		
 		$strAddonIDs = implode(",",$arrAddons);
 		$this->db->delete(GlobalsUC::$table_addons,"id in($strAddonIDs)");
 	}
@@ -1007,8 +1010,8 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 	public function deleteAddonFromData($data){
 		
 		$addonID = UniteFunctionsUC::getVal($data, "addonID");
-		UniteFunctionsUC::validateNotEmpty($addonID, "Addon ID");
-		
+		UniteFunctionsUC::validateNotEmpty($addonID, "Widget ID");
+				
 		$this->db->delete(GlobalsUC::$table_addons, "id=$addonID");
 		
 	}
@@ -1092,6 +1095,7 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 		$parentID = (int)$parentID;
 		
 		$addonsIDs = UniteFunctionsUC::getVal($data, "arrAddonsIDs");
+		
 		
 		if(HelperUC::isLayoutAddonType($type) == false){		//delete addons
 			$this->deleteAddons($addonsIDs);
@@ -1557,6 +1561,10 @@ class UniteCreatorAddons extends UniteElementsBaseUC{
 		
 		if(empty($position))
 			$position = $objAddon->getParamPosition($paramName, $isMain);
+		
+		//clear category data
+		unset($paramData["__attr_catid__"]);
+
 		
 		//update addons
 		

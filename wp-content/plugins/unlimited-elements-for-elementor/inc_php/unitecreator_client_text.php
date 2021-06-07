@@ -1,8 +1,8 @@
 <?php
 /**
  * @package Unlimited Elements
- * @author UniteCMS.net
- * @copyright (C) 2017 Unite CMS, All Rights Reserved. 
+ * @author unlimited-elements.com
+ * @copyright (C) 2021 Unlimited Elements, All Rights Reserved. 
  * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * */
 defined('UNLIMITED_ELEMENTS_INC') or die('Restricted access');
@@ -68,10 +68,12 @@ GlobalsUC::$arrClientSideText = array(
 		"copying_addons"=>esc_html__("Copying...","unlimited-elements-for-elementor"),
 		"moving_addons"=>esc_html__("Moving...","unlimited-elements-for-elementor"),
 		"confirm_remove_addons"=>esc_html__("Are you sure you want to delete these addons?","unlimited-elements-for-elementor"),
+		"uc_listing"=>esc_html__("Grouped Settings","unlimited-elements-for-elementor"),
 		"uc_textfield"=>esc_html__("Text Field","unlimited-elements-for-elementor"),
 		"uc_textarea"=>esc_html__("Text Area","unlimited-elements-for-elementor"),
 		"uc_checkbox"=>esc_html__("Checkbox","unlimited-elements-for-elementor"),
 		"uc_dropdown"=>esc_html__("Dropdown","unlimited-elements-for-elementor"),
+		"uc_multiple_select"=>esc_html__("Multiple Select","unlimited-elements-for-elementor"),
 		"uc_radioboolean"=>esc_html__("Radio Boolean","unlimited-elements-for-elementor"),
 		"uc_typography"=>esc_html__("Typography","unlimited-elements-for-elementor"),
 		"uc_link"=>esc_html__("Link","unlimited-elements-for-elementor"),
@@ -91,9 +93,11 @@ GlobalsUC::$arrClientSideText = array(
 		"uc_margins"=>esc_html__("Margin","unlimited-elements-for-elementor"),
 		"uc_post_terms"=>esc_html__("Post Terms","unlimited-elements-for-elementor"),
 		"uc_users"=>esc_html__("Users List","unlimited-elements-for-elementor"),
+		"uc_template"=>esc_html__("Elementor Template","unlimited-elements-for-elementor"),
 		"uc_font_override"=>esc_html__("Font Override","unlimited-elements-for-elementor"),
 		"uc_imagebase"=>esc_html__("Image Fields","unlimited-elements-for-elementor"),
 		"uc_menu"=>esc_html__("Menu","unlimited-elements-for-elementor"),
+		"uc_hr"=>esc_html__("HR Line","unlimited-elements-for-elementor"),
 		
 		"uc_slider"=>esc_html__("Slider","unlimited-elements-for-elementor"),
 		"uc_background"=>esc_html__("Backgound","unlimited-elements-for-elementor"),
@@ -101,6 +105,9 @@ GlobalsUC::$arrClientSideText = array(
 		"uc_datetime"=>esc_html__("Date Time","unlimited-elements-for-elementor"),
 		"uc_textshadow"=>esc_html__("Text Shadow","unlimited-elements-for-elementor"),
 		"uc_boxshadow"=>esc_html__("Box Shadow","unlimited-elements-for-elementor"),
+		"uc_border_dimentions"=>esc_html__("Border Radius","unlimited-elements-for-elementor"),
+		"uc_css_filters"=>esc_html__("Css Filters","unlimited-elements-for-elementor"),
+		"uc_hover_animations"=>esc_html__("Hover Animations","unlimited-elements-for-elementor"),
 		
 		"choose_image"=>esc_html__("Choose Image","unlimited-elements-for-elementor"),
 		"choose_audio"=>esc_html__("Choose Audio","unlimited-elements-for-elementor"),
@@ -148,7 +155,9 @@ GlobalsUC::$arrClientSideText = array(
 		"copy_section"=>esc_html__("Copy Section", "unlimited-elements-for-elementor"),
 		"delete_section"=>esc_html__("Delete Section", "unlimited-elements-for-elementor"),
 		"delete_section_error"=>esc_html("This section is not empty.\\nYou can delete only empty sections."),
-		"delete_default_section_error"=>esc_html("You can not delete this section.")
+		"delete_default_section_error"=>esc_html("You can not delete this section."),
+		"empty_text"=>esc_html("Empty Text"),
+		"display_condition"=>esc_html("Display Condition")
 );
 
 $filepathProviderClientText = GlobalsUC::$pathProvider."provider_client_text.php";
