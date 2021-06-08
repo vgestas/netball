@@ -20,6 +20,10 @@ jQuery(document).ready(function($) {
 		allowParentLinks: true
 	});
 	
+	$('header#masthead div#background-img-container').on('click', function(e){
+		e.preventDefault();
+		window.location.href = $("header#masthead a#home-ref").attr('href');
+	})
 	
 	
 });

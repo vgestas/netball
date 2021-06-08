@@ -29,16 +29,16 @@
 
 		<?php if ( get_header_image() ) : ?>
 
-		<header id="masthead" class="site-header" style="background-image: url(<?php header_image(); ?>);background-repeat: no-repeat;background-size: cover;" role="banner">
+		<header id="masthead" class="site-header" style="background-image: url(<?php header_image(); ?>);background-repeat: no-repeat;background-size: contain; background-position: center;" role="banner">
 
 		<?php else: // End header image check. ?>
 
 		<header id="masthead" class="site-header" role="banner">
 
 		<?php endif; ?>
-		<div class="container">
+		<div id="background-img-container" class="container">
 			<div class="site-branding  row text-center">
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+				<h1 class="site-title"><a id="home-ref" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 				</h1>
 				<?php
 				$description = get_bloginfo( 'description', 'display' );
