@@ -443,6 +443,15 @@ header.site-header div#background-img-container {
   background: #000;
 }
 
+.menu-wrapper.fixed-position{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  padding: 15px;
+}
+
 .test-menu {
   position: relative;
 }
